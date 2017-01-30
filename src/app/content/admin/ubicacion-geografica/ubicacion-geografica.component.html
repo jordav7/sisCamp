@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <form role="form">
+          <div class="form-group">
+            <label>Tipo Categor&iacute;a</label>
+            <select class="form-control" [(ngModel)]="categoriaSeleccionada.codigoCatalogo" (change)="cargarUbicaciones()" name="tipoCategoria">
+              <option value="-1"></option>
+              <option *ngFor="let categoria of listaCategoria" [value]="categoria.codigoCatalogo">{{categoria.nombre}}</option>
+            </select>
+          </div>
+          <p-dataTable [value]="listaUbicacionGeografica" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+            <p-header>
+              <div class="ui-helper-clearfix" style="width:100%">
+                <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" [disabled]="categoriaSeleccionada.codigoCatalogo == -1" (click)="mostrarDialogCrearUbicacion()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+              </div>
+            </p-header>
+            <p-column field="codigoUbicacion" header="C&oacute;digo"></p-column>
+            <p-column field="nombre" header="Nombre"></p-column>
+            <p-column field="codigoPadre" header="C&oacute;digo Padre"></p-column>
+            <p-column field="tipo" header="Tipo"></p-column>
+            <p-column field="estado" header="Estado"></p-column>
+            <p-column header="Acciones">
+              <template let-ubica="rowData" pTemplate="body">
+                <button class="btn btn-info btn-xs" (click)="seleccionarUbicacion(ubica)"><span class="glyphicon glyphicon-edit"></span></button>
+                <!--<button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(ubica)"><span class="glyphicon glyphicon-remove"></span></button>-->
+              </template>
+            </p-column>
+          </p-dataTable>
+        </form>
+
+        <!-- Dialogs de Ubicacion -->
+        <p-dialog [(visible)]="mostrarPanelUbi" modal="modal" width="300" responsive="true">
+            <p-header>Ubicaci&oacute;n: {{categoriaSeleccionada.codigoCatalogo}}</p-header>
+            <form role="form">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" [(ngModel)]="ubicacion.nombre" name="nombre" />
+              </div>
+              <div class="form-group" [hidden]="esNuevo">
+                <label>Estado</label>
+                <select class="form-control" [(ngModel)]="ubicacion.estado" name="estado" >
+                  <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                </select>
+              </div>
+              <div class="form-group" [hidden]="ocultarSeccionPadre()">
+                <label>C&oacute;digo Padre</label>
+                <input type="text" class="form-control" [(ngModel)]="ubicacion.codigoPadre" name="codigoPadre" />
+              </div>
+              <div class="form-group" [hidden]="true">
+                <label>Tipo</label>
+                <input type="text" class="form-control" [(ngModel)]="ubicacion.tipo" name="tipoUbicacion" />
+              </div>
+            </form>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                    <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelUbi=false">Cancelar</button>
+                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarUbicacion()">Guardar</button>
+                </div>
+            </p-footer>
+        </p-dialog>
+      </div>
+    </div>
+  </div>
+</div>

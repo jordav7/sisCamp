@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-xs-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <p-dataTable [value]="listaUsuarios" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+          <p-header>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearUsuario()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+            </div>
+          </p-header>
+          <p-column field="codigoPersona" header="C&oacute;digo"></p-column>
+          <p-column field="nombres" header="Nombre"></p-column>
+          <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
+          <p-column field="apellidoMaterno" header="Apellido Materno"></p-column>
+          <p-column field="tipoId" header="Tipo ID"></p-column>
+          <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
+          <p-column field="telefono" header="Tel&eacute;fono"></p-column>
+          <p-column field="celular" header="Celular"></p-column>
+          <p-column field="direccion" header="Direcci&oacute;n"></p-column>
+          <p-column field="fechaNacimiento" header="Fecha Nacimiento"></p-column>
+          <p-column header="Acciones">
+            <template let-usuario="rowData" pTemplate="body">
+              <button class="btn btn-info btn-xs" (click)="seleccionarUsuario(usuario)"><span class="glyphicon glyphicon-edit"></span></button>
+              <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(usuario)"><span class="glyphicon glyphicon-remove"></span></button>
+            </template>
+          </p-column>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>

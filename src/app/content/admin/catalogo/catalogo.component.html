@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <form role="form">
+          <div class="form-group">
+            <label>Tipo Cat&aacute;logo</label>
+            <select class="form-control" [(ngModel)]="tipoCatalogo.codigoTipo" (change)="cargarCatalogos()" name="codigoTipo">
+              <option value="-1"></option>
+              <option *ngFor="let tipoCat of listaTiposCatalogos" [value]="tipoCat.codigoTipo">{{tipoCat.nombre}}</option>
+            </select>
+          </div>
+          <p-dataTable [value]="listaCatalogos" [rows]="10" [paginator]="true" [(selection)]="catalogo" [pageLinks]="3" [responsive]="true">
+            <p-column field="codigoCatalogo" header="C&oacute;digo"></p-column>
+            <p-column field="nombre" header="Nombre"></p-column>
+            <p-column header="Acciones">
+              <template let-catalogo="rowData" pTemplate="body">
+                <button class="btn btn-info btn-xs" (click)="seleccionarCatalogo(catalogo)"><span class="glyphicon glyphicon-edit"></span></button>
+                <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(catalogo)"><span class="glyphicon glyphicon-remove"></span></button>
+              </template>
+
+            </p-column>
+            <p-footer>
+              <div class="ui-helper-clearfix" style="width:100%">
+                <button type="button" class="btn btn-primary" [disabled]="habilitarBotonAgregar()" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearCatalogo()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+              </div>
+            </p-footer>
+          </p-dataTable>
+
+        </form>
+        <p-dialog header="Catalogo" [(visible)]="mostrarPanelCat" modal="modal" width="300" responsive="true">
+            <form role="form">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" [(ngModel)]="catalogo.nombre" name="nombre" />
+              </div>
+            </form>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                    <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelCat=false">Cancelar</button>
+                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarCatalogo()">Guardar</button>
+                </div>
+            </p-footer>
+        </p-dialog>
+        <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+          <p>
+            Esta seguro de eliminar el registro?
+          </p>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarCatalogo()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
+        <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+      </div>
+    </div>
+  </div>
+</div>
