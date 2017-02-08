@@ -41,6 +41,7 @@ import { ArbitroComponent } from './content/admin/arbitro/arbitro.component';
 import { ArbitroEditComponent } from './content/admin/arbitro/arbitro-edit/arbitro-edit.component';
 import { LigaComponent } from './content/admin/liga/liga.component';
 import { EquipoComponent } from './content/procesos/equipo/equipo.component';
+import { EquipoEditComponent } from './content/procesos/equipo/equipo-edit/equipo-edit.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -116,6 +117,10 @@ const sisCampRoutes: Routes = [
       {
         path: 'ligas',
         component: LigaComponent
+      },
+      {
+          path: 'equipos',
+          component: EquipoComponent
       }
     ]
   }
@@ -150,7 +155,8 @@ const sisCampRoutes: Routes = [
     ArbitroComponent,
     ArbitroEditComponent,
     LigaComponent,
-    EquipoComponent
+    EquipoComponent,
+    EquipoEditComponent
   ],
   imports: [
     BrowserModule,

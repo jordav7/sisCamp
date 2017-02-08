@@ -2,23 +2,22 @@
   <div class="col-md-12">
     <div class="box">
       <div class="box-body">
-        <p-dataTable [value]="listaLigas" [rows]="10" [paginator]="true" [(selection)]="catalogo" [pageLinks]="3" [responsive]="true">
+        <p-dataTable [value]="listaEquipos" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
           <p-header>
             <div class="ui-helper-clearfix" style="width:100%">
-              <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearLiga()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+              <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearEquipo()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
             </div>
           </p-header>
-          <p-column field="codigoLiga" header="C&oacute;digo"></p-column>
+          <p-column field="codigoEquipo" header="C&oacute;digo"></p-column> 
           <p-column field="nombres" header="Nombre"></p-column>
           <p-column field="estado" header="Estado"></p-column>
-          <p-column field="observaciones" header="Observaciones"></p-column>
-          <p-column field="codigoProvincia" header="Provincia"></p-column>
-          <p-column field="codigoCanton" header="Cant&oacute;n"></p-column>
-          <p-column field="codigoParroquia" header="Parroquia"></p-column>
+          <p-column field="codigoLiga" header="Liga"></p-column>
+          <p-column field="codigoTipoDisciplina" header="Tipo Disciplina"></p-column>
+          <p-column field="codigoDisciplina" header="Disciplina"></p-column>
           <p-column header="Acciones">
-            <template let-liga="rowData" pTemplate="body">
-              <button class="btn btn-info btn-xs" (click)="seleccionarLiga(liga)"><span class="glyphicon glyphicon-edit"></span></button>
-              <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(liga)"><span class="glyphicon glyphicon-remove"></span></button>
+            <template let-equipo="rowData" pTemplate="body">
+              <button class="btn btn-info btn-xs" (click)="seleccionarEquipo(equipo)"><span class="glyphicon glyphicon-edit"></span></button>
+              <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(equipo)"><span class="glyphicon glyphicon-remove"></span></button>
             </template>
           </p-column>
         </p-dataTable>
