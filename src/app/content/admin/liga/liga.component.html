@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <p-dataTable [value]="listaLigas" [rows]="10" [paginator]="true" [(selection)]="catalogo" [pageLinks]="3" [responsive]="true">
+          <p-header>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearLiga()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+            </div>
+          </p-header>
+          <p-column field="codigoLiga" header="C&oacute;digo"></p-column>
+          <p-column field="nombres" header="Nombre"></p-column>
+          <p-column field="estado" header="Estado"></p-column>
+          <p-column field="observaciones" header="Observaciones"></p-column>
+          <p-column field="codigoProvincia" header="Provincia"></p-column>
+          <p-column field="codigoCanton" header="Cant&oacute;n"></p-column>
+          <p-column field="codigoParroquia" header="Parroquia"></p-column>
+          <p-column header="Acciones">
+            <template let-liga="rowData" pTemplate="body">
+              <button class="btn btn-info btn-xs" (click)="seleccionarLiga(liga)"><span class="glyphicon glyphicon-edit"></span></button>
+              <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(liga)"><span class="glyphicon glyphicon-remove"></span></button>
+            </template>
+          </p-column>
+        </p-dataTable>
+        <p-dialog header="Liga" [(visible)]="mostrarPanelLiga" modal="modal" width="300" responsive="true">
+            <form [formGroup]="ligaForm" role="form">
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['nombres'].valid && ligaForm.controls['nombres'].touched}">
+                <label>Nombre</label>
+                <input id="nombres" type="text" class="form-control" formControlName="nombres" max="150" name="nombres" />
+                <ld-validation-messages [control]="ligaForm.controls.nombres"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['observaciones'].valid && ligaForm.controls['observaciones'].touched}">
+                <label>Observaciones</label>
+                <textarea id="observaciones" type="text" class="form-control" formControlName="observaciones" name="observaciones" >
+                </textarea>
+                <ld-validation-messages [control]="ligaForm.controls.observaciones"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoPais'].valid && ligaForm.controls['codigoPais'].touched}">
+                <label>Pa&iacute;s</label>
+                <select class="form-control" formControlName="codigoPais" name="codigoPais" (change)="cargarProvincias()">
+                  <option value=""></option>
+                  <option *ngFor="let pais of listaPaises" [value]="pais.codigoUbicacion">{{pais.nombre}}</option>
+                </select>
+                <ld-validation-messages [control]="ligaForm.controls.codigoPais"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoProvincia'].valid && ligaForm.controls['codigoProvincia'].touched}">
+                <label>Provincia</label>
+                <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
+                  <option value=""></option>
+                  <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
+                </select>
+                <ld-validation-messages [control]="ligaForm.controls.codigoProvincia"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoCanton'].valid && ligaForm.controls['codigoCanton'].touched}">
+                <label>Cant&oacute;n</label>
+                <select class="form-control" formControlName="codigoCanton" name="codigoCanton" (change)="cargarParroquias()">
+                  <option value=""></option>
+                  <option *ngFor="let canton of listaCantones" [value]="canton.codigoUbicacion">{{canton.nombre}}</option>
+                </select>
+                <ld-validation-messages [control]="ligaForm.controls.codigoCanton"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoParroquia'].valid && ligaForm.controls['codigoParroquia'].touched}">
+                <label>Parroquia</label>
+                <select class="form-control" formControlName="codigoParroquia" name="codigoParroquia">
+                  <option value=""></option>
+                  <option *ngFor="let parroquia of listaParroquias" [value]="parroquia.codigoUbicacion">{{parroquia.nombre}}</option>
+                </select>
+                <ld-validation-messages [control]="ligaForm.controls.codigoParroquia"></ld-validation-messages>
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['estado'].valid && ligaForm.controls['estado'].touched}">
+                <label>Estado</label>
+                <select class="form-control" formControlName="estado" name="estado">
+                  <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                </select>
+                <ld-validation-messages [control]="ligaForm.controls.estado"></ld-validation-messages>
+              </div>
+            </form>
+            <p-footer>
+                <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                    <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelLiga=false">Cancelar</button>
+                    <button type="button" class="btn btn-primary" icon="fa-check" [disabled]="!ligaForm.valid" (click)="guardarLiga()">Guardar</button>
+                </div>
+            </p-footer>
+        </p-dialog>
+        <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+          <p>
+            Esta seguro de eliminar el registro?
+          </p>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarLiga()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
+        <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,22 +6,17 @@
         <p-dataTable [value]="listaUsuarios" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
           <p-header>
             <div class="ui-helper-clearfix" style="width:100%">
-              <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearUsuario()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
+              <a class="btn btn-primary" href="#/home/crearUsuario" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
             </div>
           </p-header>
-          <p-column field="codigoPersona" header="C&oacute;digo"></p-column>
+          <p-column field="codigoUsuario" header="C&oacute;digo"></p-column>
           <p-column field="nombres" header="Nombre"></p-column>
           <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
           <p-column field="apellidoMaterno" header="Apellido Materno"></p-column>
-          <p-column field="tipoId" header="Tipo ID"></p-column>
-          <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
-          <p-column field="telefono" header="Tel&eacute;fono"></p-column>
-          <p-column field="celular" header="Celular"></p-column>
-          <p-column field="direccion" header="Direcci&oacute;n"></p-column>
-          <p-column field="fechaNacimiento" header="Fecha Nacimiento"></p-column>
+          <p-column field="mail" header="Email"></p-column>
           <p-column header="Acciones">
             <template let-usuario="rowData" pTemplate="body">
-              <button class="btn btn-info btn-xs" (click)="seleccionarUsuario(usuario)"><span class="glyphicon glyphicon-edit"></span></button>
+              <a class="btn btn-info btn-xs" href="#/home/editUsuario/{{usuario.enteJuridico}}/{{usuario.codigoUsuario}}"><span class="glyphicon glyphicon-edit"></span></a>
               <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(usuario)"><span class="glyphicon glyphicon-remove"></span></button>
             </template>
           </p-column>
@@ -29,4 +24,29 @@
       </div>
     </div>
   </div>
+  <p-dialog header="Usuario" [(visible)]="mostrarPanelUsuario" modal="modal" width="300" responsive="true">
+      <form role="form">
+      	<div class="col-xs-12">
+	      	<div class="col-xs-9">
+		        <div class="form-group">
+		          <label>Nombres</label>
+		          <input type="text" class="form-control" [(ngModel)]="usuario.nombres" name="nombre" />
+		        </div>
+		        <div class="form-group" [hidden]="true">
+		          <label>Apellido Paterno</label>
+		          <input type="text" class="form-control" [(ngModel)]="usuario.apellidoPaterno" name="estado" />
+		        </div>
+	        </div>
+	        <div class="col-xs-3">
+
+	        </div>
+	  	</div>
+      </form>
+      <p-footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+              <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelUsuario=false">Cancelar</button>
+              <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarUsuario()">Guardar</button>
+          </div>
+      </p-footer>
+  </p-dialog>
 </div>

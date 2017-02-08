@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <form [formGroup]="arbitroForm" role="form" (submit)="guardarArbitro()">
+        	<div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['nombres'].valid && arbitroForm.controls['nombres'].touched}">
+              <label>Nombres</label>
+              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
+              <ld-validation-messages [control]="arbitroForm.controls.nombres"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['apellidoPaterno'].valid && arbitroForm.controls['apellidoPaterno'].touched}">
+              <label>Apellido Paterno</label>
+              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
+              <ld-validation-messages [control]="arbitroForm.controls.apellidoPaterno"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['apellidoMaterno'].valid && arbitroForm.controls['apellidoMaterno'].touched}">
+              <label>Apellido Materno</label>
+              <input type="text" class="form-control" formControlName="apellidoMaterno" name="apellidoMaterno" />
+              <ld-validation-messages [control]="arbitroForm.controls.apellidoMaterno"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-6 form-group" style="padding-left: 0;" [ngClass]="{'has-error':!arbitroForm.controls['tipoId'].valid && arbitroForm.controls['tipoId'].touched}">
+              <label>Tipo Identificaci&oacute;n</label>
+              <select class="form-control" formControlName="tipoId" name="tipoId" >
+                <option *ngFor="let tipoIdentificacion of listaTipoIdentificaciones" [value]="tipoIdentificacion.id">{{tipoIdentificacion.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="arbitroForm.controls.tipoId"></ld-validation-messages>
+            </div>
+            <div class="col-md-6 form-group" [ngClass]="{'has-error':!arbitroForm.controls['identificacion'].valid && arbitroForm.controls['identificacion'].touched}">
+              <label>Identificaci&oacute;n</label>
+              <input type="text" class="form-control" formControlName="identificacion" name="identificacion" />
+              <ld-validation-messages [control]="arbitroForm.controls.identificacion"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['mail'].valid && arbitroForm.controls['mail'].touched}">
+              <label>Correo Electr&oacute;nico</label>
+              <input type="mail" class="form-control" formControlName="mail" name="mail"/>
+              <ld-validation-messages [control]="arbitroForm.controls.mail"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['direccion'].valid && arbitroForm.controls['direccion'].touched}">
+              <label>Direcci&oacute;n</label>
+              <input type="mail" class="form-control" formControlName="direccion" name="direccion"/>
+              <ld-validation-messages [control]="arbitroForm.controls.direccion"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['telefono'].valid && arbitroForm.controls['telefono'].touched}">
+              <label>Tel&eacute;fono</label>
+              <input type="text" maxlength="9" class="form-control" formControlName="telefono" name="telefono" />
+              <ld-validation-messages [control]="arbitroForm.controls.telefono"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['celular'].valid && arbitroForm.controls['celular'].touched}">
+              <label>Celular</label>
+              <input type="text" class="form-control" formControlName="celular" name="celular" maxlength="13"/>
+              <ld-validation-messages [control]="arbitroForm.controls.celular"></ld-validation-messages>
+            </div>
+          </div>
+
+
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!arbitroForm.controls['estado'].valid && arbitroForm.controls['estado'].touched}">
+              <label>Estado</label>
+              <select class="form-control" formControlName="estado" name="estado">
+                <option *ngFor="let estadoJug of listaEstados" [value]="estadoJug.id">{{estadoJug.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="arbitroForm.controls.estado"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label>Observaciones</label>
+            <textarea class="form-control" formControlName="observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="col-md-12">
+            <div class="btn-group">
+                <div>
+                  <button type="submit" class="btn btn-primary" icon="fa-check" [disabled]="!arbitroForm.valid">Guardar</button>
+                  <a href="#/home/arbitro" class="btn btn-warning">Regresar</a>
+
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

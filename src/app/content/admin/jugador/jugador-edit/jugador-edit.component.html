@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <form [formGroup]="jugadorForm" role="form" (submit)="guardarJugador()">
+        	<div class="col-md-9">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['nombres'].valid && jugadorForm.controls['nombres'].touched}">
+              <label>Nombres</label>
+              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
+              <ld-validation-messages [control]="jugadorForm.controls.nombres"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoPaterno'].valid && jugadorForm.controls['apellidoPaterno'].touched}">
+              <label>Apellido Paterno</label>
+              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
+              <ld-validation-messages [control]="jugadorForm.controls.apellidoPaterno"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoMaterno'].valid && jugadorForm.controls['apellidoMaterno'].touched}">
+              <label>Apellido Materno</label>
+              <input type="text" class="form-control" formControlName="apellidoMaterno" name="apellidoMaterno" />
+              <ld-validation-messages [control]="jugadorForm.controls.apellidoMaterno"></ld-validation-messages>
+            </div>
+            <div class="col-md-12 ui-g-nopad">
+            	<div class="col-md-6 form-group" style="padding-left: 0;" [ngClass]="{'has-error':!jugadorForm.controls['tipoId'].valid && jugadorForm.controls['tipoId'].touched}">
+            		<label>Tipo Identificaci&oacute;n</label>
+            		<select class="form-control" formControlName="tipoId" name="tipoId" >
+            			<option *ngFor="let tipoIdentificacion of listaTipoIdentificaciones" [value]="tipoIdentificacion.id">{{tipoIdentificacion.nombre}}</option>
+            		</select>
+                <ld-validation-messages [control]="jugadorForm.controls.tipoId"></ld-validation-messages>
+            	</div>
+            	<div class="col-md-6 form-group" [ngClass]="{'has-error':!jugadorForm.controls['identificacion'].valid && jugadorForm.controls['identificacion'].touched}">
+            		<label>Identificaci&oacute;n</label>
+            		<input type="text" class="form-control" formControlName="identificacion" name="identificacion" />
+                <ld-validation-messages [control]="jugadorForm.controls.identificacion"></ld-validation-messages>
+            	</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <input type="file" class="form-control" name="fotoJugador" (change)="cargarFotoJugador($event)"/>
+            <ld-display-picture [image]="foto"></ld-display-picture>
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['fechaNacimiento'].valid && jugadorForm.controls['fechaNacimiento'].touched}">
+              <label>Fecha Nacimiento</label><br/>
+              <p-calendar dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+              <ld-validation-messages [control]="jugadorForm.controls.fechaNacimiento"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Edad</label>
+              <input type="text" class="form-control" disabled="true"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['sexo'].valid && jugadorForm.controls['sexo'].touched}">
+              <label>Sexo</label>
+              <select class="form-control" formControlName="sexo" name="sexo">
+                <option value=""></option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.sexo"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['mail'].valid && jugadorForm.controls['mail'].touched}">
+              <label>Correo Electr&oacute;nico</label>
+              <input type="mail" class="form-control" formControlName="mail" name="mail"/>
+              <ld-validation-messages [control]="jugadorForm.controls.mail"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['telefono'].valid && jugadorForm.controls['telefono'].touched}">
+              <label>Tel&eacute;fono</label>
+              <input type="text" maxlength="9" class="form-control" formControlName="telefono" name="telefono" />
+              <ld-validation-messages [control]="jugadorForm.controls.telefono"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['codigoPais'].valid && jugadorForm.controls['codigoPais'].touched}">
+              <label>Pa&iacute;s</label>
+              <select class="form-control" formControlName="codigoPais" name="codigoPais" (change)="cargarProvincias()">
+                <option value=""></option>
+                <option *ngFor="let pais of listaPaises" [value]="pais.codigoUbicacion">{{pais.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.codigoPais"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['codigoCanton'].valid && jugadorForm.controls['codigoCanton'].touched}">
+              <label>Cant&oacute;n</label>
+              <select class="form-control" formControlName="codigoCanton" name="codigoCanton" (change)="cargarParroquias()">
+                <option value=""></option>
+                <option *ngFor="let canton of listaCantones" [value]="canton.codigoUbicacion">{{canton.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.codigoCanton"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['amonestacion'].valid && jugadorForm.controls['amonestacion'].touched}">
+              <label>Amonestado</label>
+              <div class="col-md-12 ui-g-nopad">
+                <p-radioButton name="amonestacion" formControlName="amonestacion" value="S" label="S&iacute;"></p-radioButton>
+                <p-radioButton name="amonestacion" formControlName="amonestacion" value="N" label="No"></p-radioButton>
+              </div>
+              <ld-validation-messages [control]="jugadorForm.controls.amonestacion"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['celular'].valid && jugadorForm.controls['celular'].touched}">
+              <label>Celular</label>
+              <input type="text" class="form-control" formControlName="celular" name="celular" maxlength="13"/>
+              <ld-validation-messages [control]="jugadorForm.controls.celular"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['codigoProvincia'].valid && jugadorForm.controls['codigoProvincia'].touched}">
+              <label>Provincia</label>
+              <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
+                <option value=""></option>
+                <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.codigoProvincia"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['codigoParroquia'].valid && jugadorForm.controls['codigoParroquia'].touched}">
+              <label>Parroquia</label>
+              <select class="form-control" formControlName="codigoParroquia" name="codigoParroquia">
+                <option value=""></option>
+                <option *ngFor="let parroquia of listaParroquias" [value]="parroquia.codigoUbicacion">{{parroquia.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.codigoParroquia"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['estado'].valid && jugadorForm.controls['estado'].touched}">
+              <label>Estado</label>
+              <select class="form-control" formControlName="estado" name="estado">
+                <option *ngFor="let estadoJug of listaEstados" [value]="estadoJug.id">{{estadoJug.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="jugadorForm.controls.estado"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label>Observaciones</label>
+            <textarea class="form-control" formControlName="observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="col-md-12">
+            <div class="btn-group">
+                <div>
+                  <button type="submit" class="btn btn-primary" icon="fa-check" [disabled]="!jugadorForm.valid">Guardar</button>
+                  <a href="#/home/jugador" class="btn btn-warning">Regresar</a>
+
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

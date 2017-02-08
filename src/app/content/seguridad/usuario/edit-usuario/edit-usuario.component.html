@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <form [formGroup]="usuarioForm" role="form" (submit)="guardarUsuario()">
+        	<div class="col-md-9">
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['usuario'].valid && usuarioForm.controls['usuario'].touched}">
+              <label>Nombre de Usuario</label>
+              <input id="usuario" formControlName="usuario" type="text" class="form-control" name="usuario"/>
+              <ld-validation-messages [control]="usuarioForm.controls.usuario"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['password'].valid && usuarioForm.controls['password'].touched}">
+              <label>Password</label>
+              <input id="password" formControlName="password" type="password" class="form-control" name="password" validateEqual="passwordR" reverse="true"/>
+              <ld-validation-messages [control]="usuarioForm.controls.password"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['passwordR'].valid && usuarioForm.controls['passwordR'].touched}">
+              <label>Repetir Password</label>
+              <input id="passwordR" formControlName="passwordR" type="password" class="form-control" name="passwordR" validateEqual="password"/>
+              <ld-validation-messages [control]="usuarioForm.controls.passwordR"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['codigoRol'].valid && usuarioForm.controls['codigoRol'].touched}">
+              <label>Rol</label>
+              <select id="codigoRol" formControlName="codigoRol" class="form-control" name="codigoRol">
+                <option value=""></option>
+                <option *ngFor="let rol of listaRoles" [value]="rol.codigoRol">{{rol.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="usuarioForm.controls.codigoRol"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['codigoLiga'].valid && usuarioForm.controls['codigoLiga'].touched}">
+              <label>Liga</label>
+              <select id="codigoLiga" formControlName="codigoLiga" class="form-control" name="codigoLiga">
+                <option value=""></option>
+                <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
+              </select>
+              <ld-validation-messages [control]="usuarioForm.controls.codigoLiga"></ld-validation-messages>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <input type="file" class="form-control" name="fotoJugador" (change)="cargarFotoUsuario($event)"/>
+            <ld-display-picture [image]="foto"></ld-display-picture>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['nombres'].valid && usuarioForm.controls['nombres'].touched}">
+              <label>Nombres</label>
+              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
+              <ld-validation-messages [control]="usuarioForm.controls.nombres"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['apellidoPaterno'].valid && usuarioForm.controls['apellidoPaterno'].touched}">
+              <label>Apellido Paterno</label>
+              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
+              <ld-validation-messages [control]="usuarioForm.controls.apellidoPaterno"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['apellidoMaterno'].valid && usuarioForm.controls['apellidoMaterno'].touched}">
+              <label>Apellido Materno</label>
+              <input type="text" class="form-control" formControlName="apellidoMaterno" name="apellidoMaterno" />
+              <ld-validation-messages [control]="usuarioForm.controls.apellidoMaterno"></ld-validation-messages>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['mail'].valid && usuarioForm.controls['mail'].touched}">
+              <label>Correo Electr&oacute;nico</label>
+              <input type="mail" class="form-control" formControlName="mail" name="mail"/>
+              <ld-validation-messages [control]="usuarioForm.controls.mail"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['estado'].valid && usuarioForm.controls['estado'].touched}">
+              <label>Estado</label>
+              <select class="form-control" formControlName="estado" name="estado">
+                <option *ngFor="let estadoUsu of listaEstados" [value]="estadoUsu.id">{{estadoUsu.nombre}}</option>
+              </select>
+              <ld-validation-messages [control]="usuarioForm.controls.estado"></ld-validation-messages>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <label>Observaciones</label>
+            <textarea class="form-control" formControlName="observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="col-md-12">
+            <div class="btn-group">
+                <div>
+                  <button type="submit" class="btn btn-primary" icon="fa-check" [disabled]="!usuarioForm.valid">Guardar</button>
+                  <a href="#/home/usuario" class="btn btn-warning">Regresar</a>
+
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

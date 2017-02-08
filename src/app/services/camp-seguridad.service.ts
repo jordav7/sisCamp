@@ -6,6 +6,7 @@ import { Respuesta } from '../model/general/respuesta';
 import { Parametro } from '../model/seguridad/parametro';
 import { Rol } from '../model/seguridad/rol';
 import { Ente } from '../model/seguridad/ente';
+import { Usuario } from '../model/seguridad/usuario'
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -113,5 +114,42 @@ export class CampSeguridadService {
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
   }
+
+  obtenerJugadores(enteJuridico: number): Observable<Usuario[]>{
+    return this.http.get(this.urlServices + '/usuarios/' + enteJuridico)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  crearUsuario(usuario: Usuario): Observable<Respuesta>{
+    let rolString = JSON.stringify;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers});
+    return this.http.post(this.urlServices + '/crearUsuario', usuario, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  actualizarUsuario(usuario: Usuario): Observable<Respuesta>{
+    let rolString = JSON.stringify;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers});
+    return this.http.put(this.urlServices + '/actualizarUsuario', usuario, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  eliminarUsuario(usuario: Usuario): Observable<Respuesta>{
+    return this.http.delete(this.urlServices + '/eliminarUsuario/' + usuario.enteJuridico + '/' + usuario.codigoUsuario)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  obtenerUsuario(enteJuridico: number, codigoUsuario: number): Observable<Usuario>{
+    return this.http.get(this.urlServices + '/usuario/' + enteJuridico + '/' + codigoUsuario)
+    .map((res: Response) => res.json())
+    .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
 
 }
