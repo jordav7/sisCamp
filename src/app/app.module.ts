@@ -121,6 +121,10 @@ const sisCampRoutes: Routes = [
       {
           path: 'equipos',
           component: EquipoComponent
+      },
+      {
+          path: 'crearEquipo',
+          component: EquipoEditComponent
       }
     ]
   }
