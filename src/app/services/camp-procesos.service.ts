@@ -10,10 +10,10 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CampProcesosService {
 
-  urlServices: string = SisCampProperties.URL_SERVIDOR + '/rs/procesos'; 
+  urlServices: string = SisCampProperties.URL_SERVIDOR + '/rs/procesos';
   constructor(private http: Http) { }
-  
-  obtenerEquipo(enteJuridico: number, codigoEquipo: number): Observable<Equipo[]> {
+
+  obtenerEquipo(enteJuridico: number, codigoEquipo: number): Observable<Equipo> {
       return this.http.get(this.urlServices + '/equipo/' + enteJuridico + '/' + codigoEquipo)
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));

@@ -125,6 +125,10 @@ const sisCampRoutes: Routes = [
       {
           path: 'crearEquipo',
           component: EquipoEditComponent
+      },
+      {
+          path: 'editarEquipo/:enteJuridico/:codigoEquipo',
+          component: EquipoEditComponent
       }
     ]
   }

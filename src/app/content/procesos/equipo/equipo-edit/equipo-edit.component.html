@@ -1,3 +1,129 @@
-<p>
-  equipo-edit works!
-</p>
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <form role="form" [formGroup]="equipoForm">
+          <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoDisciplina'].valid && equipoForm.controls['codigoDisciplina'].touched}">
+            <label>Disciplina</label>
+            <select id="codigoDisciplina" class="form-control" formControlName="codigoDisciplina" name="codigoDisciplina" >
+              <option value=""></option>
+              <option *ngFor="let disciplina of listaDisciplina" [value]="disciplina.codigoCatalogo">{{disciplina.nombre}}</option>
+            </select>
+            <ld-validation-messages [control]="equipoForm.controls.codigoDisciplina"></ld-validation-messages>
+          </div>
+          <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoLiga'].valid && equipoForm.controls['codigoLiga'].touched}">
+            <label>Liga</label>
+            <select id="codigoLiga" class="form-control" formControlName="codigoLiga" name="codigoLiga" >
+              <option value=""></option>
+              <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
+            </select>
+            <ld-validation-messages [control]="equipoForm.controls.codigoLiga"></ld-validation-messages>
+          </div>
+          <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['nombres'].valid && equipoForm.controls['nombres'].touched}">
+            <label>Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombres" max="120"/>
+            <ld-validation-messages [control]="equipoForm.controls.nombres"></ld-validation-messages>
+          </div>
+          <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['numJugadores'].valid && equipoForm.controls['numJugadores'].touched}">
+            <label>Num. Jugadores</label>
+            <input type="text" class="form-control" id="numJugadores" name="numJugadores" formControlName="numJugadores" max="2"/>
+            <ld-validation-messages [control]="equipoForm.controls.numJugadores"></ld-validation-messages>
+          </div>
+          <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['estado'].valid && equipoForm.controls['estado'].touched}">
+            <label>Estado</label>
+            <select id="estado" class="form-control" formControlName="estado" name="estado">
+              <option value=""></option>
+              <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+            </select>
+            <ld-validation-messages [control]="equipoForm.controls.estado"></ld-validation-messages>
+          </div>
+          <div class="btn-group">
+              <div>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarJugador"><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal de EQUIPO JUGADOR -->
+  <div class="modal fade" id="modalAgregarJugador" tabindex="-1" role="dialog" aria-labelledby="modalAgregarJugadorLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modalAgregarJugador">Equipo Jugador</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Liga</label>
+                  <select class="form-control">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Equipo</label>
+                  <select class="form-control">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>CI</label>
+                  <input class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                  <label>Apellidos</label>
+                  <input class="form-control" type="text" />
+                </div>
+                <div class="btn-group">
+                  <div>
+                    <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Buscar</button>
+                    <button class="btn btn-success" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Crear Jugador</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Nombres</label>
+                  <input class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                  <label>Apellidos</label>
+                  <input class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                  <label>N&uacute;mero</label>
+                  <input class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                  <label>Capit&aacute;n</label>
+                  <input type="checkbox" />
+                  <label>Dirigente</label>
+                  <input type="checkbox" />
+                  <label>Jugador</label>
+                  <input type="checkbox" />
+                </div>
+                <div class="form-group">
+                  <label>Estado</label>
+                  <select class="form-control">
+                  </select>
+                </div>
+                <div class="btn-group">
+                  <div>
+                    <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                    <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar Cambios</button>
+          <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
