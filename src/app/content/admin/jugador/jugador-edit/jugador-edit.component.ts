@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms';
 
@@ -36,6 +36,8 @@ export class JugadorEditComponent implements OnInit {
   mostrarPanelConf: boolean = false;
   mensajes: Message[];
   foto: any;
+  @Input() modal: boolean;
+  @Output() afterSave: EventEmitter<any> = new EventEmitter();
 
   constructor(private campAdminService: CampAdminService, private formBuild: FormBuilder, private route: ActivatedRoute, private campSeguridadService: CampSeguridadService) {
     this.route.params.subscribe(params => {
@@ -114,22 +116,14 @@ export class JugadorEditComponent implements OnInit {
     });
   }
 
-  cargarUbicaciones(){
-    this.campAdminService.obtenerUbicacionesPorCategoria(SisCampProperties.codigoTipoUbicacionPais).subscribe(
-      paises => {
-        this.listaPaises = paises;
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
+  cargarUbicaciones() {
+    this.cargarPaises();
     this.cargarProvincias();
     this.cargarCantones();
     this.cargarParroquias();
   }
 
-  guardarJugador(){
+  guardarJugador() {
     this.jugador = this.jugadorForm.value;
     this.jugador.foto = this.foto;
     if(this.esNuevo){
@@ -140,7 +134,10 @@ export class JugadorEditComponent implements OnInit {
           this.jugador = new Jugador();
         },
         err => {
-          console.log(err);
+          this.procesarRespuestaError(err);
+        },
+        () => {
+          this.afterSave.emit({mensajes: this.mensajes, respuesta: this.manejaRespuestaEvento(this.mensajes)});
         }
       );
     }else{
@@ -150,13 +147,16 @@ export class JugadorEditComponent implements OnInit {
           this.jugador = new Jugador();
         },
         err => {
-          console.log(err);
+          this.procesarRespuestaError(err);
+        },
+        () => {
+          this.afterSave.emit({mensajes: this.mensajes, respuesta: this.manejaRespuestaEvento(this.mensajes)});
         }
       );
     }
   }
 
-  clonarJugador(j: Jugador): Jugador{
+  clonarJugador(j: Jugador): Jugador {
     let jugador = new Jugador();
     for(let prop in j){
       if(prop != "_$visited"){
@@ -166,7 +166,7 @@ export class JugadorEditComponent implements OnInit {
     return jugador;
   }
 
-  setValoresEdicion(){
+  setValoresEdicion() {
     this.jugadorForm.controls['codigoPersona'].setValue(this.jugador.codigoPersona);
     this.jugadorForm.controls['enteJuridico'].setValue(this.jugador.enteJuridico);
     this.jugadorForm.controls['codigoJugador'].setValue(this.jugador.codigoJugador);
@@ -192,8 +192,8 @@ export class JugadorEditComponent implements OnInit {
     this.foto = this.jugador.foto;
   }
 
-  procesarRespuesta(respuesta: Respuesta){
-    if(respuesta.codigo == "0"){
+  procesarRespuesta(respuesta: Respuesta) {
+    if(respuesta.codigo === SisCampProperties.CODIGO_OK){
       this.mostrarPanelJugador = false;
       this.jugador = new Jugador();
       this.mensajes = [];
@@ -201,40 +201,51 @@ export class JugadorEditComponent implements OnInit {
     }
   }
 
-  cargarProvincias(){
+  cargarPaises() {
+    this.campAdminService.obtenerUbicacionesPorCategoria(SisCampProperties.codigoTipoUbicacionPais).subscribe(
+      paises => {
+        this.listaPaises = paises;
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  cargarProvincias() {
     this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.jugadorForm.value.codigoPais, SisCampProperties.codigoTipoUbicacionProv).subscribe(
       provincias => {
         this.listaPronvincias = provincias;
       },
       err => {
-        console.log(err);
+        this.procesarRespuestaError(err);
       }
     );
   }
 
-  cargarCantones(){
+  cargarCantones() {
     this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.jugadorForm.value.codigoProvincia, SisCampProperties.codigoTipoUbicacionCanton).subscribe(
       cantones => {
         this.listaCantones = cantones;
       },
       err => {
-        console.log(err);
+        this.procesarRespuestaError(err);
       }
     );
   }
 
-  cargarParroquias(){
+  cargarParroquias() {
     this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.jugadorForm.value.codigoCanton, SisCampProperties.codigoTipoUbicacionParroquia).subscribe(
       parroquias => {
         this.listaParroquias = parroquias;
       },
       err => {
-        console.log(err);
+        this.procesarRespuestaError(err);
       }
     );
   }
 
-  cargarFotoJugador(e){
+  cargarFotoJugador(e) {
     let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 
     var pattern = /image-*/;
@@ -249,9 +260,25 @@ export class JugadorEditComponent implements OnInit {
     reader.readAsBinaryString(file);
   }
 
-  archivoCargado(e){
+  archivoCargado(e) {
     var reader = e.target;
     this.foto = btoa(reader.result);
+  }
+
+  procesarRespuestaError(error: string) {
+    this.mensajes = [];
+    this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: error});
+  }
+
+  manejaRespuestaEvento(mensajes: Message[]): Respuesta {
+    let respuesta = new Respuesta(SisCampProperties.CODIGO_OK);
+    for(let mensaje of mensajes) {
+      if(mensaje.severity === 'error'){
+        respuesta = new Respuesta(SisCampProperties.CODIGO_ERROR, mensaje.detail);
+        break;
+      }
+    }
+    return respuesta;
   }
 
 }

@@ -41,7 +41,8 @@
           <div class="btn-group">
               <div>
                 <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
-                <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarJugador"><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipoJugador" (click)="cargarDatosEquipoJugador()" ><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>
+                <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Cancelar</a>
               </div>
           </div>
         </form>
@@ -49,25 +50,29 @@
     </div>
   </div>
   <!-- Modal de EQUIPO JUGADOR -->
-  <div class="modal fade" id="modalAgregarJugador" tabindex="-1" role="dialog" aria-labelledby="modalAgregarJugadorLabel">
+  <div class="modal fade" id="modalAgregarEquipoJugador" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEquipoJugadorLabel">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="modalAgregarJugador">Equipo Jugador</h4>
+          <h4 class="modal-title" id="modalAgregarEquipoJugador">Equipo Jugador</h4>
         </div>
         <div class="modal-body">
-          <form role="form">
+          <form role="form" [formGroup]="equipoJugadorForm">
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
                   <label>Liga</label>
-                  <select class="form-control">
+                  <select class="form-control" formControlName="ligaEquipo" name="ligaEquipo" >
+                    <option value=""></option>
+                    <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Equipo</label>
-                  <select class="form-control">
+                  <select class="form-control" formControlName="codigoEquipo" name="codigoEquipo">
+                    <option value=""></option>
+                    <option *ngFor="let equipo of listaEquipos" [value]="equipo.codigoEquipo">{{equipo.nombres}}</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -81,16 +86,16 @@
                 <div class="btn-group">
                   <div>
                     <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Buscar</button>
-                    <button class="btn btn-success" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Crear Jugador</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarJugador"><span class="fa fa-plus"></span>&nbsp;Crear Jugador</button>
                   </div>
                 </div>
                 <div class="form-group">
                   <label>Nombres</label>
-                  <input class="form-control" type="text" />
+                  <input class="form-control" type="text" disabled="true"/>
                 </div>
                 <div class="form-group">
                   <label>Apellidos</label>
-                  <input class="form-control" type="text" />
+                  <input class="form-control" type="text" disabled="true"/>
                 </div>
                 <div class="form-group">
                   <label>N&uacute;mero</label>
@@ -107,23 +112,42 @@
                 <div class="form-group">
                   <label>Estado</label>
                   <select class="form-control">
+                    <option value=""></option>
+                    <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
                   </select>
                 </div>
-                <div class="btn-group">
+                <!--<div class="btn-group">
                   <div>
                     <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
                     <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar Cambios</button>
+          <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar</button>
           <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="modalAgregarJugador" tabindex="-1" role="dialog" aria-labelledby="modalAgregarJugadorLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modalAgregarJugador">Equipo Jugador</h4>
+        </div>
+        <div class="modal-body">
+          <ld-jugador-edit [modal]="true"></ld-jugador-edit>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Guardar</button>
+          <button #btnCerrarCrearJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
 </div>

@@ -14,6 +14,8 @@ import { SisCampProperties } from 'app/propiedades';
 
 import { Message } from 'primeng/primeng';
 
+import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
+
 @Component({
   selector: 'ld-equipo-edit',
   templateUrl: './equipo-edit.component.html',
@@ -29,7 +31,12 @@ export class EquipoEditComponent implements OnInit {
   equipoForm: any;
   equipo: Equipo;
 
-  CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
+  //Variables EquipoJugador
+  equipoJugadorForm: any;
+  equipoJugador: EquipoJugador;
+  listaEquipos: Equipo[];
+
+  private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService,
     private campProcesosService: CampProcesosService,private formBuild: FormBuilder, private route: ActivatedRoute) {}
@@ -37,6 +44,9 @@ export class EquipoEditComponent implements OnInit {
   ngOnInit() {
     this.cargarDatosIniciales();
     this.cargarDatosEntidad();
+
+    //EquipoJugador
+    this.cargarDatosEquipoJugador();
   }
 
   cargarDatosIniciales() {
@@ -60,9 +70,9 @@ export class EquipoEditComponent implements OnInit {
         } else {
           this.esNuevo = true;
           this.equipo = new Equipo();
-          this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
-          this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
-          this.equipoForm.controls['codigoLiga'].setValue(this.CURRENT_USER.codigoLiga);
+          this.equipo.enteJuridico = EquipoEditComponent.CURRENT_USER.entejuridico;
+          this.equipo.codigoLiga = EquipoEditComponent.CURRENT_USER.codigoLiga;
+          this.equipoForm.controls['codigoLiga'].setValue(EquipoEditComponent.CURRENT_USER.codigoLiga);
         }
       }
     );
@@ -84,34 +94,34 @@ export class EquipoEditComponent implements OnInit {
   }
 
   cargarDisciplinas(){
-    this.campAdminService.obtenerCatalogos(this.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
+    this.campAdminService.obtenerCatalogos(EquipoEditComponent.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
       disciplinas => {
         this.listaDisciplina = disciplinas;
       },
       err => {
-
+        this.procesarRespuestaError(err);
       }
     );
   }
 
   cargarLigas(){
-    this.campAdminService.obtenerLigas(this.CURRENT_USER.entejuridico).subscribe(
+    this.campAdminService.obtenerLigas(EquipoEditComponent.CURRENT_USER.entejuridico).subscribe(
       ligas => {
         this.listaLigas = ligas;
       },
       err => {
-
+        this.procesarRespuestaError(err);
       }
     );
   }
 
   cargarEstados(){
-    this.campSeguridadService.obtenerParametrosPorTipo(this.CURRENT_USER.entejuridico, SisCampProperties.codigoCatalogoEstado).subscribe(
+    this.campSeguridadService.obtenerParametrosPorTipo(EquipoEditComponent.CURRENT_USER.entejuridico, SisCampProperties.codigoCatalogoEstado).subscribe(
       estados => {
         this.listaEstados = estados;
       },
       err => {
-
+        this.procesarRespuestaError(err);
       }
     );
   }
@@ -122,16 +132,15 @@ export class EquipoEditComponent implements OnInit {
 
   guardarEquipo() {
     this.equipo = this.equipoForm.value;
-    this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
-    this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+    this.equipo.enteJuridico = EquipoEditComponent.CURRENT_USER.entejuridico;
+    this.equipo.codigoLiga = EquipoEditComponent.CURRENT_USER.codigoLiga;
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
         respuesta => {
           this.procesarRespuesta(respuesta);
         },
         err => {
-          this.mensajes = [];
-          this.mensajes.push({severity:'error', summary:'Respuesta', detail:err});
+          this.procesarRespuestaError(err);
         }
       );
     } else {
@@ -140,8 +149,7 @@ export class EquipoEditComponent implements OnInit {
           this.procesarRespuesta(respuesta);
         },
         err => {
-          this.mensajes = [];
-          this.mensajes.push({severity:'error', summary:'Respuesta', detail:err});
+          this.procesarRespuestaError(err);
         }
       );
     }
@@ -159,8 +167,53 @@ export class EquipoEditComponent implements OnInit {
     }
   }
 
+  procesarRespuestaError(error: string) {
+    this.mensajes = [];
+    this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: error});
+  }
+
   guardarEquipoJugador() {
     this.btnCerrarEquipoJug.nativeElement.click();
+  }
+
+  /*
+  Empieza equipo jugador
+  */
+  cargarDatosEquipoJugador() {
+    this.cargarValoresEquipoJugador();
+    this.cargarValidacionesEquipoJugador();
+  }
+
+  cargarValoresEquipoJugador() {
+    this.cargarEquipos();
+  }
+
+  cargarValidacionesEquipoJugador() {
+    this.equipoJugadorForm = this.formBuild.group({
+      'codigoEquipoJugador': '',
+      'enteJuridico': EquipoEditComponent.CURRENT_USER.enteJuridico,
+      'codigoEquipo': [{value: this.equipoForm.controls.codigoEquipo.value, disabled: true}],
+      'equipoNombre': '',
+      'ligaEquipo': [{value: EquipoEditComponent.CURRENT_USER.codigoLiga, disabled: true}],
+      'nombreLiga': '',
+      'codigoJugador': '',
+      'nombresJugador': '',
+      'numeroJugador': '',
+      'esCapitan': '',
+      'esJugador': '',
+      'esDt': '',
+      'estado': '',
+      'userCrea': '',
+      'userMod': ''
+    });
+  }
+
+  cargarEquipos() {
+    this.campProcesosService.obtenerEquipos(EquipoEditComponent.CURRENT_USER.entejuridico, EquipoEditComponent.CURRENT_USER.codigoLiga).subscribe(
+      equipos => {
+        this.listaEquipos = equipos;
+      }
+    );
   }
 
 }

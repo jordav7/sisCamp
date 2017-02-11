@@ -7,5 +7,7 @@ export const SisCampProperties = Object.freeze({
   codigoTipoUbicacionCanton: 17,
   codigoTipoUbicacionParroquia: 18,
   codigoTipoDisciplina: 1,
-  URL_SERVIDOR: 'http://192.168.1.8:8080/siscamp-web'
+  URL_SERVIDOR: 'http://192.168.1.6:8080/siscamp-web',
+  CODIGO_ERROR: '1',
+  CODIGO_OK: '0'
 })

@@ -140,12 +140,11 @@
             <label>Observaciones</label>
             <textarea class="form-control" formControlName="observaciones" name="observaciones"></textarea>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-12" *ngIf="!modal">
             <div class="btn-group">
                 <div>
                   <button type="submit" class="btn btn-primary" icon="fa-check" [disabled]="!jugadorForm.valid">Guardar</button>
                   <a href="#/home/jugador" class="btn btn-warning">Regresar</a>
-
                 </div>
             </div>
           </div>
