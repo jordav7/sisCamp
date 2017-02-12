@@ -110,7 +110,7 @@ export class CampSeguridadService {
   }
 
   eliminarEnte(ente: Ente): Observable<Respuesta>{
-    return this.http.delete(this.urlServices + '/eliminarParametro/' + ente.enteCodigo)
+    return this.http.delete(this.urlServices + '/eliminarEnte/' + ente.enteCodigo)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
   }

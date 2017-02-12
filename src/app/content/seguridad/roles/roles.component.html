@@ -9,8 +9,13 @@
               <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearRol()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
             </div>
           </p-header>
-          <p-column field="codigoRol" header="C&oacute;digo"></p-column>
-          <p-column field="nombre" header="Nombre"></p-column>
+          <p-column header="No.">
+            <template let-col let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoRol" header="C&oacute;digo"></p-column>-->
+          <p-column field="nombre" header="Descripci&oacute;n"></p-column>
           <p-column field="estado" header="Estado"></p-column>
           <p-column header="Acciones">
             <template let-rol="rowData" pTemplate="body">
@@ -21,13 +26,20 @@
         </p-dataTable>
         <p-dialog header="Rol" [(visible)]="mostrarPanelRol" modal="modal" width="300" responsive="true">
             <form role="form">
-              <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" [(ngModel)]="rol.nombre" name="nombre" />
+              <div class="form-group" [hidden]="esNuevo">
+                <label>C&oacute;digo</label>
+                <input type="text" class="form-control" [(ngModel)]="rol.codigoRol" name="codigoRol" disabled="true" />
               </div>
-              <div class="form-group" [hidden]="true">
+              <div class="form-group">
+                <label>Descripci&oacute;n</label>
+                <input type="text" class="form-control" [(ngModel)]="rol.nombre" name="nombre" maxlength="80" />
+              </div>
+              <div class="form-group" [hidden]="esNuevo">
                 <label>Estado</label>
-                <input type="text" class="form-control" [(ngModel)]="rol.estado" name="estado" />
+                <select class="form-control" [(ngModel)]="rol.estado" name="estado" >
+                  <option value="A">ACTIVO</option>
+                  <option value="I">INACTIVO</option>
+                </select>
               </div>
             </form>
             <p-footer>

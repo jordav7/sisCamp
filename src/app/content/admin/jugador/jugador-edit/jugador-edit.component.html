@@ -11,14 +11,9 @@
               <ld-validation-messages [control]="jugadorForm.controls.nombres"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoPaterno'].valid && jugadorForm.controls['apellidoPaterno'].touched}">
-              <label>Apellido Paterno</label>
+              <label>Apellidos</label>
               <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
               <ld-validation-messages [control]="jugadorForm.controls.apellidoPaterno"></ld-validation-messages>
-            </div>
-            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoMaterno'].valid && jugadorForm.controls['apellidoMaterno'].touched}">
-              <label>Apellido Materno</label>
-              <input type="text" class="form-control" formControlName="apellidoMaterno" name="apellidoMaterno" />
-              <ld-validation-messages [control]="jugadorForm.controls.apellidoMaterno"></ld-validation-messages>
             </div>
             <div class="col-md-12 ui-g-nopad">
             	<div class="col-md-6 form-group" style="padding-left: 0;" [ngClass]="{'has-error':!jugadorForm.controls['tipoId'].valid && jugadorForm.controls['tipoId'].touched}">

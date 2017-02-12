@@ -207,7 +207,7 @@ export class JugadorEditComponent implements OnInit {
         this.listaPaises = paises;
       },
       err => {
-        this.procesarRespuestaError(err);
+        console.log(err);
       }
     );
   }
@@ -218,7 +218,7 @@ export class JugadorEditComponent implements OnInit {
         this.listaPronvincias = provincias;
       },
       err => {
-        this.procesarRespuestaError(err);
+        console.log(err);
       }
     );
   }
@@ -229,7 +229,7 @@ export class JugadorEditComponent implements OnInit {
         this.listaCantones = cantones;
       },
       err => {
-        this.procesarRespuestaError(err);
+        console.log(err);
       }
     );
   }
@@ -240,7 +240,7 @@ export class JugadorEditComponent implements OnInit {
         this.listaParroquias = parroquias;
       },
       err => {
-        this.procesarRespuestaError(err);
+        console.log(err);
       }
     );
   }

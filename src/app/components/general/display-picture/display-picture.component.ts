@@ -10,6 +10,8 @@ export class DisplayPictureComponent implements OnInit, AfterContentChecked {
 
   urlImage: SafeUrl;
   @Input() image: any;
+  @Input() styleClass: string = 'img-responsive pad';
+  @Input() alt: string;
 
   constructor(private sanitizer: DomSanitizer) {
 

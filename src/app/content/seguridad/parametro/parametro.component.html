@@ -9,10 +9,15 @@
               <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearParam()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
             </div>
           </p-header>
-          <p-column field="codigoParametro" header="C&oacute;digo"></p-column>
-          <p-column field="codigoTipo" header="Tipo"></p-column>
-          <p-column field="id" header="Id"></p-column>
-          <p-column field="nombre" header="Nombre"></p-column>
+          <p-column header="No.">
+            <template let-col let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoParametro" header="C&oacute;digo"></p-column>-->
+          <p-column field="codigoTipo" header="Tipo de Par&aacute;metro"></p-column>
+          <p-column field="id" header="C&oacute;digo"></p-column>
+          <p-column field="nombre" header="Descripci&oacute;n"></p-column>
           <p-column field="estado" header="Estado"></p-column>
           <p-column header="Acciones">
             <template let-parametro="rowData" pTemplate="body">
@@ -24,21 +29,26 @@
 
         <p-dialog header="Par&aacute;metro" [(visible)]="mostrarPanelParam" modal="modal" width="300" responsive="true">
             <form role="form">
+              <!--<div class="form-group">
+                <label>Codigo</label>
+                <input type="text" class="form-control" [(ngModel)]="parametro.codigoParametro" name="codigoParametro" disabled="true"/>
+              </div>-->
+
               <div class="form-group">
-                <label>Tipo</label>
+                <label>Tipo de Par&aacute;metro</label>
                 <input type="text" class="form-control" [(ngModel)]="parametro.codigoTipo" name="codigoTipo" />
               </div>
               <div class="form-group">
-                <label>Id</label>
+                <label>C&oacute;digo</label>
                 <input type="text" class="form-control" [(ngModel)]="parametro.id" name="id" />
               </div>
               <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" [(ngModel)]="parametro.nombre" name="nombre" />
+                <label>Descripci&oacute;n</label>
+                <input type="text" class="form-control" [(ngModel)]="parametro.nombre" name="nombre" maxlength="80"/>
               </div>
-              <div class="form-group">
+              <div class="form-group" [hidden]="esNuevo">
                 <label>Estado</label>
-                <select type="text" class="form-control" [(ngModel)]="parametro.estado" name="estado" >
+                <select type="text" class="form-control" [(ngModel)]="parametro.estado" name="estado">
                   <option value="A">ACTIVO</option>
                   <option value="I">INACTIVO</option>
                 </select>
