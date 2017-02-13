@@ -5,15 +5,19 @@
       <div class="box-body">
         <form [formGroup]="jugadorForm" role="form" (submit)="guardarJugador()">
         	<div class="col-md-9">
-            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['nombres'].valid && jugadorForm.controls['nombres'].touched}">
-              <label>Nombres</label>
-              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
-              <ld-validation-messages [control]="jugadorForm.controls.nombres"></ld-validation-messages>
+            <div class="col-md-6 ui-g-nopad">
+              <div class="form-group"  [ngClass]="{'has-error':!jugadorForm.controls['nombres'].valid && jugadorForm.controls['nombres'].touched}">
+                <label>Nombres</label>
+                <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
+                <ld-validation-messages [control]="jugadorForm.controls.nombres"></ld-validation-messages>
+              </div>
             </div>
-            <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoPaterno'].valid && jugadorForm.controls['apellidoPaterno'].touched}">
-              <label>Apellidos</label>
-              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
-              <ld-validation-messages [control]="jugadorForm.controls.apellidoPaterno"></ld-validation-messages>
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['apellidoPaterno'].valid && jugadorForm.controls['apellidoPaterno'].touched}">
+                <label>Apellidos</label>
+                <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
+                <ld-validation-messages [control]="jugadorForm.controls.apellidoPaterno"></ld-validation-messages>
+              </div>
             </div>
             <div class="col-md-12 ui-g-nopad">
             	<div class="col-md-6 form-group" style="padding-left: 0;" [ngClass]="{'has-error':!jugadorForm.controls['tipoId'].valid && jugadorForm.controls['tipoId'].touched}">
