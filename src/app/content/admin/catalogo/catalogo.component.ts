@@ -3,6 +3,7 @@ import { CampAdminService } from '../../../services/camp-admin.service';
 import { TipoCatalogo } from '../../../model/admin/tipo-catalogo';
 import { Catalogo } from '../../../model/admin/catalogo';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 import { Message } from 'primeng/primeng';
 
 @Component({
@@ -26,6 +27,7 @@ export class CatalogoComponent implements OnInit {
     this.tipoCatalogo = new TipoCatalogo();
     this.catalogo = new Catalogo();
     this.respuesta = new Respuesta();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Catalogos', 'Gestion de catalogos')));
   }
 
   ngOnInit() {

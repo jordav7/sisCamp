@@ -4,6 +4,7 @@ import { CampSeguridadService } from '../../../services/camp-seguridad.service';
 
 import { Ente } from '../../../model/seguridad/ente';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -23,6 +24,7 @@ export class EnteComponent implements OnInit {
 
   constructor(private campSeguridadService: CampSeguridadService) {
     this.ente = new Ente();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Ente', 'Entes Juridicos')));
   }
 
   ngOnInit() {

@@ -24,16 +24,16 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <!--<img src="assets/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
-              <ld-display-picture [image]="CURRENT_USER.foto" styleClass="user-image" alt="Imagen Usuario"></ld-display-picture>
+              <img src="data:image/jpg;base64,{{CURRENT_USER.foto}}" class="user-image" alt="Imagen Usuario">
+              <!--<ld-display-picture [image]="CURRENT_USER.foto" styleClass="user-image" alt="Imagen Usuario"></ld-display-picture>-->
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{CURRENT_USER.usuario}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <!--<img src="data:image/jpg;base64,assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-                <ld-display-picture [image]="CURRENT_USER.foto" styleClass="img-circle" alt="Imagen Usuario"></ld-display-picture>
+                <img src="data:image/jpg;base64,{{CURRENT_USER.foto}}" class="img-circle" alt="Imagen Usuario">-->
+                <!--<ld-display-picture [image]="CURRENT_USER.foto" styleClass="img-circle" alt="Imagen Usuario"></ld-display-picture>-->
                 <p>
                   Holger Tipan - Administrador
                   <small>Desde Nov. 2016</small>

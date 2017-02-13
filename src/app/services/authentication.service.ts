@@ -3,6 +3,7 @@ import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { SisCampProperties } from '../propiedades';
 import { Login } from '../model/seguridad/login';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -27,6 +28,7 @@ export class AuthenticationService {
           let data = response.json();
           data.token = response.headers.get('Authorization');
           localStorage.setItem('currentUser', JSON.stringify(data));
+          sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina()));
           return data;
         })
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));

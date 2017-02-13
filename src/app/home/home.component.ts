@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 @Component({
   selector: 'ld-home',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Inicio', '')));
+  }
 
   ngOnInit() {
   }
