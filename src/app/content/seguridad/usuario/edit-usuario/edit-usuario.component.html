@@ -7,17 +7,17 @@
         	<div class="col-md-9">
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['usuario'].valid && usuarioForm.controls['usuario'].touched}">
               <label>Nombre de Usuario</label>
-              <input id="usuario" formControlName="usuario" type="text" class="form-control" name="usuario"/>
+              <input id="usuario" formControlName="usuario" type="text" class="form-control" name="usuario" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.usuario"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['password'].valid && usuarioForm.controls['password'].touched}">
               <label>Password</label>
-              <input id="password" formControlName="password" type="password" class="form-control" name="password" validateEqual="passwordR" reverse="true"/>
+              <input id="password" formControlName="password" type="password" class="form-control" name="password" validateEqual="passwordR" reverse="true" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.password"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['passwordR'].valid && usuarioForm.controls['passwordR'].touched}">
               <label>Repetir Password</label>
-              <input id="passwordR" formControlName="passwordR" type="password" class="form-control" name="passwordR" validateEqual="password"/>
+              <input id="passwordR" formControlName="passwordR" type="password" class="form-control" name="passwordR" validateEqual="password" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.passwordR"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['codigoRol'].valid && usuarioForm.controls['codigoRol'].touched}">
@@ -45,22 +45,17 @@
           <div class="col-md-12">
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['nombres'].valid && usuarioForm.controls['nombres'].touched}">
               <label>Nombres</label>
-              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres"/>
+              <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres" maxlength="99"/>
               <ld-validation-messages [control]="usuarioForm.controls.nombres"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['apellidoPaterno'].valid && usuarioForm.controls['apellidoPaterno'].touched}">
-              <label>Apellido Paterno</label>
-              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" />
+              <label>Apellidos</label>
+              <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" maxlength="120"/>
               <ld-validation-messages [control]="usuarioForm.controls.apellidoPaterno"></ld-validation-messages>
-            </div>
-            <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['apellidoMaterno'].valid && usuarioForm.controls['apellidoMaterno'].touched}">
-              <label>Apellido Materno</label>
-              <input type="text" class="form-control" formControlName="apellidoMaterno" name="apellidoMaterno" />
-              <ld-validation-messages [control]="usuarioForm.controls.apellidoMaterno"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['mail'].valid && usuarioForm.controls['mail'].touched}">
               <label>Correo Electr&oacute;nico</label>
-              <input type="mail" class="form-control" formControlName="mail" name="mail"/>
+              <input type="mail" class="form-control" formControlName="mail" name="mail" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.mail"></ld-validation-messages>
             </div>
           </div>
@@ -77,7 +72,7 @@
 
           <div class="col-md-12">
             <label>Observaciones</label>
-            <textarea class="form-control" formControlName="observaciones" name="observaciones"></textarea>
+            <textarea class="form-control" formControlName="observaciones" name="observaciones" maxlength="240"></textarea>
           </div>
           <div class="col-md-12">
             <div class="btn-group">

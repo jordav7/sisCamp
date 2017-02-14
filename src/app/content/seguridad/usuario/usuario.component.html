@@ -9,10 +9,14 @@
               <a class="btn btn-primary" href="#/home/crearUsuario" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
             </div>
           </p-header>
-          <p-column field="codigoUsuario" header="C&oacute;digo"></p-column>
-          <p-column field="nombres" header="Nombre"></p-column>
-          <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
-          <p-column field="apellidoMaterno" header="Apellido Materno"></p-column>
+          <p-column header="No.">
+            <template let-col let-ente="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoUsuario" header="C&oacute;digo"></p-column>-->
+          <p-column field="apellidoPaterno" header="Apellidos"></p-column>
+          <p-column field="nombres" header="Nombres"></p-column>
           <p-column field="mail" header="Email"></p-column>
           <p-column header="Acciones">
             <template let-usuario="rowData" pTemplate="body">
@@ -33,7 +37,7 @@
 		          <input type="text" class="form-control" [(ngModel)]="usuario.nombres" name="nombre" />
 		        </div>
 		        <div class="form-group" [hidden]="true">
-		          <label>Apellido Paterno</label>
+		          <label>Apellidos</label>
 		          <input type="text" class="form-control" [(ngModel)]="usuario.apellidoPaterno" name="estado" />
 		        </div>
 	        </div>

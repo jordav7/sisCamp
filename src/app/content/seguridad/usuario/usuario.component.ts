@@ -3,6 +3,7 @@ import { CampSeguridadService } from '../../../services/camp-seguridad.service';
 
 import { Usuario } from '../../../model/seguridad/usuario';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -22,6 +23,7 @@ export class UsuarioComponent implements OnInit {
 
   constructor(private campSeguridadService: CampSeguridadService) {
     this.usuario = new Usuario();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Usuario', 'Gesti\u00f3n de Usuarios')));
   }
 
   ngOnInit() {

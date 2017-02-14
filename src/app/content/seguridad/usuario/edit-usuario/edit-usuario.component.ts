@@ -63,7 +63,7 @@ export class EditUsuarioComponent implements OnInit {
         }
       }
     );
-    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Usuario', 'Gestion de Usuario')));
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Usuario', 'Gesti\u00f3n de Usuarios')));
   }
 
   ngOnInit() {
@@ -105,7 +105,7 @@ export class EditUsuarioComponent implements OnInit {
       'enteJuridico': '',
       'nombres': ['', Validators.required],
       'apellidoPaterno': ['', Validators.required],
-      'apellidoMaterno': ['', Validators.required],
+      //'apellidoMaterno': ['', Validators.required],
       'tipoId': '',//['', Validators.required],
       'identificacion': '',// ['', Validators.required],
       'fechaNacimiento': '',//['', Validators.required],
@@ -181,7 +181,7 @@ export class EditUsuarioComponent implements OnInit {
     this.usuarioForm.controls['userCrea'].setValue(this.usuario.userCrea);
     this.usuarioForm.controls['nombres'].setValue(this.usuario.nombres);
     this.usuarioForm.controls['apellidoPaterno'].setValue(this.usuario.apellidoPaterno);
-    this.usuarioForm.controls['apellidoMaterno'].setValue(this.usuario.apellidoMaterno);
+    //this.usuarioForm.controls['apellidoMaterno'].setValue(this.usuario.apellidoMaterno);
     this.usuarioForm.controls['tipoId'].setValue(this.usuario.tipoId);
     this.usuarioForm.controls['identificacion'].setValue(this.usuario.identificacion);
     //this.usuarioForm.controls['fechaNacimiento'].setValue(Manfun.parseDate(this.usuario.fechaNacimiento.toString()));
