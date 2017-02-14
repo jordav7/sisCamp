@@ -24,7 +24,7 @@ export class EnteComponent implements OnInit {
 
   constructor(private campSeguridadService: CampSeguridadService) {
     this.ente = new Ente();
-    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Ente', 'Gesti\u00f3n de Entes Jur\u00eddicos')));
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Ente Jur\u00eddico', 'Gesti\u00f3n de Entes Jur\u00eddicos')));
   }
 
   ngOnInit() {

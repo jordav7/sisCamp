@@ -4,6 +4,7 @@ import { CampSeguridadService } from '../../../services/camp-seguridad.service';
 
 import { Parametro } from '../../../model/seguridad/parametro';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -23,6 +24,7 @@ export class ParametroComponent implements OnInit {
 
   constructor(private campSeguridadService: CampSeguridadService) {
     this.parametro = new Parametro();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Par\u00e1metros', 'Gesti\u00f3n de Par\u00e1metros Generales')));
   }
 
   ngOnInit() {

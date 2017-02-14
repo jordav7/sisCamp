@@ -8,6 +8,7 @@ import { Manfun } from '../../../util/manfun';
 import { Arbitro } from '../../../model/admin/arbitro';
 import { Respuesta } from '../../../model/general/respuesta'
 import { Catalogo } from '../../../model/admin/catalogo'
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -29,7 +30,7 @@ export class ArbitroComponent implements OnInit {
   mensajes: Message[];
 
   constructor(private campAdminService: CampAdminService, private formBuild: FormBuilder) {
-  
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('\u00c1rbitro', 'Gesti\u00f3n de \u00c1rbitros')));
   }
 
   ngOnInit() {

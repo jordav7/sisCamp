@@ -9,14 +9,19 @@
               <a class="btn btn-primary" href="#/home/crearArbitro" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
             </div>
           </p-header>
-          <p-column field="codigoArbitro" header="C&oacute;digo"></p-column>
-          <p-column field="nombres" header="Nombre"></p-column>
-          <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
-          <p-column field="apellidoMaterno" header="Apellido Materno"></p-column>
+          <p-column header="No.">
+            <template let-col let-ente="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoArbitro" header="C&oacute;digo"></p-column>-->
+          <p-column field="apellidoPaterno" header="Apellidos"></p-column>
+          <p-column field="nombres" header="Nombres"></p-column>
           <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
-          <p-column field="direccion" header="Direcci&oacute;n"></p-column>
+          <p-column field="estado" header="Estado"></p-column>
+          <!--<p-column field="direccion" header="Direcci&oacute;n"></p-column>-->
           <p-column field="mail" header="Email"></p-column>
-          <p-column field="observaciones" header="Observaciones"></p-column>
+          <!--<p-column field="observaciones" header="Observaciones"></p-column>-->
           <p-column header="Acciones">
             <template let-arbitro="rowData" pTemplate="body">
               <a class="btn btn-info btn-xs" href="#/home/editArbitro/{{arbitro.enteJuridico}}/{{arbitro.codigoArbitro}}"><span class="glyphicon glyphicon-edit"></span></a>

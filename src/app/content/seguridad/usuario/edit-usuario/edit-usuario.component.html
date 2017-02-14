@@ -6,22 +6,22 @@
         <form [formGroup]="usuarioForm" role="form" (submit)="guardarUsuario()">
         	<div class="col-md-9">
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['usuario'].valid && usuarioForm.controls['usuario'].touched}">
-              <label>Nombre de Usuario</label>
-              <input id="usuario" formControlName="usuario" type="text" class="form-control" name="usuario" maxlength="60"/>
+              <label>Nombre de Usuario*</label>
+              <input id="usuario" formControlName="usuario" type="text" class="form-control" required name="usuario" maxlength="60" />
               <ld-validation-messages [control]="usuarioForm.controls.usuario"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['password'].valid && usuarioForm.controls['password'].touched}">
-              <label>Password</label>
+              <label>Password*</label>
               <input id="password" formControlName="password" type="password" class="form-control" name="password" validateEqual="passwordR" reverse="true" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.password"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['passwordR'].valid && usuarioForm.controls['passwordR'].touched}">
-              <label>Repetir Password</label>
+              <label>Repetir Password*</label>
               <input id="passwordR" formControlName="passwordR" type="password" class="form-control" name="passwordR" validateEqual="password" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.passwordR"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['codigoRol'].valid && usuarioForm.controls['codigoRol'].touched}">
-              <label>Rol</label>
+              <label>Rol*</label>
               <select id="codigoRol" formControlName="codigoRol" class="form-control" name="codigoRol">
                 <option value=""></option>
                 <option *ngFor="let rol of listaRoles" [value]="rol.codigoRol">{{rol.nombre}}</option>
@@ -44,17 +44,17 @@
 
           <div class="col-md-12">
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['nombres'].valid && usuarioForm.controls['nombres'].touched}">
-              <label>Nombres</label>
+              <label>Nombres*</label>
               <input id="nombres" formControlName="nombres" type="text" class="form-control" name="nombres" formControlName="nombres" maxlength="99"/>
               <ld-validation-messages [control]="usuarioForm.controls.nombres"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['apellidoPaterno'].valid && usuarioForm.controls['apellidoPaterno'].touched}">
-              <label>Apellidos</label>
+              <label>Apellidos*</label>
               <input type="text" class="form-control" formControlName="apellidoPaterno" name="apellidoPaterno" maxlength="120"/>
               <ld-validation-messages [control]="usuarioForm.controls.apellidoPaterno"></ld-validation-messages>
             </div>
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['mail'].valid && usuarioForm.controls['mail'].touched}">
-              <label>Correo Electr&oacute;nico</label>
+              <label>Correo Electr&oacute;nico*</label>
               <input type="mail" class="form-control" formControlName="mail" name="mail" maxlength="60"/>
               <ld-validation-messages [control]="usuarioForm.controls.mail"></ld-validation-messages>
             </div>
@@ -62,7 +62,7 @@
 
           <div class="col-md-12">
             <div class="form-group" [ngClass]="{'has-error':!usuarioForm.controls['estado'].valid && usuarioForm.controls['estado'].touched}">
-              <label>Estado</label>
+              <label>Estado*</label>
               <select class="form-control" formControlName="estado" name="estado">
                 <option *ngFor="let estadoUsu of listaEstados" [value]="estadoUsu.id">{{estadoUsu.nombre}}</option>
               </select>

@@ -11,6 +11,7 @@ import { Parametro } from 'app/model/seguridad/parametro';
 import { Equipo } from 'app/model/procesos/equipo';
 import { Respuesta } from 'app/model/general/respuesta';
 import { SisCampProperties } from 'app/propiedades';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -39,7 +40,9 @@ export class EquipoEditComponent implements OnInit {
   private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService,
-    private campProcesosService: CampProcesosService,private formBuild: FormBuilder, private route: ActivatedRoute) {}
+    private campProcesosService: CampProcesosService,private formBuild: FormBuilder, private route: ActivatedRoute) {
+      sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Equipos', 'Gesti\u00f3n de Equipos')));
+    }
 
   ngOnInit() {
     this.cargarDatosIniciales();

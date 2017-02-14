@@ -9,7 +9,12 @@
               <a href="#/home/crearEquipo" class="btn btn-primary" icon="fa-plus" style="float:left" ><span class="fa fa-plus"></span>&nbsp;Agregar</a>
             </div>
           </p-header>
-          <p-column field="codigoEquipo" header="C&oacute;digo"></p-column>
+          <p-column header="No.">
+            <template let-col let-ente="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoEquipo" header="C&oacute;digo"></p-column>-->
           <p-column field="nombres" header="Nombre"></p-column>
           <p-column field="estado" header="Estado"></p-column>
           <p-column field="codigoLiga" header="Liga"></p-column>

@@ -3,6 +3,7 @@ import { CampSeguridadService } from '../../../services/camp-seguridad.service';
 
 import { Rol } from '../../../model/seguridad/rol';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -22,6 +23,7 @@ export class RolesComponent implements OnInit {
 
   constructor(private campSeguridadService: CampSeguridadService) {
     this.rol = new Rol();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Roles', 'Gesti\u00f3n de Roles')));
   }
 
   ngOnInit() {

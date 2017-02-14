@@ -11,7 +11,12 @@
             </select>
           </div>
           <p-dataTable [value]="listaCatalogos" [rows]="10" [paginator]="true" [(selection)]="catalogo" [pageLinks]="3" [responsive]="true">
-            <p-column field="codigoCatalogo" header="C&oacute;digo"></p-column>
+            <p-column header="No.">
+              <template let-col let-ente="rowData" let-ri="rowIndex" pTemplate="body">
+                  <span>{{ri + 1}}</span>
+              </template>
+            </p-column>
+            <!--<p-column field="codigoCatalogo" header="C&oacute;digo"></p-column>-->
             <p-column field="nombre" header="Nombre"></p-column>
             <p-column header="Acciones">
               <template let-catalogo="rowData" pTemplate="body">
@@ -28,17 +33,22 @@
           </p-dataTable>
 
         </form>
-        <p-dialog header="Catalogo" [(visible)]="mostrarPanelCat" modal="modal" width="300" responsive="true">
-            <form role="form">
-              <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" [(ngModel)]="catalogo.nombre" max-length="60" name="nombre" />
+        <p-dialog header="Cat&aacute;logo" [(visible)]="mostrarPanelCat" modal="modal" width="300" responsive="true">
+            <form role="form" #catForm="ngForm">
+              <div class="form-group" [hidden]="esNuevo">
+                <label>C&oacute;digo</label>
+                <input type="text" class="form-control" [(ngModel)]="catalogo.codigoCatalogo" name="codigoCatalogo" disabled="true" />
+              </div>
+              <div class="form-group" [ngClass]="{'has-error':nombre.errors && nombre.touched && nombre.errors.required}">
+                <label>Nombre*</label>
+                <input type="text" class="form-control" [(ngModel)]="catalogo.nombre" maxlength="55" required name="nombre" #nombre="ngModel"/>
+                <ld-validation-messages [control]="nombre"></ld-validation-messages>
               </div>
             </form>
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                     <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelCat=false">Cancelar</button>
-                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarCatalogo()">Guardar</button>
+                    <button type="button" class="btn btn-primary" icon="fa-check" [disabled]="!catForm.form.valid" (click)="guardarCatalogo()">Guardar</button>
                 </div>
             </p-footer>
         </p-dialog>

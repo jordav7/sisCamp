@@ -8,6 +8,7 @@ import { UbicacionGeografica } from '../../../model/admin/ubicacion-geografica';
 import { Catalogo } from '../../../model/admin/catalogo';
 import { Parametro } from '../../../model/seguridad/parametro';
 import { Respuesta } from '../../../model/general/respuesta';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -29,6 +30,7 @@ export class UbicacionGeograficaComponent implements OnInit {
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService) {
     this.ubicacion = new UbicacionGeografica();
     this.categoriaSeleccionada = new Catalogo(-1);
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Ubicaci\u00f3n Geogr\u00e1fica', 'Gesti\u00f3n de Ubicaci\u00f3n Geogr\u00e1fica')));
   }
 
   ngOnInit() {

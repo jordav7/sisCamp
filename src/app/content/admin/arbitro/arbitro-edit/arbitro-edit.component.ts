@@ -13,6 +13,7 @@ import { Respuesta } from '../../../../model/general/respuesta'
 import { Catalogo } from '../../../../model/admin/catalogo';
 import { UbicacionGeografica } from '../../../../model/admin/ubicacion-geografica';
 import { SisCampProperties } from '../../../../propiedades';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -58,6 +59,7 @@ export class ArbitroEditComponent implements OnInit {
         }
       }
     );
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('\u00c1rbitro', 'Gesti\u00f3n de \u00c1rbitros')));
   }
 
   ngOnInit() {
@@ -90,21 +92,21 @@ export class ArbitroEditComponent implements OnInit {
       'enteJuridico': '',
       'nombres': ['', Validators.required],
       'apellidoPaterno': ['', Validators.required],
-      'apellidoMaterno': ['', Validators.required],
+      'apellidoMaterno': '',//['', Validators.required],
       'tipoId': ['', Validators.required],
       'identificacion': ['', Validators.required],
       'fechaNacimiento': '',//['', Validators.required],
       'sexo': '',//['', Validators.required],
       'direccion':['', Validators.required],
-      'mail': ['', Validators.required],
-      'telefono': ['', Validators.required],
-      'celular': ['', Validators.required],
+      'mail': '',//['', Validators.required],
+      'telefono': '',//['', Validators.required],
+      'celular': '',//['', Validators.required],
       'codigoPais': '',//['', Validators.required],
       'codigoProvincia': '',//['', Validators.required],
       'codigoCanton': '',//[, Validators.required],
       'codigoParroquia': '',//['', Validators.required],
       'codigoArbitro': '',
-      'estado': ['', Validators.required],
+      'estado':'',// ['', Validators.required],
       'observaciones': '',
       'userMod': '',
       'userCrea':''

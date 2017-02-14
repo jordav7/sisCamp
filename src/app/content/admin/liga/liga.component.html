@@ -8,10 +8,15 @@
               <button type="button" class="btn btn-primary" icon="fa-plus" style="float:left" (click)="mostrarDialogCrearLiga()"><span class="fa fa-plus"></span>&nbsp;Agregar</button>
             </div>
           </p-header>
-          <p-column field="codigoLiga" header="C&oacute;digo"></p-column>
+          <p-column header="No.">
+            <template let-col let-ente="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <!--<p-column field="codigoLiga" header="C&oacute;digo"></p-column>-->
           <p-column field="nombres" header="Nombre"></p-column>
           <p-column field="estado" header="Estado"></p-column>
-          <p-column field="observaciones" header="Observaciones"></p-column>
+          <!--<p-column field="observaciones" header="Observaciones"></p-column>-->
           <p-column field="codigoProvincia" header="Provincia"></p-column>
           <p-column field="codigoCanton" header="Cant&oacute;n"></p-column>
           <p-column field="codigoParroquia" header="Parroquia"></p-column>
@@ -22,57 +27,77 @@
             </template>
           </p-column>
         </p-dataTable>
-        <p-dialog header="Liga" [(visible)]="mostrarPanelLiga" modal="modal" width="300" responsive="true">
-            <form [formGroup]="ligaForm" role="form">
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['nombres'].valid && ligaForm.controls['nombres'].touched}">
-                <label>Nombre</label>
-                <input id="nombres" type="text" class="form-control" formControlName="nombres" max="150" name="nombres" />
-                <ld-validation-messages [control]="ligaForm.controls.nombres"></ld-validation-messages>
+        <p-dialog header="Liga" [(visible)]="mostrarPanelLiga" modal="modal" width="600" responsive="true">
+            <form [formGroup]="ligaForm" role="form" >
+              <div class="col-md-12">
+                <div class="form-group" [hidden]="esNuevo">
+                  <label>C&oacute;digo</label>
+                  <input type="text" class="form-control" formControlName="codigoLiga" name="codigoLiga" disabled="true" />
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['observaciones'].valid && ligaForm.controls['observaciones'].touched}">
-                <label>Observaciones</label>
-                <textarea id="observaciones" type="text" class="form-control" formControlName="observaciones" name="observaciones" >
-                </textarea>
-                <ld-validation-messages [control]="ligaForm.controls.observaciones"></ld-validation-messages>
+              <div class="col-md-12">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['nombres'].valid && ligaForm.controls['nombres'].touched}">
+                  <label>Nombre*</label>
+                  <input id="nombres" type="text" class="form-control" formControlName="nombres" max="150" name="nombres" maxlength="145"/>
+                  <ld-validation-messages [control]="ligaForm.controls.nombres"></ld-validation-messages>
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoPais'].valid && ligaForm.controls['codigoPais'].touched}">
-                <label>Pa&iacute;s</label>
-                <select class="form-control" formControlName="codigoPais" name="codigoPais" (change)="cargarProvincias()">
-                  <option value=""></option>
-                  <option *ngFor="let pais of listaPaises" [value]="pais.codigoUbicacion">{{pais.nombre}}</option>
-                </select>
-                <ld-validation-messages [control]="ligaForm.controls.codigoPais"></ld-validation-messages>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoPais'].valid && ligaForm.controls['codigoPais'].touched}">
+                  <label>Pa&iacute;s*</label>
+                  <select class="form-control" formControlName="codigoPais" name="codigoPais" (change)="cargarProvincias()">
+                    <option value=""></option>
+                    <option *ngFor="let pais of listaPaises" [value]="pais.codigoUbicacion">{{pais.nombre}}</option>
+                  </select>
+                  <ld-validation-messages [control]="ligaForm.controls.codigoPais"></ld-validation-messages>
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoProvincia'].valid && ligaForm.controls['codigoProvincia'].touched}">
-                <label>Provincia</label>
-                <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
-                  <option value=""></option>
-                  <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
-                </select>
-                <ld-validation-messages [control]="ligaForm.controls.codigoProvincia"></ld-validation-messages>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoProvincia'].valid && ligaForm.controls['codigoProvincia'].touched}">
+                  <label>Provincia*</label>
+                  <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
+                    <option value=""></option>
+                    <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
+                  </select>
+                  <ld-validation-messages [control]="ligaForm.controls.codigoProvincia"></ld-validation-messages>
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoCanton'].valid && ligaForm.controls['codigoCanton'].touched}">
-                <label>Cant&oacute;n</label>
-                <select class="form-control" formControlName="codigoCanton" name="codigoCanton" (change)="cargarParroquias()">
-                  <option value=""></option>
-                  <option *ngFor="let canton of listaCantones" [value]="canton.codigoUbicacion">{{canton.nombre}}</option>
-                </select>
-                <ld-validation-messages [control]="ligaForm.controls.codigoCanton"></ld-validation-messages>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoCanton'].valid && ligaForm.controls['codigoCanton'].touched}">
+                  <label>Cant&oacute;n*</label>
+                  <select class="form-control" formControlName="codigoCanton" name="codigoCanton" (change)="cargarParroquias()">
+                    <option value=""></option>
+                    <option *ngFor="let canton of listaCantones" [value]="canton.codigoUbicacion">{{canton.nombre}}</option>
+                  </select>
+                  <ld-validation-messages [control]="ligaForm.controls.codigoCanton"></ld-validation-messages>
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoParroquia'].valid && ligaForm.controls['codigoParroquia'].touched}">
-                <label>Parroquia</label>
-                <select class="form-control" formControlName="codigoParroquia" name="codigoParroquia">
-                  <option value=""></option>
-                  <option *ngFor="let parroquia of listaParroquias" [value]="parroquia.codigoUbicacion">{{parroquia.nombre}}</option>
-                </select>
-                <ld-validation-messages [control]="ligaForm.controls.codigoParroquia"></ld-validation-messages>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['codigoParroquia'].valid && ligaForm.controls['codigoParroquia'].touched}">
+                  <label>Parroquia</label>
+                  <select class="form-control" formControlName="codigoParroquia" name="codigoParroquia">
+                    <option value=""></option>
+                    <option *ngFor="let parroquia of listaParroquias" [value]="parroquia.codigoUbicacion">{{parroquia.nombre}}</option>
+                  </select>
+                  <ld-validation-messages [control]="ligaForm.controls.codigoParroquia"></ld-validation-messages>
+                </div>
               </div>
-              <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['estado'].valid && ligaForm.controls['estado'].touched}">
-                <label>Estado</label>
-                <select class="form-control" formControlName="estado" name="estado">
-                  <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
-                </select>
-                <ld-validation-messages [control]="ligaForm.controls.estado"></ld-validation-messages>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['estado'].valid && ligaForm.controls['estado'].touched}" *ngIf="!esNuevo">
+                  <label>Estado</label>
+                  <select class="form-control" formControlName="estado" name="estado">
+                    <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                  </select>
+                  <ld-validation-messages [control]="ligaForm.controls.estado"></ld-validation-messages>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group" [ngClass]="{'has-error':!ligaForm.controls['observaciones'].valid && ligaForm.controls['observaciones'].touched}">
+                  <label>Observaciones</label>
+                  <textarea id="observaciones" type="text" class="form-control" formControlName="observaciones" name="observaciones" maxlength="245">
+                  </textarea>
+                  <ld-validation-messages [control]="ligaForm.controls.observaciones"></ld-validation-messages>
+                </div>
               </div>
             </form>
             <p-footer>

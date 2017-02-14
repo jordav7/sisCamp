@@ -27,24 +27,27 @@
           </p-column>
         </p-dataTable>
 
-        <p-dialog header="Par&aacute;metro" [(visible)]="mostrarPanelParam" modal="modal" width="300" responsive="true">
-            <form role="form">
+        <p-dialog header="Par&aacute;metros" [(visible)]="mostrarPanelParam" modal="modal" width="300" responsive="true">
+            <form role="form" #paramForm="ngForm">
               <!--<div class="form-group">
                 <label>Codigo</label>
                 <input type="text" class="form-control" [(ngModel)]="parametro.codigoParametro" name="codigoParametro" disabled="true"/>
               </div>-->
 
-              <div class="form-group">
-                <label>Tipo de Par&aacute;metro</label>
-                <input type="text" class="form-control" [(ngModel)]="parametro.codigoTipo" name="codigoTipo" />
+              <div class="form-group" [ngClass]="{'has-error':codigoTipo.errors && codigoTipo.touched && codigoTipo.errors.required}">
+                <label>Tipo de Par&aacute;metro*</label>
+                <input type="text" class="form-control" [(ngModel)]="parametro.codigoTipo" required name="codigoTipo" maxlength="30" #codigoTipo="ngModel"/>
+                <ld-validation-messages [control]="codigoTipo"></ld-validation-messages>
               </div>
-              <div class="form-group">
-                <label>C&oacute;digo</label>
-                <input type="text" class="form-control" [(ngModel)]="parametro.id" name="id" />
+              <div class="form-group" [ngClass]="{'has-error':id.errors && id.touched && id.errors.required}">
+                <label>C&oacute;digo*</label>
+                <input type="text" class="form-control" [(ngModel)]="parametro.id" required name="id" maxlength="10" #id="ngModel"/>
+                <ld-validation-messages [control]="id"></ld-validation-messages>
               </div>
-              <div class="form-group">
-                <label>Descripci&oacute;n</label>
-                <input type="text" class="form-control" [(ngModel)]="parametro.nombre" name="nombre" maxlength="80"/>
+              <div class="form-group" [ngClass]="{'has-error':nombre.errors && nombre.touched && nombre.errors.required}">
+                <label>Descripci&oacute;n*</label>
+                <input type="text" class="form-control" [(ngModel)]="parametro.nombre" required name="nombre" maxlength="80" #nombre="ngModel"/>
+                <ld-validation-messages [control]="nombre"></ld-validation-messages>
               </div>
               <div class="form-group" [hidden]="esNuevo">
                 <label>Estado</label>
@@ -57,7 +60,7 @@
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                     <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelParam=false">Cancelar</button>
-                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarParametro()">Guardar</button>
+                    <button type="button" class="btn btn-primary" icon="fa-check"  [disabled]="!paramForm.form.valid"(click)="guardarParametro()">Guardar</button>
                 </div>
             </p-footer>
         </p-dialog>

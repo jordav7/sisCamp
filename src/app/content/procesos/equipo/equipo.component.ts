@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Equipo } from 'app/model/procesos/equipo';
 import { Respuesta } from 'app/model/general/respuesta';
 import { CampProcesosService } from 'app/services/camp-procesos.service';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -18,7 +19,9 @@ export class EquipoComponent implements OnInit {
   mostrarPanelConf: boolean;
   CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
-  constructor(private campProcesosService: CampProcesosService) { }
+  constructor(private campProcesosService: CampProcesosService) {
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Equipos', 'Gesti\u00f3n de Equipos')));
+  }
 
   ngOnInit() {
       this.cargarDatosIniciales();

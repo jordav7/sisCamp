@@ -10,6 +10,7 @@ import { Liga } from '../../../model/admin/liga';
 import { Respuesta } from '../../../model/general/respuesta';
 
 import { SisCampProperties } from '../../../propiedades';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -38,6 +39,7 @@ export class LigaComponent implements OnInit {
   constructor(private campAdminService: CampAdminService, private formBuild: FormBuilder, private campSeguridadService: CampSeguridadService) {
     this.liga = new Liga();
     this.ligaForm = this.cargarValidaciones();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Ligas', 'Gesti\u00f3n de Ligas')));
   }
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class LigaComponent implements OnInit {
       'codigoProvincia': ['', Validators.required],
       'codigoCanton': [, Validators.required],
       'codigoParroquia': ['', Validators.required],
-      'estado': ['', Validators.required],
+      'estado': '',//['', Validators.required],
       'observaciones': '',
       'userMod': '',
       'userCrea':''

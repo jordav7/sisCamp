@@ -27,7 +27,7 @@ export class CatalogoComponent implements OnInit {
     this.tipoCatalogo = new TipoCatalogo();
     this.catalogo = new Catalogo();
     this.respuesta = new Respuesta();
-    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Catalogos', 'Gestion de catalogos')));
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Cat\u00e1logos', 'Gesti\u00f3n de Cat\u00e1logos')));
   }
 
   ngOnInit() {
