@@ -11,6 +11,7 @@ import { FileUploadModule } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { InputMaskModule } from 'primeng/primeng';
 import { RadioButtonModule } from 'primeng/primeng';
+import {TabViewModule} from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -179,7 +180,8 @@ const sisCampRoutes: Routes = [
     FileUploadModule,
     CalendarModule,
     InputMaskModule,
-    RadioButtonModule
+    RadioButtonModule,
+    TabViewModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
