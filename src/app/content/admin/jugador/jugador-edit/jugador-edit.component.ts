@@ -13,7 +13,7 @@ import { Respuesta } from '../../../../model/general/respuesta'
 import { Catalogo } from '../../../../model/admin/catalogo';
 import { UbicacionGeografica } from '../../../../model/admin/ubicacion-geografica';
 import { SisCampProperties } from '../../../../propiedades';
-
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 import { Message } from 'primeng/primeng';
 
 @Component({
@@ -36,6 +36,7 @@ export class JugadorEditComponent implements OnInit {
   mostrarPanelConf: boolean = false;
   mensajes: Message[];
   foto: any;
+  es: any;
   @Input() modal: boolean;
   @Output() afterSave: EventEmitter<any> = new EventEmitter();
 
@@ -60,10 +61,12 @@ export class JugadorEditComponent implements OnInit {
         }
       }
     );
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Jugador', 'Gestion de Jugadores')));
   }
 
   ngOnInit() {
     this.cargarCatalogos();
+    this.cargarLenguajeCalendario();
   }
 
   cargarCatalogos(){
@@ -86,6 +89,17 @@ export class JugadorEditComponent implements OnInit {
     );
 
     this.cargarUbicaciones();
+  }
+
+  cargarLenguajeCalendario(){
+   this.es = {
+           firstDayOfWeek: 1,
+           dayNames: [ "domingo","lunes","martes","miércoles","jueves","viernes","sábado" ],
+           dayNamesShort: [ "dom","lun","mar","mié","jue","vie","sáb" ],
+           dayNamesMin: [ "D","L","M","X","J","V","S" ],
+           monthNames: [ "enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre" ],
+           monthNamesShort: [ "ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic" ]
+       }
   }
 
   cargarValidaciones(){
@@ -281,4 +295,7 @@ export class JugadorEditComponent implements OnInit {
     return respuesta;
   }
 
+  calcularEdad(value){
+    console.log('El valor es ' + value);
+  }
 }

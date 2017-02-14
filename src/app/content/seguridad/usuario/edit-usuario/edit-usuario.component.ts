@@ -16,6 +16,7 @@ import { Catalogo } from '../../../../model/admin/catalogo';
 import { Liga } from '../../../../model/admin/liga';
 import { UbicacionGeografica } from '../../../../model/admin/ubicacion-geografica';
 import { SisCampProperties } from '../../../../propiedades';
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -62,6 +63,7 @@ export class EditUsuarioComponent implements OnInit {
         }
       }
     );
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Usuario', 'Gestion de Usuario')));
   }
 
   ngOnInit() {
