@@ -6,4 +6,7 @@ export class Login {
   foto: any;
   codigoLiga: number;
   token: string;
+  nombres: string;
+  apellidos: string;
+  rol: string;
 }

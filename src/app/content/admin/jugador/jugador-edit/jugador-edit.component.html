@@ -43,7 +43,9 @@
           <div class="col-md-4">
             <div class="form-group" [ngClass]="{'has-error':!jugadorForm.controls['fechaNacimiento'].valid && jugadorForm.controls['fechaNacimiento'].touched}">
               <label>Fecha Nacimiento</label><br/>
-              <p-calendar dateFormat="dd/mm/yy" formControlName="fechaNacimiento" [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2030" [locale]="es" [showIcon]="true" (onSelect)="calcularEdad($value)"></p-calendar>
+              <p-calendar dateFormat="dd/mm/yy" formControlName="fechaNacimiento" [defaultDate]="fechaDefault" [showOnFocus]="false"
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2030" [locale]="es" [showIcon]="true"
+                [readonlyInput]="true" ></p-calendar>
               <ld-validation-messages [control]="jugadorForm.controls.fechaNacimiento"></ld-validation-messages>
             </div>
           </div>

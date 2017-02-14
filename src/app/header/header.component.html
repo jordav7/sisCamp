@@ -27,15 +27,15 @@
               <img src="data:image/jpg;base64,{{CURRENT_USER.foto}}" class="user-image" alt="Imagen Usuario">
               <!--<ld-display-picture [image]="CURRENT_USER.foto" styleClass="user-image" alt="Imagen Usuario"></ld-display-picture>-->
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">{{CURRENT_USER.usuario}}</span>
+              <span class="hidden-xs">{{CURRENT_USER.nombres}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="data:image/jpg;base64,{{CURRENT_USER.foto}}" class="img-circle" alt="Imagen Usuario">-->
+                <img src="data:image/jpg;base64,{{CURRENT_USER.foto}}" class="img-circle" alt="Imagen Usuario">
                 <!--<ld-display-picture [image]="CURRENT_USER.foto" styleClass="img-circle" alt="Imagen Usuario"></ld-display-picture>-->
                 <p>
-                  Holger Tipan - Administrador
+                  {{CURRENT_USER.nombres}} - {{CURRENT_USER.rol}}
                   <small>Desde Nov. 2016</small>
                 </p>
               </li>

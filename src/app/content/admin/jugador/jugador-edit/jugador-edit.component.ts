@@ -37,6 +37,7 @@ export class JugadorEditComponent implements OnInit {
   mensajes: Message[];
   foto: any;
   es: any;
+  fechaDefault: Date = new Date(Date.now());
   @Input() modal: boolean;
   @Output() afterSave: EventEmitter<any> = new EventEmitter();
 
@@ -295,7 +296,10 @@ export class JugadorEditComponent implements OnInit {
     return respuesta;
   }
 
-  calcularEdad(value){
-    console.log('El valor es ' + value);
+  calcularEdad(event) {
+    console.log('El valor es ' + event.target.value + 'mas '+ this.jugadorForm.controls.fechaNacimiento.value);
+    let ageDifMs = Date.now() - this.jugadorForm.controls.fechaNacimiento ? this.jugadorForm.controls.fechaNacimiento.value.getTime() : 0;
+    let ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 }
