@@ -43,6 +43,7 @@ import { ArbitroEditComponent } from './content/admin/arbitro/arbitro-edit/arbit
 import { LigaComponent } from './content/admin/liga/liga.component';
 import { EquipoComponent } from './content/procesos/equipo/equipo.component';
 import { EquipoEditComponent } from './content/procesos/equipo/equipo-edit/equipo-edit.component';
+import { SidebarSubMenuComponent } from './sidebar/sidebar-menu/sidebar-sub-menu/sidebar-sub-menu.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -165,7 +166,8 @@ const sisCampRoutes: Routes = [
     ArbitroEditComponent,
     LigaComponent,
     EquipoComponent,
-    EquipoEditComponent
+    EquipoEditComponent,
+    SidebarSubMenuComponent
   ],
   imports: [
     BrowserModule,

@@ -29,51 +29,7 @@
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <li class="header">MEN&Uacute;</li>
-        <!-- Optionally, you can add icons to the links -->
-        <!--<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>-->
-		<li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Seguridades</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a routerLink="ente">Registro Ente</a></li>
-            <li><a routerLink="usuario">Registro de Usuarios</a></li>
-			<li><a routerLink="roles">Gesti&oacute;n de Roles</a></li>
-			<li><a href="#">Configuraci&oacute;n Men&uacute;s</a></li>
-      <li><a routerLink="parametro">Par&aacute;metros Generales</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Administraci&oacute;n</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a routerLink="catalogo">Cat&aacute;logos</a></li>
-            <li><a routerLink="ligas">Registro Ligas</a></li>
-            <li><a routerLink="jugador">Registro Jugadores</a></li>
-            <li><a routerLink="arbitro">Registro &Aacute;rbitros</a></li>
-      			<li><a routerLink="ubicacionGeografica">Ubicaci&oacute;n Geogr&aacute;fica</a></li>
-          </ul>
-        </li>
-		<li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Procesos</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a [routerLink]="['equipos']">Registro Equipos </a></li>
-
-          </ul>
-        </li>
-      </ul>
+      <ld-sidebar-menu [value]="menus" ></ld-sidebar-menu>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
