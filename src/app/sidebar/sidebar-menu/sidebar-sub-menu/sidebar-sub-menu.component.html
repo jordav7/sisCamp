@@ -1,4 +1,4 @@
-<ul class="treeview-menu">
+
   <li *ngFor="let subMenu of value.childrens">
     <a [routerLink]="subMenu.route" *ngIf="!subMenu.hasChildren">{{subMenu.title}}</a>
     <a [routerLink]="subMenu.route" *ngIf="subMenu.hasChildren"><i class="fa fa-link"></i> <span>{{subMenu.title}}</span>
@@ -6,6 +6,5 @@
         <i class="fa fa-angle-left pull-right"></i>
       </span>
     </a>
-    <ld-sidebar-sub-menu *ngIf="subMenu.hasChildren" [value]="subMenu"></ld-sidebar-sub-menu>
+    <ul ld-sidebar-sub-menu *ngIf="subMenu.hasChildren" [value]="subMenu" class="treeview-menu"></ul>
   </li>
-</ul>
