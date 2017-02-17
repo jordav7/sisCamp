@@ -6,7 +6,8 @@ import { Respuesta } from '../model/general/respuesta';
 import { Parametro } from '../model/seguridad/parametro';
 import { Rol } from '../model/seguridad/rol';
 import { Ente } from '../model/seguridad/ente';
-import { Usuario } from '../model/seguridad/usuario'
+import { Usuario } from '../model/seguridad/usuario';
+import { TreeNode } from 'primeng/primeng';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -149,6 +150,12 @@ export class CampSeguridadService {
     return this.http.get(this.urlServices + '/usuario/' + enteJuridico + '/' + codigoUsuario)
     .map((res: Response) => res.json())
     .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  obtenerMenu(enteJuridico: number): Observable<TreeNode[]>{
+    return this.http.get(this.urlServices + '/listarMenu/' + enteJuridico)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
   }
 
 

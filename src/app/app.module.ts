@@ -11,7 +11,8 @@ import { FileUploadModule } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { InputMaskModule } from 'primeng/primeng';
 import { RadioButtonModule } from 'primeng/primeng';
-import {TabViewModule} from 'primeng/primeng';
+import { TabViewModule } from 'primeng/primeng';
+import { TreeModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -46,6 +47,7 @@ import { EquipoEditComponent } from './content/procesos/equipo/equipo-edit/equip
 import { SidebarSubMenuComponent } from './sidebar/sidebar-menu/sidebar-sub-menu/sidebar-sub-menu.component';
 import { CampeonatoComponent } from './content/procesos/campeonato/campeonato.component';
 import { CampeonatoEditComponent } from './content/procesos/campeonato/campeonato-edit/campeonato-edit.component';
+import { MenuComponent } from './content/seguridad/menu/menu.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -73,6 +75,10 @@ const sisCampRoutes: Routes = [
       {
         path: 'roles',
         component: RolesComponent
+      },
+      {
+        path: 'menu',
+        component: MenuComponent
       },
       {
         path: 'ente',
@@ -179,7 +185,8 @@ const sisCampRoutes: Routes = [
     EquipoEditComponent,
     SidebarSubMenuComponent,
     CampeonatoComponent,
-    CampeonatoEditComponent
+    CampeonatoEditComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -195,7 +202,8 @@ const sisCampRoutes: Routes = [
     CalendarModule,
     InputMaskModule,
     RadioButtonModule,
-    TabViewModule
+    TabViewModule,
+    TreeModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

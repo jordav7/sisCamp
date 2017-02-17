@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
           {title: 'Registro Ente', route: 'ente', childrens: []},
           {title: 'Registro de Usuarios', route: 'usuario', childrens: []},
           {title: 'Gesti\u00f3n de Roles', route: 'roles', childrens: []},
-          {title: 'Configuraci\u00f3n Men\u00fas', route: '#', childrens: []},
+          {title: 'Configuraci\u00f3n Men\u00fas', route: 'menu', childrens: []},
           {title: 'Par\u00e1metros Generales', route: 'parametro', childrens: []}
         ]
       },
