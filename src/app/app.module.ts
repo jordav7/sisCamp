@@ -44,6 +44,8 @@ import { LigaComponent } from './content/admin/liga/liga.component';
 import { EquipoComponent } from './content/procesos/equipo/equipo.component';
 import { EquipoEditComponent } from './content/procesos/equipo/equipo-edit/equipo-edit.component';
 import { SidebarSubMenuComponent } from './sidebar/sidebar-menu/sidebar-sub-menu/sidebar-sub-menu.component';
+import { CampeonatoComponent } from './content/procesos/campeonato/campeonato.component';
+import { CampeonatoEditComponent } from './content/procesos/campeonato/campeonato-edit/campeonato-edit.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -131,6 +133,14 @@ const sisCampRoutes: Routes = [
       {
           path: 'editarEquipo/:enteJuridico/:codigoEquipo',
           component: EquipoEditComponent
+      },
+      {
+          path: 'campeonatos',
+          component: CampeonatoComponent
+      },
+      {
+        path: 'crearCampeonato',
+        component: CampeonatoEditComponent
       }
     ]
   }
@@ -167,7 +177,9 @@ const sisCampRoutes: Routes = [
     LigaComponent,
     EquipoComponent,
     EquipoEditComponent,
-    SidebarSubMenuComponent
+    SidebarSubMenuComponent,
+    CampeonatoComponent,
+    CampeonatoEditComponent
   ],
   imports: [
     BrowserModule,

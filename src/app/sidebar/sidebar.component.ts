@@ -38,7 +38,8 @@ export class SidebarComponent implements OnInit {
         title: 'Procesos',
         route: '',
         childrens: [
-          {title: 'Registro Equipos', route: 'equipos', childrens: []}
+          {title: 'Registro Equipos', route: 'equipos', childrens: []},
+          {title: 'Registro Campeonatos', route: 'campeonatos', childrens: []}
         ]
       }
     ];

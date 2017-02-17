@@ -47,9 +47,10 @@ export class EquipoEditComponent implements OnInit {
   ngOnInit() {
     this.cargarDatosIniciales();
     this.cargarDatosEntidad();
-
     //EquipoJugador
+    console.log('Cargar equipos jugador');
     this.cargarDatosEquipoJugador();
+    console.log('Termina de cargar equipos jugador');
   }
 
   cargarDatosIniciales() {
@@ -68,6 +69,7 @@ export class EquipoEditComponent implements OnInit {
             equipo => {
               this.equipo = equipo;
               this.setValoresEdicion();
+              console.log('termina de cargar valores')
             }
           );
         } else {
@@ -131,6 +133,7 @@ export class EquipoEditComponent implements OnInit {
 
   setValoresEdicion() {
     this.equipoForm.setValue(this.equipo);
+    this.equipoJugadorForm.controls.codigoEquipo.setValue(this.equipo.codigoEquipo);
   }
 
   guardarEquipo() {
@@ -183,8 +186,9 @@ export class EquipoEditComponent implements OnInit {
   Empieza equipo jugador
   */
   cargarDatosEquipoJugador() {
-    this.cargarValoresEquipoJugador();
     this.cargarValidacionesEquipoJugador();
+    this.cargarValoresEquipoJugador();
+
   }
 
   cargarValoresEquipoJugador() {

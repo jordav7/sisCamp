@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <p-dataTable [value]="listaCampeonato" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+          <p-header>
+            <div class="ui-helper-clearfix" style="width:100%">
+              <a href="#/home/crearCampeonato" class="btn btn-primary" icon="fa-plus" style="float:left" ><span class="fa fa-plus"></span>&nbsp;Agregar</a>
+            </div>
+          </p-header>
+          <p-column header="No.">
+            <template let-col let-campeonato="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{ri + 1}}</span>
+            </template>
+          </p-column>
+          <p-column field="nombres" header="Nombre"></p-column>
+          <p-column field="fecini" header="Fecha Inicio"></p-column>
+          <p-column field="fecfin" header="Fecha Final"></p-column>
+          <p-column field="estado" header="Estado"></p-column>
+          <p-column header="Acciones">
+            <template let-campeonato="rowData" pTemplate="body">
+              <a href="#/home/editarCampeonato/{{campeonato.enteJuridico}}/{{campeonato.codigoCampeonato}}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+              <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(campeonato)"><span class="glyphicon glyphicon-remove"></span></button>
+            </template>
+          </p-column>
+        </p-dataTable>
+        <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+          <p>
+            Esta seguro de eliminar el registro?
+          </p>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarCampeonato()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
+      </div>
+    </div>
+  </div>
+</div>

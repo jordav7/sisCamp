@@ -1,0 +1,251 @@
+<div class="row">
+  <div class="col-md-12">
+    <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+    <div class="box">
+      <div class="box-body">
+        <p-tabView>
+          <p-tabPanel header="Campeonato">
+            <form role="form" >
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" rolName="nombres" max="120" maxlength="115"/>
+              </div>
+              <div class="form-group">
+                <label>Fecha Inicial</label>
+                <input type="text" class="form-control" id="fecini" name="fecini" max="10" maxlength="10"/>
+              </div>
+              <div class="form-group" >
+                <label>Fecha Fin</label>
+                <input type="text" class="form-control" id="fecfin" name="fecfin" max="10" maxlength="10"/>
+              </div>
+              <div class="form-group" >
+                <label>Estado</label>
+                <select id="estado" class="form-control" name="estado">
+                  <option value=""></option>
+                  <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                </select>
+              </div>
+              <div class="btn-group">
+                  <div>
+                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarCampeonato()"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                    <a href="#/home/campeonatos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Cancelar</a>
+                  </div>
+              </div>
+            </form>
+          </p-tabPanel>
+          <p-tabPanel header="Inscripciones">
+              <div class="col-md-12">
+                <div class="modal-body">
+                  <form role="form" >
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Campeonato</label>
+                          <select class="form-control" name="codigoCampeonato" >
+                            <option value=""></option>
+                            <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
+                          </select>
+                        </div>
+                        <!--<div class="col-md-4">-->
+                          <div class="form-group">
+                            <label>Fecha</label><br/>
+                            <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+                          </div>
+                        <!--</div>-->
+
+                        <div class="form-group">
+                          <label>Estado</label>
+                          <select class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Observaciones</label>
+                          <input class="form-control" type="text" />
+                        </div>
+                        <div class="btn-group">
+                          <div>
+                            <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                            <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipos"><span class="fa fa-plus"></span>&nbsp;Agregar Equipos</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--<div class="btn-group">
+                  <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar</button>
+                  <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>-->
+              </div>
+              <div class="col-md-12">
+                <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+                <div class="box">
+                  <div class="box-body">
+                    <p-dataTable [value]="listaEquipos" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+                      <p-column header="No.">
+                        <template let-col let-campeonato="rowData" let-ri="rowIndex" pTemplate="body">
+                            <span>{{ri + 1}}</span>
+                        </template>
+                      </p-column>
+                      <p-column field="nombres" header="Nombre"></p-column>
+                      <p-column field="liga" header="Liga"></p-column>
+                      <p-column field="disciplina" header="Disciplina"></p-column>
+                      <p-column header="Acciones">
+                        <template let-campeonato="rowData" pTemplate="body">
+                          <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(equipo)"><span class="glyphicon glyphicon-remove"></span></button>
+                        </template>
+                      </p-column>
+                    </p-dataTable>
+                    <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+                      <p>
+                        Esta seguro de eliminar el registro?
+                      </p>
+                      <p-footer>
+                        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                            <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                            <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarInscripcion()">S&iacute;</button>
+                        </div>
+                      </p-footer>
+                    </p-dialog>
+                  </div>
+                </div>
+              </div>
+          </p-tabPanel>
+
+          <p-tabPanel header="Fases">
+              <div class="col-md-12">
+                <div class="modal-body">
+                  <form role="form" >
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Campeonato</label>
+                          <select class="form-control" name="codigoCampeonato" >
+                            <option value=""></option>
+                            <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Disciplina</label>
+                          <select class="form-control" name="codigoCampeonato" >
+                            <option value=""></option>
+                            <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Descripcion</label>
+                          <input class="form-control" type="text" />
+                        </div>
+
+                        <!--<div class="col-md-4">-->
+                          <div class="form-group">
+                            <label>Fecha Inicial</label><br/>
+                            <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+                          </div>
+                        <!--</div>-->
+
+                        <!--<div class="col-md-4">-->
+                          <div class="form-group">
+                            <label>Fecha Final</label><br/>
+                            <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+                          </div>
+                        <!--</div>-->
+                        <div class="form-group">
+                          <label>Observaciones</label>
+                          <input class="form-control" type="text" />
+                        </div>
+
+                        <div class="form-group">
+                          <label>Estado</label>
+                          <select class="form-control">
+                            <option value=""></option>
+                            <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label>No. Fases</label>
+                          <input class="form-control" type="text" />
+                        </div>
+                        <div class="btn-group">
+                          <div>
+                            <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                            <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!--<div class="btn-group">
+                  <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar</button>
+                  <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>-->
+              </div>
+              <div class="col-md-12">
+                <p-growl [value]="mensajes" [sticky]="true"></p-growl>
+                <div class="box">
+                  <div class="box-body">
+                    <p-dataTable [value]="listaEquipos" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+                      <p-column header="No.">
+                        <template let-col let-campeonato="rowData" let-ri="rowIndex" pTemplate="body">
+                            <span>{{ri + 1}}</span>
+                        </template>
+                      </p-column>
+                      <p-column field="nombres" header="Nombre"></p-column>
+                      <p-column field="liga" header="Liga"></p-column>
+                      <p-column field="disciplina" header="Disciplina"></p-column>
+                      <p-column header="Acciones">
+                        <template let-campeonato="rowData" pTemplate="body">
+                          <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(equipo)"><span class="glyphicon glyphicon-remove"></span></button>
+                        </template>
+                      </p-column>
+                    </p-dataTable>
+                    <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+                      <p>
+                        Esta seguro de eliminar el registro?
+                      </p>
+                      <p-footer>
+                        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                            <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                            <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarInscripcion()">S&iacute;</button>
+                        </div>
+                      </p-footer>
+                    </p-dialog>
+                  </div>
+                </div>
+              </div>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalAgregarEquipos" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEquiposLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalAgregarEquipos">Agregar Equipos</h4>
+      </div>
+      <div class="modal-body">
+        <p-dataTable [value]="listaEquipos" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+          <p-column header="Seleccionar">
+
+          </p-column>
+          <p-column field="nombres" header="Nombre"></p-column>
+          <p-column field="liga" header="Liga"></p-column>
+          <p-column field="disciplina" header="Disciplina"></p-column>
+        </p-dataTable>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Aceptar</button>
+        <button #btnCerrarCrearJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

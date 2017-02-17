@@ -4,7 +4,7 @@
     <div class="box">
       <div class="box-body">
         <p-tabView>
-          <p-tabPanel header="Equipo Jugador">
+          <p-tabPanel header="Equipo">
             <form role="form" [formGroup]="equipoForm">
               <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoDisciplina'].valid && equipoForm.controls['codigoDisciplina'].touched}">
                 <label>Disciplina</label>
@@ -69,7 +69,7 @@
                             <option *ngFor="let equipo of listaEquipos" [value]="equipo.codigoEquipo">{{equipo.nombres}}</option>
                           </select>
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                           <label>CI</label>
                           <input class="form-control" type="text" />
                         </div>
@@ -90,7 +90,8 @@
                         <div class="form-group">
                           <label>Apellidos</label>
                           <input class="form-control" type="text" disabled="true"/>
-                        </div>
+                        </div>-->
+                        <ld-jugador-edit [modal]="true"></ld-jugador-edit>
                         <div class="form-group">
                           <label>N&uacute;mero</label>
                           <input class="form-control" type="text" />

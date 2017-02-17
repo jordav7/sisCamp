@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 import { SisCampProperties } from '../propiedades';
 import { Equipo } from 'app/model/procesos/equipo';
@@ -20,7 +20,10 @@ export class CampProcesosService {
     }
 
     obtenerEquipos(enteJuridico: number, codigoLiga: number): Observable<Equipo[]> {
-      return this.http.get(this.urlServices + '/equipos/' + enteJuridico + '/' + codigoLiga)
+      let parameters = new URLSearchParams();
+      let codigoLigaS = codigoLiga?codigoLiga.toString():null;
+      parameters.set('codigoLiga', codigoLigaS);
+      return this.http.get(this.urlServices + '/equipos/' + enteJuridico, {search: parameters})
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }
