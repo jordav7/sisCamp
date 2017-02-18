@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Rol } from 'app/model/seguridad/rol';
+import { RolMenu } from 'app/model/seguridad/rol-menu';
 import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
+import { Respuesta } from 'app/model/general/respuesta';
 import { Message, TreeNode } from 'primeng/primeng';
 
 import { CampSeguridadService } from 'app/services/camp-seguridad.service';
@@ -17,6 +19,8 @@ export class MenuComponent implements OnInit {
   listaRoles: Rol[];
   menusSeleccionados: TreeNode[];
   CURRENT_USER = JSON.parse(localStorage.getItem('currentUser'));
+  respuesta: Respuesta;
+  codigoRol: number;
   constructor(private campSeguridadService: CampSeguridadService) {
     sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Men\u00fa', 'Gesti\u00f3n de Men\u00fa')));
   }
@@ -26,7 +30,18 @@ export class MenuComponent implements OnInit {
   }
 
   inicializaDatos() {
+    this.cargarRoles();
     this.cargarArbolMenu();
+  }
+
+  cargarRoles() {
+    this.campSeguridadService.obtenerRoles(this.CURRENT_USER.entejuridico).subscribe(
+      roles => {
+        this.listaRoles = roles;
+      }, err => {
+        console.log(err);
+      }
+    );
   }
 
   cargarArbolMenu() {
@@ -38,6 +53,61 @@ export class MenuComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  cambiarRol() {
+    console.log('el codigo seleccionado es ' + this.codigoRol);
+    this.campSeguridadService.obtenerMenuRol(this.CURRENT_USER.entejuridico, this.codigoRol).subscribe(
+      menusRol => {
+        console.log('Entra a cargar menus');
+        this.seleccionarMenus(menusRol);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  seleccionarMenus(menusRol: TreeNode[]) {
+    this.menusSeleccionados = [];
+    for (let menuRol of menusRol) {
+      let nodoSeleccionado = this.obtenerTreeNode(menuRol, this.listaMenu);
+      this.menusSeleccionados.push(nodoSeleccionado);
+    }
+  }
+
+  guardarMenuRol() {
+    let rolMenus = [];
+    for(let treeNode of this.menusSeleccionados) {
+      let rolMenu = new RolMenu(this.CURRENT_USER.entejuridico, +treeNode.data, treeNode.label, this.codigoRol, null, null, null, null);
+      rolMenus.push(rolMenu);
+    }
+    this.campSeguridadService.guardarMenuRol(rolMenus).subscribe(
+      respuesta => {
+        this.respuesta = respuesta;
+      }, err => {
+        console.log(err);
+      }
+    );
+  }
+
+  obtenerTreeNode(nodoEnviado: TreeNode, listaNodos: any[]): TreeNode {
+    let nodoEncontrado = null;
+    for (let nodoMenu of listaNodos) {
+      if (nodoEnviado.data === nodoMenu.data) {
+        console.log('>>>>>>>>>>>>>encuentra coincidencia');
+        nodoEncontrado = nodoMenu;
+        console.log('nodo Encontrado:::');
+        console.log(nodoEncontrado);
+        console.log('nodo Menu:::');
+        console.log(nodoMenu);
+        break;
+      } else {
+        console.log('Ingresa a buscar en los hijos');
+        nodoEncontrado = this.obtenerTreeNode(nodoEnviado, nodoMenu.children);
+      }
+    }
+    return nodoEncontrado;
   }
 
 }

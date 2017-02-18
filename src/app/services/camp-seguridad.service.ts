@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { Respuesta } from '../model/general/respuesta';
 import { Parametro } from '../model/seguridad/parametro';
 import { Rol } from '../model/seguridad/rol';
+import { RolMenu } from '../model/seguridad/rol-menu';
 import { Ente } from '../model/seguridad/ente';
 import { Usuario } from '../model/seguridad/usuario';
 import { TreeNode } from 'primeng/primeng';
@@ -156,6 +157,21 @@ export class CampSeguridadService {
     return this.http.get(this.urlServices + '/listarMenu/' + enteJuridico)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+  }
+
+  guardarMenuRol(rolMenus: RolMenu[]): Observable<Respuesta> {
+    let menuString = JSON.stringify;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers});
+    return this.http.post(this.urlServices + '/guardarMenuRol', rolMenus, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;
+  }
+
+  obtenerMenuRol(enteJuridico: number, codigoRol: number): Observable<TreeNode[]> {
+    return this.http.get(this.urlServices + '/menusRol/' + enteJuridico + '/' + codigoRol)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;;
   }
 
 

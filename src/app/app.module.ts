@@ -147,6 +147,10 @@ const sisCampRoutes: Routes = [
       {
         path: 'crearCampeonato',
         component: CampeonatoEditComponent
+      },
+      {
+        path: 'menu',
+        component: MenuComponent
       }
     ]
   }

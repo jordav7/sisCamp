@@ -1,6 +1,25 @@
 <div class="row">
   <p-growl [value]="mensajes" [sticky]="true"></p-growl>
-  <div class="col-md-12">
+  <div class="box">
+    <div class="box-body">
+      <form>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Rol</label>
+            <select class="form-control" [(ngModel)]="codigoRol" name="codigoRol" (change)="cambiarRol()">
+              <option value=""></option>
+              <option *ngFor="let rol of listaRoles" [value]="rol.codigoRol">{{rol.nombre}}</option>
+            </select>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" (click)="guardarMenuRol()" [disabled]="!codigoRol">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="codigoRol">
+    <label>Opciones</label>
     <p-tree [value]="listaMenu" selectionMode="checkbox" [(selection)]="menusSeleccionados" [styleClass]="form-group"></p-tree>
   </div>
 
