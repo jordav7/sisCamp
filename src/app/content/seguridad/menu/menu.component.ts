@@ -21,6 +21,7 @@ export class MenuComponent implements OnInit {
   CURRENT_USER = JSON.parse(localStorage.getItem('currentUser'));
   respuesta: Respuesta;
   codigoRol: number;
+  nodoEncontrado: any;
   constructor(private campSeguridadService: CampSeguridadService) {
     sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Men\u00fa', 'Gesti\u00f3n de Men\u00fa')));
   }
@@ -71,9 +72,11 @@ export class MenuComponent implements OnInit {
   seleccionarMenus(menusRol: TreeNode[]) {
     this.menusSeleccionados = [];
     for (let menuRol of menusRol) {
+      this.nodoEncontrado = null;
       let nodoSeleccionado = this.obtenerTreeNode(menuRol, this.listaMenu);
       this.menusSeleccionados.push(nodoSeleccionado);
     }
+    console.log(this.menusSeleccionados);
   }
 
   guardarMenuRol() {
@@ -92,22 +95,15 @@ export class MenuComponent implements OnInit {
   }
 
   obtenerTreeNode(nodoEnviado: TreeNode, listaNodos: any[]): TreeNode {
-    let nodoEncontrado = null;
     for (let nodoMenu of listaNodos) {
-      if (nodoEnviado.data === nodoMenu.data) {
-        console.log('>>>>>>>>>>>>>encuentra coincidencia');
-        nodoEncontrado = nodoMenu;
-        console.log('nodo Encontrado:::');
-        console.log(nodoEncontrado);
-        console.log('nodo Menu:::');
-        console.log(nodoMenu);
+      if (+nodoEnviado.data === +nodoMenu.data) {
+        this.nodoEncontrado = nodoMenu;
         break;
       } else {
-        console.log('Ingresa a buscar en los hijos');
-        nodoEncontrado = this.obtenerTreeNode(nodoEnviado, nodoMenu.children);
+        this.nodoEncontrado = this.obtenerTreeNode(nodoEnviado, nodoMenu.children);
       }
     }
-    return nodoEncontrado;
+    return this.nodoEncontrado;
   }
 
 }
