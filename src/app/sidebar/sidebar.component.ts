@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Message } from 'primeng/primeng';
 import { MenuItem } from 'app/model/seguridad/menu-item';
+
+import { CampSeguridadService } from 'app/services/camp-seguridad.service';
 
 @Component({
   selector: 'ld-sidebar',
@@ -8,10 +11,11 @@ import { MenuItem } from 'app/model/seguridad/menu-item';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  mensajes: Message[];
   menus: any[];
   CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
-  constructor() {
-    this.menus = [
+  constructor(private campSeguridadService: CampSeguridadService) {
+    /*this.menus = [
       {
         title: 'Seguridades',
         route: '',
@@ -42,10 +46,23 @@ export class SidebarComponent implements OnInit {
           {title: 'Registro Campeonatos', route: 'campeonatos', childrens: []}
         ]
       }
-    ];
+    ];*/
   }
 
   ngOnInit() {
+    this.campSeguridadService.obtenerMenuUsuario(this.CURRENT_USER.entejuridico, this.CURRENT_USER.codigoRol).subscribe(
+      menus => {
+        this.menus = menus;
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  procesarRespuestaError(err: any){
+    this.mensajes = [];
+    this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: err});
   }
 
 }

@@ -49,6 +49,7 @@ export class MenuComponent implements OnInit {
     this.campSeguridadService.obtenerMenu(this.CURRENT_USER.entejuridico).subscribe(
       menus => {
         this.listaMenu = menus;
+        this.expandirNodos();
       },
       err => {
         console.log(err);
@@ -57,10 +58,8 @@ export class MenuComponent implements OnInit {
   }
 
   cambiarRol() {
-    console.log('el codigo seleccionado es ' + this.codigoRol);
     this.campSeguridadService.obtenerMenuRol(this.CURRENT_USER.entejuridico, this.codigoRol).subscribe(
       menusRol => {
-        console.log('Entra a cargar menus');
         this.seleccionarMenus(menusRol);
       },
       err => {
@@ -76,7 +75,6 @@ export class MenuComponent implements OnInit {
       let nodoSeleccionado = this.obtenerTreeNode(menuRol, this.listaMenu);
       this.menusSeleccionados.push(nodoSeleccionado);
     }
-    console.log(this.menusSeleccionados);
   }
 
   guardarMenuRol() {
@@ -87,9 +85,9 @@ export class MenuComponent implements OnInit {
     }
     this.campSeguridadService.guardarMenuRol(rolMenus).subscribe(
       respuesta => {
-        this.respuesta = respuesta;
+        this.procesarRespuesta(respuesta);
       }, err => {
-        console.log(err);
+        this.procesarRespuestaError(err);
       }
     );
   }
@@ -106,4 +104,33 @@ export class MenuComponent implements OnInit {
     return this.nodoEncontrado;
   }
 
+  expandirNodos() {
+    this.listaMenu.forEach( menu => {
+      this.expandir(menu);
+    });
+  }
+
+  expandir(nodo: TreeNode) {
+    nodo.expanded = true;
+    if (nodo.children) {
+      nodo.children.forEach( nodoHijo => {
+        this.expandir(nodoHijo);
+      } );
+    }
+  }
+
+  procesarRespuesta(respuesta: Respuesta){
+    if(respuesta.codigo === '0') {
+      this.mensajes = [];
+      this.mensajes.push({severity: 'success', summary: 'Respuesta', detail: 'Registro guardado correctamente'});
+    } else {
+      this.mensajes = [];
+      this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: respuesta.mensaje});
+    }
+  }
+
+  procesarRespuestaError(err: any){
+    this.mensajes = [];
+    this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: err});
+  }
 }

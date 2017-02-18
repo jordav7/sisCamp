@@ -6,6 +6,7 @@ import { Respuesta } from '../model/general/respuesta';
 import { Parametro } from '../model/seguridad/parametro';
 import { Rol } from '../model/seguridad/rol';
 import { RolMenu } from '../model/seguridad/rol-menu';
+import { MenuItem } from '../model/seguridad/menu-item';
 import { Ente } from '../model/seguridad/ente';
 import { Usuario } from '../model/seguridad/usuario';
 import { TreeNode } from 'primeng/primeng';
@@ -174,5 +175,9 @@ export class CampSeguridadService {
       .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;;
   }
 
-
+  obtenerMenuUsuario(enteJuridico: number, codigoRol: number): Observable<MenuItem[]> {
+    return this.http.get(this.urlServices + '/menuUsuario/' + enteJuridico + '/' + codigoRol)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;;
+  }
 }
