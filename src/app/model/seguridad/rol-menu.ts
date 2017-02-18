@@ -7,6 +7,8 @@ export class RolMenu {
   estado: string;
   userCrea: number;
   userMod: number;
+  ruta: string;
+  codigoPadre: number;
 
   constructor(enteJuridico: number,
     codigoMenu: number,
@@ -15,7 +17,9 @@ export class RolMenu {
     acceso: string,
     estado: string,
     userCrea: number,
-    userMod: number) {
+    userMod: number,
+    ruta: string,
+    codigoPadre: number) {
     this.enteJuridico = enteJuridico;
     this.codigoMenu = codigoMenu;
     this.menu = menu;
@@ -24,5 +28,7 @@ export class RolMenu {
     this.estado = estado;
     this.userCrea = userCrea;
     this.userMod = userMod;
+    this.ruta = ruta;
+    this.codigoPadre = codigoPadre;
   }
 }

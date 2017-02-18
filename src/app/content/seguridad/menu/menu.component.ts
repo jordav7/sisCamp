@@ -80,7 +80,7 @@ export class MenuComponent implements OnInit {
   guardarMenuRol() {
     let rolMenus = [];
     for(let treeNode of this.menusSeleccionados) {
-      let rolMenu = new RolMenu(this.CURRENT_USER.entejuridico, +treeNode.data, treeNode.label, this.codigoRol, null, null, null, null);
+      let rolMenu = new RolMenu(this.CURRENT_USER.entejuridico, +treeNode.data, treeNode.label, this.codigoRol, null, null, null, null, null, null);
       rolMenus.push(rolMenu);
     }
     this.campSeguridadService.guardarMenuRol(rolMenus).subscribe(
