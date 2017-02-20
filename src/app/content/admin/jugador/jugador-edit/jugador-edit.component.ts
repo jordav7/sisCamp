@@ -62,7 +62,7 @@ export class JugadorEditComponent implements OnInit {
         }
       }
     );
-    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Jugador', 'Gestion de Jugadores')));
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Jugador', 'Gesti\u00f3n de Jugadores')));
   }
 
   ngOnInit() {

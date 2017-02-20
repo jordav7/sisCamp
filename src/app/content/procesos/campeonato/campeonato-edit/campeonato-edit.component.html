@@ -6,30 +6,49 @@
         <p-tabView>
           <p-tabPanel header="Campeonato">
             <form role="form" >
-              <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" rolName="nombres" max="120" maxlength="115"/>
-              </div>
-              <div class="form-group">
-                <label>Fecha Inicial</label>
-                <input type="text" class="form-control" id="fecini" name="fecini" max="10" maxlength="10"/>
-              </div>
-              <div class="form-group" >
-                <label>Fecha Fin</label>
-                <input type="text" class="form-control" id="fecfin" name="fecfin" max="10" maxlength="10"/>
-              </div>
-              <div class="form-group" >
-                <label>Estado</label>
-                <select id="estado" class="form-control" name="estado">
-                  <option value=""></option>
-                  <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
-                </select>
-              </div>
-              <div class="btn-group">
-                  <div>
-                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarCampeonato()"><span class="fa fa-check"></span>&nbsp;Guardar</button>
-                    <a href="#/home/campeonatos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Cancelar</a>
+              <br/>
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" rolName="nombres" max="120" maxlength="115"/>
                   </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Fecha Inicial</label>
+                    <!--<input type="text" class="form-control" id="fecini" name="fecini" max="10" maxlength="10"/>-->
+                    <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group" >
+                    <label>Fecha Fin</label>
+                    <!--<input type="text" class="form-control" id="fecfin" name="fecfin" max="10" maxlength="10"/>-->
+                    <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-3">
+                  <div class="form-group" >
+                    <label>Estado</label>
+                    <select id="estado" class="form-control" name="estado">
+                      <option value=""></option>
+                      <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="btn-group">
+                    <div>
+                      <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarCampeonato()"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                      <a href="#/home/campeonatos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Cancelar</a>
+                    </div>
+                </div>
               </div>
             </form>
           </p-tabPanel>
@@ -121,59 +140,69 @@
                   <form role="form" >
                     <div class="row">
                       <div class="col-md-12">
-                        <div class="form-group">
-                          <label>Campeonato</label>
-                          <select class="form-control" name="codigoCampeonato" >
-                            <option value=""></option>
-                            <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
-                          </select>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Campeonato</label>
+                            <select class="form-control" name="codigoCampeonato" >
+                              <option value=""></option>
+                              <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label>Disciplina</label>
-                          <select class="form-control" name="codigoCampeonato" >
-                            <option value=""></option>
-                            <option *ngFor="let liga of listaLigas" [value]="campeonato.codigoCampeonato">{{campeonato.nombres}}</option>
-                          </select>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Disciplina</label>
+                            <select id="codigoDisciplina" class="form-control" name="codigoDisciplina" >
+                              <option value=""></option>
+                              <option *ngFor="let disciplina of listaDisciplina" [value]="disciplina.codigoCatalogo">{{disciplina.nombre}}</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label>Descripcion</label>
-                          <input class="form-control" type="text" />
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Descripcion</label>
+                            <input class="form-control" type="text" />
+                          </div>
                         </div>
-
-                        <!--<div class="col-md-4">-->
+                        <div class="col-md-6">
                           <div class="form-group">
                             <label>Fecha Inicial</label><br/>
                             <p-calendar dateFormat="dd/mm/yy"></p-calendar>
                           </div>
-                        <!--</div>-->
-
-                        <!--<div class="col-md-4">-->
+                        </div>
+                        <div class="col-md-6">
                           <div class="form-group">
                             <label>Fecha Final</label><br/>
                             <p-calendar dateFormat="dd/mm/yy"></p-calendar>
                           </div>
-                        <!--</div>-->
-                        <div class="form-group">
-                          <label>Observaciones</label>
-                          <input class="form-control" type="text" />
                         </div>
-
-                        <div class="form-group">
-                          <label>Estado</label>
-                          <select class="form-control">
-                            <option value=""></option>
-                            <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
-                          </select>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Observaciones</label>
+                            <input class="form-control" type="text" />
+                          </div>
                         </div>
-
-                        <div class="form-group">
-                          <label>No. Fases</label>
-                          <input class="form-control" type="text" />
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>Estado</label>
+                            <select class="form-control">
+                              <option value=""></option>
+                              <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
+                            </select>
+                          </div>
                         </div>
-                        <div class="btn-group">
-                          <div>
-                            <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
-                            <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>No. Fases</label>
+                            <input class="form-control" type="text" />
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="btn-group">
+                            <div>
+                              <button type="button" class="btn btn-primary" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                              <button class="btn btn-default" data-toggle="modal"><span class="fa fa-plus"></span>&nbsp;Cancelar</button>
+                            </div>
                           </div>
                         </div>
                       </div>

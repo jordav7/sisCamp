@@ -12,8 +12,11 @@ import { Equipo } from 'app/model/procesos/equipo';
 import { Respuesta } from 'app/model/general/respuesta';
 import { SisCampProperties } from 'app/propiedades';
 import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
+import { UbicacionGeografica } from 'app/model/admin/ubicacion-geografica';
 
 import { Message } from 'primeng/primeng';
+
+import {IMyOptions} from 'mydatepicker';
 
 import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
 
@@ -36,8 +39,16 @@ export class EquipoEditComponent implements OnInit {
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
   listaEquipos: Equipo[];
+  verJugador: boolean;
+  verInteligas: boolean;
+  edad: number;
+  listaPaises: UbicacionGeografica[] = [];
+  listaPronvincias: UbicacionGeografica[] = [];
+  listaCantones: UbicacionGeografica[] = [];
+  listaParroquias: UbicacionGeografica[] = [];
+  private opcionesCalendario: IMyOptions = {dateFormat: 'dd-mm-yyyy'};
 
-  private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
+  CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService,
     private campProcesosService: CampProcesosService,private formBuild: FormBuilder, private route: ActivatedRoute) {
@@ -57,6 +68,7 @@ export class EquipoEditComponent implements OnInit {
     this.cargarDisciplinas();
     this.cargarLigas();
     this.cargarEstados();
+    this.cargarUbicaciones();
   }
 
   cargarDatosEntidad() {
@@ -75,12 +87,29 @@ export class EquipoEditComponent implements OnInit {
         } else {
           this.esNuevo = true;
           this.equipo = new Equipo();
-          this.equipo.enteJuridico = EquipoEditComponent.CURRENT_USER.entejuridico;
-          this.equipo.codigoLiga = EquipoEditComponent.CURRENT_USER.codigoLiga;
-          this.equipoForm.controls['codigoLiga'].setValue(EquipoEditComponent.CURRENT_USER.codigoLiga);
+          this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
+          this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+          this.equipo.estado = 'A';
+          this.equipoForm.controls['codigoLiga'].setValue(this.CURRENT_USER.codigoLiga);
         }
       }
     );
+    this.route.queryParams.subscribe(
+      params => {
+        if(params['display']){
+          this.verJugador = true;
+        }else{
+          this.verJugador = false;
+        }
+
+        if(params['displayInterligas']){
+          this.verInteligas = true;
+        }else{
+          this.verInteligas = false;
+        }
+      }
+    );
+
   }
 
   cargarValidaciones() {
@@ -89,17 +118,21 @@ export class EquipoEditComponent implements OnInit {
       'enteJuridico': '',
       'nombres': ['', Validators.required],
       'numJugadores': ['', Validators.required],
-      'estado': ['', Validators.required],
+      'estado': '',//['', Validators.required],
       'userCrea': '',
       'userMod': '',
-      'codigoLiga': [{value: '', disabled: true}, Validators.required],
+      'codigoLiga': [{value: '', disabled: this.CURRENT_USER.codigoLiga ? true : false}, Validators.required],
       'codigoDisciplina': ['', Validators.required],
-      'codigoTipoDisciplina':''
+      'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
+      'liga': '',
+      'disciplina': '',
+      'interligas': '',
+      'codigoEquipoClon': ''
     });
   }
 
   cargarDisciplinas(){
-    this.campAdminService.obtenerCatalogos(EquipoEditComponent.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
+    this.campAdminService.obtenerCatalogos(this.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
       disciplinas => {
         this.listaDisciplina = disciplinas;
       },
@@ -110,7 +143,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   cargarLigas(){
-    this.campAdminService.obtenerLigas(EquipoEditComponent.CURRENT_USER.entejuridico).subscribe(
+    this.campAdminService.obtenerLigas(this.CURRENT_USER.entejuridico).subscribe(
       ligas => {
         this.listaLigas = ligas;
       },
@@ -121,7 +154,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   cargarEstados(){
-    this.campSeguridadService.obtenerParametrosPorTipo(EquipoEditComponent.CURRENT_USER.entejuridico, SisCampProperties.codigoCatalogoEstado).subscribe(
+    this.campSeguridadService.obtenerParametrosPorTipo(this.CURRENT_USER.entejuridico, SisCampProperties.codigoCatalogoEstado).subscribe(
       estados => {
         this.listaEstados = estados;
       },
@@ -138,11 +171,12 @@ export class EquipoEditComponent implements OnInit {
 
   guardarEquipo() {
     this.equipo = this.equipoForm.value;
-    this.equipo.enteJuridico = EquipoEditComponent.CURRENT_USER.entejuridico;
-    this.equipo.codigoLiga = EquipoEditComponent.CURRENT_USER.codigoLiga;
+    this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
+    this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
         respuesta => {
+          this.equipoForm.controls.estado.setValue('A');
           this.procesarRespuesta(respuesta);
         },
         err => {
@@ -198,10 +232,10 @@ export class EquipoEditComponent implements OnInit {
   cargarValidacionesEquipoJugador() {
     this.equipoJugadorForm = this.formBuild.group({
       'codigoEquipoJugador': '',
-      'enteJuridico': EquipoEditComponent.CURRENT_USER.enteJuridico,
+      'enteJuridico': this.CURRENT_USER.enteJuridico,
       'codigoEquipo': [{value: this.equipoForm.controls.codigoEquipo.value, disabled: true}],
       'equipoNombre': '',
-      'ligaEquipo': [{value: EquipoEditComponent.CURRENT_USER.codigoLiga, disabled: true}],
+      'ligaEquipo': [{value: this.equipoForm.controls.codigoLiga.value, disabled: true}],
       'nombreLiga': '',
       'codigoJugador': '',
       'nombresJugador': '',
@@ -211,16 +245,104 @@ export class EquipoEditComponent implements OnInit {
       'esDt': '',
       'estado': '',
       'userCrea': '',
-      'userMod': ''
+      'userMod': '',
+      'codigoPersona': '',
+      'nombres': ['', Validators.required],
+      'apellidoPaterno': ['', Validators.required],
+      'apellidoMaterno': ['', Validators.required],
+      'tipoId': '',//['', Validators.required],
+      'identificacion': ['', Validators.required],
+      'fechaNacimiento': ['', Validators.required],
+      'sexo': ['', Validators.required],
+      'direccion':'',
+      'mail': ['', Validators.required],
+      'telefono': ['', Validators.required],
+      'celular': ['', Validators.required],
+      'codigoPais': '',//['', Validators.required],
+      'codigoProvincia': '',//['', Validators.required],
+      'codigoCanton': '',//[, Validators.required],
+      'codigoParroquia': '',//['', Validators.required],
+      'amonestacion': ['', Validators.required],
+      'observaciones': ''
     });
   }
 
   cargarEquipos() {
-    this.campProcesosService.obtenerEquipos(EquipoEditComponent.CURRENT_USER.entejuridico, EquipoEditComponent.CURRENT_USER.codigoLiga).subscribe(
+    this.campProcesosService.obtenerEquipos(this.CURRENT_USER.entejuridico, this.CURRENT_USER.codigoLiga).subscribe(
       equipos => {
         this.listaEquipos = equipos;
       }
     );
+  }
+
+  cargarUbicaciones() {
+    this.cargarPaises();
+    if (this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoPais.value) {
+      this.cargarProvincias();
+    }
+    if (this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoProvincia.value) {
+      this.cargarCantones();
+    }
+    if(this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoCanton.value) {
+      this.cargarParroquias();
+    }
+  }
+
+  cargarPaises() {
+    this.campAdminService.obtenerUbicacionesPorCategoria(SisCampProperties.codigoTipoUbicacionPais).subscribe(
+      paises => {
+        this.listaPaises = paises;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  cargarProvincias() {
+    this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.equipoJugadorForm.value.codigoPais, SisCampProperties.codigoTipoUbicacionProv).subscribe(
+      provincias => {
+        this.listaPronvincias = provincias;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  cargarCantones() {
+    this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.equipoJugadorForm.value.codigoProvincia, SisCampProperties.codigoTipoUbicacionCanton).subscribe(
+      cantones => {
+        this.listaCantones = cantones;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  cargarParroquias() {
+    this.campAdminService.obtenerUbicacionesGeograficasPorCodPadre(this.equipoJugadorForm.value.codigoCanton, SisCampProperties.codigoTipoUbicacionParroquia).subscribe(
+      parroquias => {
+        this.listaParroquias = parroquias;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  cambiarTab(event){
+    let index = event.index;
+    if(index === 1){
+        this.cargarDatosEquipoJugador();
+    }
+  }
+
+  calcularEdad(event) {
+    let ageDifMs = Date.now() - (event.jsdate ? event.jsdate.getTime() : Date.now());
+    let ageDate = new Date(ageDifMs); // miliseconds from epoch
+    this.edad = Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
 }

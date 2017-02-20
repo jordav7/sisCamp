@@ -8,6 +8,7 @@ import { Manfun } from '../../../util/manfun';
 import { Jugador } from '../../../model/admin/jugador';
 import { Respuesta } from '../../../model/general/respuesta'
 import { Catalogo } from '../../../model/admin/catalogo'
+import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Message } from 'primeng/primeng';
 
@@ -29,6 +30,7 @@ export class JugadorComponent implements OnInit {
 
   constructor(private campAdminService: CampAdminService, private formBuild: FormBuilder) {
     this.jugadorForm = this.cargarValidaciones();
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Jugador', 'Gesti\u00f3n de Jugadores')));
   }
 
   ngOnInit() {

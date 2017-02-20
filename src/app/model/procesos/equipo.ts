@@ -9,4 +9,8 @@ export class Equipo {
  codigoLiga: number;
  codigoDisciplina: number;
  codigoTipoDisciplina: number;
+ liga: string;
+ disciplina: string;
+ interligas: string;
+ codigoEquipoClon: number;
 }

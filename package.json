@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^2.3.1",
     "@angular/router": "^3.3.1",
     "core-js": "^2.4.1",
+    "mydatepicker": "^1.6.16",
+    "ngx-mydatepicker": "0.0.5",
     "primeng": "^2.0.0-rc.3",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",

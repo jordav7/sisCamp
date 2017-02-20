@@ -36,7 +36,7 @@
                 <!--<ld-display-picture [image]="CURRENT_USER.foto" styleClass="img-circle" alt="Imagen Usuario"></ld-display-picture>-->
                 <p>
                   {{CURRENT_USER.nombres}} - {{CURRENT_USER.rol}}
-                  <small>Desde Nov. 2016</small>
+                  <small>{{fecha | date: 'dd/MM/yyyy'}}</small>
                 </p>
               </li>
               <!-- Menu Body -->

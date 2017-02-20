@@ -13,6 +13,12 @@ import { InputMaskModule } from 'primeng/primeng';
 import { RadioButtonModule } from 'primeng/primeng';
 import { TabViewModule } from 'primeng/primeng';
 import { TreeModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/primeng';
+import { FieldsetModule } from 'primeng/primeng';
+
+import { DatepickerModule } from 'angular2-material-datepicker';
+import { MyDatePickerModule } from 'mydatepicker';
+
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -207,7 +213,10 @@ const sisCampRoutes: Routes = [
     InputMaskModule,
     RadioButtonModule,
     TabViewModule,
-    TreeModule
+    TreeModule,
+    MultiSelectModule,
+    FieldsetModule,
+    MyDatePickerModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
