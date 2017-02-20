@@ -16,7 +16,6 @@ import { TreeModule } from 'primeng/primeng';
 import { MultiSelectModule } from 'primeng/primeng';
 import { FieldsetModule } from 'primeng/primeng';
 
-import { DatepickerModule } from 'angular2-material-datepicker';
 import { MyDatePickerModule } from 'mydatepicker';
 
 
