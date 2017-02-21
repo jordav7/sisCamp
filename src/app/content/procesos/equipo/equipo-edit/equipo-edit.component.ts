@@ -33,6 +33,7 @@ export class EquipoEditComponent implements OnInit {
   listaDisciplina: Catalogo[];
   listaEstados: Parametro[];
   listaLigas: Liga[];
+  listaJugadoresEquipo: EquipoJugador[] = [];
   esNuevo: boolean;
   equipoForm: any;
   equipo: Equipo;
@@ -90,6 +91,7 @@ export class EquipoEditComponent implements OnInit {
             equipo => {
               this.equipo = equipo;
               this.setValoresEdicion();
+              this.cargarJugadoresEquipo();
               console.log('termina de cargar valores')
             }
           );
@@ -221,6 +223,7 @@ export class EquipoEditComponent implements OnInit {
       this.mensajes.push({severity:'success', summary:'Respuesta', detail:'Registro guardado correctamente'});
       this.esNuevo = false;
       this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
+      this.cerrarTabPostGuardar();
     } else {
       this.mensajes = [];
       this.mensajes.push({severity:'error', summary:'Respuesta', detail:respuesta.mensaje});
@@ -266,7 +269,8 @@ export class EquipoEditComponent implements OnInit {
     this.jugador.apellidoMaterno = this.equipoJugadorForm.controls['apellidoMaterno'].value;
     this.jugador.tipoId = this.equipoJugadorForm.controls['tipoId'].value;
     this.jugador.identificacion = this.equipoJugadorForm.controls['identificacion'].value;
-    //this.equipoJugadorForm.controls['fechaNacimiento'].setValue(Manfun.parseDate(this.jugador.fechaNacimiento.toString()));
+    this.jugador.fechaNacimiento = this.convertirMydateADate(this.equipoJugadorForm.controls['fechaNacimiento'].value);
+    this.jugador.direccion = this.equipoJugadorForm.controls.direccion.value;
     this.jugador.sexo = this.equipoJugadorForm.controls['sexo'].value;
     this.jugador.mail = this.equipoJugadorForm.controls['mail'].value;
     this.jugador.telefono = this.equipoJugadorForm.controls['telefono'].value;
@@ -286,9 +290,9 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugador.codigoEquipo = this.equipoJugadorForm.controls.codigoEquipo.value;
     this.equipoJugador.ligaEquipo = this.equipoJugadorForm.controls.ligaEquipo.value;
     this.equipoJugador.numeroJugador =  this.equipoJugadorForm.controls.numeroJugador.value;
-    this.equipoJugador.esCapitan = this.equipoJugadorForm.controls.esCapitan.value;
-    this.equipoJugador.esJugador = this.equipoJugadorForm.controls.esJugador.value;
-    this.equipoJugador.esDt = this.equipoJugadorForm.controls.esDt.value;
+    this.equipoJugador.esCapitan = this.equipoJugadorForm.controls.esCapitan.value ? 'S' : 'N';
+    this.equipoJugador.esJugador = this.equipoJugadorForm.controls.esJugador.value ? 'S' : 'N';
+    this.equipoJugador.esDt = this.equipoJugadorForm.controls.esDt.value ? 'S' : 'N';
   }
 
   prepararPeticion() {
@@ -352,6 +356,17 @@ export class EquipoEditComponent implements OnInit {
     this.campProcesosService.obtenerEquipos(this.CURRENT_USER.entejuridico, this.CURRENT_USER.codigoLiga).subscribe(
       equipos => {
         this.listaEquipos = equipos;
+      }
+    );
+  }
+
+  cargarJugadoresEquipo() {
+    this.campProcesosService.obtenerJugadoresEquipo(this.CURRENT_USER.entejuridico, this.equipo.codigoEquipo).subscribe(
+      jugadoresEquipo => {
+        this.listaJugadoresEquipo = jugadoresEquipo;
+      },
+      err => {
+        console.log(err);
       }
     );
   }
@@ -434,6 +449,10 @@ export class EquipoEditComponent implements OnInit {
     this.cargarDatosEquipoJugador();
   }
 
+  editarJugadorEquipo (jugadorEquipo: EquipoJugador) {
+
+  }
+
   cargarFotoJugador(e) {
     let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 
@@ -454,4 +473,16 @@ export class EquipoEditComponent implements OnInit {
     this.foto = btoa(reader.result);
   }
 
+  cerrarTabPostGuardar() {
+    this.habilitarTabJugador = false;
+    this.esNuevoJugador = false;
+  }
+
+  convertirMydateADate(valor: any): Date {
+    let fechaNacimiento = null;
+    if (valor) {
+      fechaNacimiento = valor.jsdate;
+    }
+    return fechaNacimiento;
+  }
 }

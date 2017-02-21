@@ -8,4 +8,7 @@ export class Manfun {
     }
     return new Date();
   }
+
+  //public static convertDateMyDate(): MyDate
+
 }

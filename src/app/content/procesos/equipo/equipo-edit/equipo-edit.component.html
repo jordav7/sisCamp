@@ -48,11 +48,11 @@
                     <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
                     <!--<button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipoJugador" (click)="cargarDatosEquipoJugador()" ><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>-->
                     <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-arrow-circle-left"></span>&nbsp;Cancelar</a>
-                    <button type="button" class="btn btn-success" (click)="agregarJugador()"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
+                    <button type="button" class="btn btn-success" (click)="agregarJugador()" *ngIf="!esNuevo"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
                   </div>
               </div>
               <br/>
-              <p-dataTable [value]="listaJugadores" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+              <p-dataTable [value]="listaJugadoresEquipo" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
                 <!--<p-header>
                   <div class="ui-helper-clearfix" style="width:100%">
                     <a class="btn btn-primary" href="#/home/crearJugador" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
@@ -64,16 +64,14 @@
                   </template>
                 </p-column>
                 <!--<p-column field="codigoPersona" header="C&oacute;digo"></p-column>-->
-                <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
-                <p-column field="nombres" header="Nombre"></p-column>
-                <p-column field="tipoId" header="Tipo ID"></p-column>
-                <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
-                <p-column field="telefono" header="Tel&eacute;fono"></p-column>
-                <p-column field="celular" header="Celular"></p-column>
-                <p-column field="fechaNacimiento" header="Fecha Nacimiento"></p-column>
+                <!--<p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>-->
+                <p-column field="nombresJugador" header="Nombre"></p-column>
+                <!--<p-column field="tipoId" header="Tipo ID"></p-column>-->
+                <p-column field="cedulaJugador" header="Identificaci&oacute;n"></p-column>
+                <p-column field="numeroJugador" header="N&uacute;mero Jugador"></p-column>
                 <p-column header="Acciones">
                   <template let-jugador="rowData" pTemplate="body">
-                    <a class="btn btn-info btn-xs" href="#/home/editJugador/{{jugador.enteJuridico}}/{{jugador.codigoJugador}}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <button class="btn btn-info btn-xs" (click)="editarJugadorEquipo(jugador)"><span class="glyphicon glyphicon-edit"></span></button>
                     <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(jugador)"><span class="glyphicon glyphicon-remove"></span></button>
                   </template>
                 </p-column>
@@ -136,7 +134,8 @@
                 </div>
                 <div class="col-md-3">
                   <input type="file" class="form-control" name="fotoJugador" (change)="cargarFotoJugador($event)"/>
-                  <ld-display-picture [image]="foto"></ld-display-picture>
+                  <img src="{{foto ? 'data:image/jpg;base64,' + foto : ''}}" />
+                  <!--<ld-display-picture [image]="foto"></ld-display-picture>-->
                 </div>
                 <div class="col-md-12 ui-g-nopad">
                   <div class="col-md-4">
@@ -245,26 +244,26 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['numeroJugador'].valid && equipoJugadorForm.controls['numeroJugador'].touched}">
                     <label>N&uacute;mero</label>
-                    <input class="form-control" type="text" />
+                    <input class="form-control" formControlName="numeroJugador" name="numeroJugador" type="text" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Capit&aacute;n</label>
-                    <input type="checkbox" />
+                    <input type="checkbox" formControlName="esCapitan" name="esCapitan"/>
                     <label>Dirigente</label>
-                    <input type="checkbox" />
+                    <input type="checkbox" formControlName="esDt" name="esDt"/>
                     <label>Jugador</label>
-                    <input type="checkbox" />
+                    <input type="checkbox" formControlName="esJugador" name="esJugador"/>
                   </div>
                 </div>
               </div>
               <div class="btn-group">
                 <div>
                   <button type="submit" class="btn btn-primary" [disabled]="!equipoJugadorForm.valid">Guardar</button>
-                  <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarTabPostGuardar()">Cancelar</button>
                 </div>
               </div>
             </form>

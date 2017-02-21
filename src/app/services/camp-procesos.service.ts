@@ -3,6 +3,7 @@ import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angul
 import { Observable } from 'rxjs';
 import { SisCampProperties } from '../propiedades';
 import { Equipo } from 'app/model/procesos/equipo';
+import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
 import { PeticionEquipoJugador } from 'app/model/procesos/peticion-equipo-jugador';
 import { Respuesta } from 'app/model/general/respuesta';
 import 'rxjs/add/operator/map';
@@ -49,6 +50,12 @@ export class CampProcesosService {
       return this.http.delete(this.urlServices + '/eliminarEquipo/' + equipo.enteJuridico + '/' + equipo.codigoEquipo)
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
+
+    obtenerJugadoresEquipo(enteJuridico: number, codigoEquipo: number): Observable<EquipoJugador[]> {
+      return this.http.get(this.urlServices + '/equiposJugador/' + enteJuridico + '/' + codigoEquipo)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;
     }
 
     crearJugadorEquipo(peticion: PeticionEquipoJugador): Observable<Respuesta>{
