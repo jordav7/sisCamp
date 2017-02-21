@@ -134,7 +134,7 @@
                 </div>
                 <div class="col-md-3">
                   <input type="file" class="form-control" name="fotoJugador" (change)="cargarFotoJugador($event)"/>
-                  <img src="{{foto ? 'data:image/jpg;base64,' + foto : ''}}" />
+                  <img src="{{foto ? 'data:image/jpg;base64,' + foto : ''}}" class="img-responsive pad"/>
                   <!--<ld-display-picture [image]="foto"></ld-display-picture>-->
                 </div>
                 <div class="col-md-12 ui-g-nopad">
