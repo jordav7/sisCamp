@@ -4,7 +4,7 @@
     <div class="box">
       <div class="box-body">
         <p-tabView (onChange)="cambiarTab($event)">
-          <p-tabPanel header="Equipo">
+          <p-tabPanel header="Equipo"[selected]="!habilitarTabJugador">
             <form role="form" [formGroup]="equipoForm">
               <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoDisciplina'].valid && equipoForm.controls['codigoDisciplina'].touched}">
                 <label>Disciplina</label>
@@ -47,13 +47,41 @@
                   <div>
                     <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
                     <!--<button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipoJugador" (click)="cargarDatosEquipoJugador()" ><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>-->
-                    <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-check"></span>&nbsp;Cancelar</a>
+                    <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-arrow-circle-left"></span>&nbsp;Cancelar</a>
+                    <button type="button" class="btn btn-success" (click)="agregarJugador()"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
                   </div>
               </div>
+              <br/>
+              <p-dataTable [value]="listaJugadores" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+                <!--<p-header>
+                  <div class="ui-helper-clearfix" style="width:100%">
+                    <a class="btn btn-primary" href="#/home/crearJugador" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
+                  </div>
+                </p-header>-->
+                <p-column header="No.">
+                  <template let-col let-ri="rowIndex" pTemplate="body">
+                      <span>{{ri + 1}}</span>
+                  </template>
+                </p-column>
+                <!--<p-column field="codigoPersona" header="C&oacute;digo"></p-column>-->
+                <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
+                <p-column field="nombres" header="Nombre"></p-column>
+                <p-column field="tipoId" header="Tipo ID"></p-column>
+                <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
+                <p-column field="telefono" header="Tel&eacute;fono"></p-column>
+                <p-column field="celular" header="Celular"></p-column>
+                <p-column field="fechaNacimiento" header="Fecha Nacimiento"></p-column>
+                <p-column header="Acciones">
+                  <template let-jugador="rowData" pTemplate="body">
+                    <a class="btn btn-info btn-xs" href="#/home/editJugador/{{jugador.enteJuridico}}/{{jugador.codigoJugador}}"><span class="glyphicon glyphicon-edit"></span></a>
+                    <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(jugador)"><span class="glyphicon glyphicon-remove"></span></button>
+                  </template>
+                </p-column>
+              </p-dataTable>
             </form>
           </p-tabPanel>
-          <p-tabPanel header="Agregar Jugador" [disabled]="esNuevo">
-            <form role="form" [formGroup]="equipoJugadorForm">
+          <p-tabPanel header="Agregar Jugador" *ngIf="habilitarTabJugador" [selected]="habilitarTabJugador">
+            <form role="form" [formGroup]="equipoJugadorForm" (submit)="guardarEquipoJugador()">
               <div class="col-md-12 ui-g-nopad">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -110,32 +138,34 @@
                   <input type="file" class="form-control" name="fotoJugador" (change)="cargarFotoJugador($event)"/>
                   <ld-display-picture [image]="foto"></ld-display-picture>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['fechaNacimiento'].valid
-                    && (equipoJugadorForm.controls['fechaNacimiento'].touched || equipoJugadorForm.controls['fechaNacimiento'].dirty)}">
-                    <label>Fecha Nacimiento</label><br/>
-                    <!--<p-calendar dateFormat="dd/mm/yy" onBlur="calcularEdad($event)" formControlName="fechaNacimiento"  ></p-calendar>-->
-                    <my-date-picker [options]="opcionesCalendario" locale="es" formControlName="fechaNacimiento" name="fechaNacimiento"
-                      (dateChanged)="calcularEdad($event)" >
-                    </my-date-picker>
-                    <ld-validation-messages [control]="equipoJugadorForm.controls.fechaNacimiento"></ld-validation-messages>
+                <div class="col-md-12 ui-g-nopad">
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['fechaNacimiento'].valid
+                      && (equipoJugadorForm.controls['fechaNacimiento'].touched || equipoJugadorForm.controls['fechaNacimiento'].dirty)}">
+                      <label>Fecha Nacimiento</label><br/>
+                      <!--<p-calendar dateFormat="dd/mm/yy" onBlur="calcularEdad($event)" formControlName="fechaNacimiento"  ></p-calendar>-->
+                      <my-date-picker [options]="opcionesCalendario" locale="es" formControlName="fechaNacimiento" name="fechaNacimiento"
+                        (dateChanged)="calcularEdad($event)" >
+                      </my-date-picker>
+                      <ld-validation-messages [control]="equipoJugadorForm.controls.fechaNacimiento"></ld-validation-messages>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>Edad</label>
-                    <span class="form-control">{{edad}}</span>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Edad</label>
+                      <span class="form-control">{{edad}}</span>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['sexo'].valid && equipoJugadorForm.controls['sexo'].touched}">
-                    <label>Sexo</label>
-                    <select class="form-control" formControlName="sexo" name="sexo">
-                      <option value=""></option>
-                      <option value="M">Masculino</option>
-                      <option value="F">Femenino</option>
-                    </select>
-                    <ld-validation-messages [control]="equipoJugadorForm.controls.sexo"></ld-validation-messages>
+                  <div class="col-md-4">
+                    <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['sexo'].valid && equipoJugadorForm.controls['sexo'].touched}">
+                      <label>Sexo</label>
+                      <select class="form-control" formControlName="sexo" name="sexo">
+                        <option value=""></option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                      </select>
+                      <ld-validation-messages [control]="equipoJugadorForm.controls.sexo"></ld-validation-messages>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -231,61 +261,40 @@
                   </div>
                 </div>
               </div>
+              <div class="btn-group">
+                <div>
+                  <button type="submit" class="btn btn-primary" [disabled]="!equipoJugadorForm.valid">Guardar</button>
+                  <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+              </div>
             </form>
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary" (click)="guardarEquipoJugador()">Guardar</button>
-              <button #btnCerrarEquipoJug type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            </div>
+
           </p-tabPanel>
 
 
-          <p-tabPanel header="Ver Jugadores" [disabled]="esNuevo" [selected]="verJugador">
+          <!--<p-tabPanel header="Ver Jugadores" [disabled]="esNuevo" [selected]="verJugador">
             <div class="col-xs-12">
               <p-growl [value]="mensajes" [sticky]="true"></p-growl>
               <div class="box">
                 <div class="box-body">
-                  <p-dataTable [value]="listaJugadores" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
-                    <!--<p-header>
-                      <div class="ui-helper-clearfix" style="width:100%">
-                        <a class="btn btn-primary" href="#/home/crearJugador" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
-                      </div>
-                    </p-header>-->
-                    <p-column header="No.">
-                      <template let-col let-ri="rowIndex" pTemplate="body">
-                          <span>{{ri + 1}}</span>
-                      </template>
-                    </p-column>
-                    <!--<p-column field="codigoPersona" header="C&oacute;digo"></p-column>-->
-                    <p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>
-                    <p-column field="nombres" header="Nombre"></p-column>
-                    <p-column field="tipoId" header="Tipo ID"></p-column>
-                    <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
-                    <p-column field="telefono" header="Tel&eacute;fono"></p-column>
-                    <p-column field="celular" header="Celular"></p-column>
-                    <p-column field="fechaNacimiento" header="Fecha Nacimiento"></p-column>
-                    <p-column header="Acciones">
-                      <template let-jugador="rowData" pTemplate="body">
-                        <a class="btn btn-info btn-xs" href="#/home/editJugador/{{jugador.enteJuridico}}/{{jugador.codigoJugador}}"><span class="glyphicon glyphicon-edit"></span></a>
-                        <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(jugador)"><span class="glyphicon glyphicon-remove"></span></button>
-                      </template>
-                    </p-column>
-                  </p-dataTable>
+
                 </div>
               </div>
             </div>
-            <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
-              <p>
-                Esta seguro de eliminar el registro?
-              </p>
-              <p-footer>
-                <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                    <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
-                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarJugador()">S&iacute;</button>
-                </div>
-              </p-footer>
-            </p-dialog>
-          </p-tabPanel>
+
+          </p-tabPanel>-->
         </p-tabView>
+        <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
+          <p>
+            Esta seguro de eliminar el registro?
+          </p>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarJugador()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
       </div>
     </div>
   </div>

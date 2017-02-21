@@ -19,6 +19,8 @@ import { Message } from 'primeng/primeng';
 import {IMyOptions} from 'mydatepicker';
 
 import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
+import { Jugador } from 'app/model/admin/jugador';
+import { PeticionEquipoJugador }  from 'app/model/procesos/peticion-equipo-jugador';
 
 @Component({
   selector: 'ld-equipo-edit',
@@ -34,18 +36,24 @@ export class EquipoEditComponent implements OnInit {
   esNuevo: boolean;
   equipoForm: any;
   equipo: Equipo;
+  habilitarTabJugador: boolean;
 
   //Variables EquipoJugador
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
+  jugador: Jugador;
+  peticionEquipoJugador: PeticionEquipoJugador;
   listaEquipos: Equipo[];
   verJugador: boolean;
   verInteligas: boolean;
   edad: number;
+  listaTipoIdentificaciones: Parametro[] = [];
   listaPaises: UbicacionGeografica[] = [];
   listaPronvincias: UbicacionGeografica[] = [];
   listaCantones: UbicacionGeografica[] = [];
   listaParroquias: UbicacionGeografica[] = [];
+  foto: any;
+  esNuevoJugador: boolean;
   private opcionesCalendario: IMyOptions = {dateFormat: 'dd-mm-yyyy'};
 
   CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
@@ -65,6 +73,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   cargarDatosIniciales() {
+    this.cargarTiposId();
     this.cargarDisciplinas();
     this.cargarLigas();
     this.cargarEstados();
@@ -164,9 +173,20 @@ export class EquipoEditComponent implements OnInit {
     );
   }
 
+  cargarTiposId() {
+    this.campSeguridadService.obtenerParametrosPorTipo(1, SisCampProperties.codigoCatalogoTipoId).subscribe(
+      tipoIdentificaciones => {
+        this.listaTipoIdentificaciones = tipoIdentificaciones;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   setValoresEdicion() {
     this.equipoForm.setValue(this.equipo);
-    this.equipoJugadorForm.controls.codigoEquipo.setValue(this.equipo.codigoEquipo);
+    //this.equipoJugadorForm.controls.codigoEquipo.setValue(this.equipo.codigoEquipo);
   }
 
   guardarEquipo() {
@@ -213,7 +233,68 @@ export class EquipoEditComponent implements OnInit {
   }
 
   guardarEquipoJugador() {
-    this.btnCerrarEquipoJug.nativeElement.click();
+    //this.btnCerrarEquipoJug.nativeElement.click();
+    console.log('Ingreso a guardar equipo jugador');
+    this.prepararObjetosGuardar();
+    if (this.esNuevoJugador) {
+      console.log('Ingreso a nuevo');
+      this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
+        respuesta => {
+          this.procesarRespuesta(respuesta);
+        },
+        err => {
+          this.procesarRespuestaError(err);
+        }
+      );
+    }
+  }
+
+  prepararObjetosGuardar() {
+    this.prepararJugador();
+    this.prepararEquipo();
+    this.prepararPeticion();
+  }
+
+  prepararJugador() {
+    this.jugador.codigoPersona = this.equipoJugadorForm.controls['codigoPersona'].value;
+    this.jugador.enteJuridico = this.CURRENT_USER.entejuridico;
+    this.jugador.codigoJugador = this.equipoJugadorForm.controls['codigoJugador'].value;
+    this.jugador.userMod = this.equipoJugadorForm.controls['userMod'].value;
+    this.jugador.userCrea = this.equipoJugadorForm.controls['userCrea'].value;
+    this.jugador.nombres = this.equipoJugadorForm.controls['nombres'].value;
+    this.jugador.apellidoPaterno = this.equipoJugadorForm.controls['apellidoPaterno'].value;
+    this.jugador.apellidoMaterno = this.equipoJugadorForm.controls['apellidoMaterno'].value;
+    this.jugador.tipoId = this.equipoJugadorForm.controls['tipoId'].value;
+    this.jugador.identificacion = this.equipoJugadorForm.controls['identificacion'].value;
+    //this.equipoJugadorForm.controls['fechaNacimiento'].setValue(Manfun.parseDate(this.jugador.fechaNacimiento.toString()));
+    this.jugador.sexo = this.equipoJugadorForm.controls['sexo'].value;
+    this.jugador.mail = this.equipoJugadorForm.controls['mail'].value;
+    this.jugador.telefono = this.equipoJugadorForm.controls['telefono'].value;
+    this.jugador.celular = this.equipoJugadorForm.controls['celular'].value;
+    this.jugador.codigoPais = this.equipoJugadorForm.controls['codigoPais'].value;
+    this.jugador.codigoProvincia = this.equipoJugadorForm.controls['codigoProvincia'].value;
+    this.jugador.codigoCanton = this.equipoJugadorForm.controls['codigoCanton'].value;
+    this.jugador.codigoParroquia = this.equipoJugadorForm.controls['codigoParroquia'].value;
+    this.jugador.amonestacion = this.equipoJugadorForm.controls['amonestacion'].value;
+    this.jugador.estado = this.equipoJugadorForm.controls['estado'].value;
+    this.jugador.observaciones = this.equipoJugadorForm.controls['observaciones'].value;
+    this.jugador.foto = this.foto;
+  }
+
+  prepararEquipo() {
+    this.equipoJugador.enteJuridico = this.CURRENT_USER.entejuridico;
+    this.equipoJugador.codigoEquipo = this.equipoJugadorForm.controls.codigoEquipo.value;
+    this.equipoJugador.ligaEquipo = this.equipoJugadorForm.controls.ligaEquipo.value;
+    this.equipoJugador.numeroJugador =  this.equipoJugadorForm.controls.numeroJugador.value;
+    this.equipoJugador.esCapitan = this.equipoJugadorForm.controls.esCapitan.value;
+    this.equipoJugador.esJugador = this.equipoJugadorForm.controls.esJugador.value;
+    this.equipoJugador.esDt = this.equipoJugadorForm.controls.esDt.value;
+  }
+
+  prepararPeticion() {
+    this.peticionEquipoJugador = new PeticionEquipoJugador();
+    this.peticionEquipoJugador.jugador = this.jugador;
+    this.peticionEquipoJugador.equipoJugador = this.equipoJugador;
   }
 
   /*
@@ -249,8 +330,8 @@ export class EquipoEditComponent implements OnInit {
       'codigoPersona': '',
       'nombres': ['', Validators.required],
       'apellidoPaterno': ['', Validators.required],
-      'apellidoMaterno': ['', Validators.required],
-      'tipoId': '',//['', Validators.required],
+      'apellidoMaterno': '',//['', Validators.required],
+      'tipoId': ['', Validators.required],
       'identificacion': ['', Validators.required],
       'fechaNacimiento': ['', Validators.required],
       'sexo': ['', Validators.required],
@@ -334,8 +415,8 @@ export class EquipoEditComponent implements OnInit {
 
   cambiarTab(event){
     let index = event.index;
-    if(index === 1){
-        this.cargarDatosEquipoJugador();
+    if (index === 0) {
+        this.habilitarTabJugador = false;
     }
   }
 
@@ -343,6 +424,34 @@ export class EquipoEditComponent implements OnInit {
     let ageDifMs = Date.now() - (event.jsdate ? event.jsdate.getTime() : Date.now());
     let ageDate = new Date(ageDifMs); // miliseconds from epoch
     this.edad = Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  agregarJugador() {
+    this.habilitarTabJugador = true;
+    this.esNuevoJugador = true;
+    this.jugador = new Jugador();
+    this.equipoJugador = new EquipoJugador();
+    this.cargarDatosEquipoJugador();
+  }
+
+  cargarFotoJugador(e) {
+    let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+
+    var pattern = /image-*/;
+    var reader = new FileReader();
+
+    if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+    }
+
+    reader.onload = this.archivoCargado.bind(this);
+    reader.readAsBinaryString(file);
+  }
+
+  archivoCargado(e) {
+    var reader = e.target;
+    this.foto = btoa(reader.result);
   }
 
 }
