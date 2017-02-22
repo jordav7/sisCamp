@@ -132,4 +132,8 @@ export class EquipoComponent implements OnInit {
     this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: error});
   }
 
+  crearEquipoClon (equipo: Equipo) {
+    
+  }
+
 }

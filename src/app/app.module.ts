@@ -53,6 +53,7 @@ import { SidebarSubMenuComponent } from './sidebar/sidebar-menu/sidebar-sub-menu
 import { CampeonatoComponent } from './content/procesos/campeonato/campeonato.component';
 import { CampeonatoEditComponent } from './content/procesos/campeonato/campeonato-edit/campeonato-edit.component';
 import { MenuComponent } from './content/seguridad/menu/menu.component';
+import { EquipoClonComponent } from './content/procesos/equipo/equipo-clon/equipo-clon.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -146,6 +147,10 @@ const sisCampRoutes: Routes = [
           component: EquipoEditComponent
       },
       {
+        path: 'clonEquipo',
+        component: EquipoClonComponent
+      },
+      {
           path: 'campeonatos',
           component: CampeonatoComponent
       },
@@ -195,7 +200,8 @@ const sisCampRoutes: Routes = [
     SidebarSubMenuComponent,
     CampeonatoComponent,
     CampeonatoEditComponent,
-    MenuComponent
+    MenuComponent,
+    EquipoClonComponent
   ],
   imports: [
     BrowserModule,
