@@ -147,8 +147,8 @@ const sisCampRoutes: Routes = [
           component: EquipoEditComponent
       },
       {
-        path: 'clonEquipo',
-        component: EquipoClonComponent
+          path: 'clonEquipo/:enteJuridico/:codigoEquipo',
+          component: EquipoClonComponent
       },
       {
           path: 'campeonatos',

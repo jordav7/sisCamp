@@ -71,6 +71,20 @@ export class CampProcesosService {
       let options = new RequestOptions({ headers: headers});
       return this.http.put(this.urlServices + '/actualizarJugadorEquipo', peticion, options)
         .map((res: Response) => res.json())
-        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));;
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
+
+    clonarJugadorEquipo (equipo: Equipo): Observable<Respuesta> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers});
+      return this.http.post(this.urlServices + '/clonarJugadorEquipo', equipo, options)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
+
+    validarJugadorInterligas (enteJuridico: number, identificacion: string, interligas: string, codigoLiga: number): Observable<PeticionEquipoJugador> {
+      return this.http.get(this.urlServices + '/validarJugadorInterligas/'+enteJuridico+'/'+identificacion+'/'+interligas+'/'+codigoLiga)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }
 }

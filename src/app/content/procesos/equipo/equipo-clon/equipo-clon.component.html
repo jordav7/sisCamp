@@ -48,7 +48,7 @@
                     <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
                     <!--<button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipoJugador" (click)="cargarDatosEquipoJugador()" ><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>-->
                     <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-arrow-circle-left"></span>&nbsp;Cancelar</a>
-                    <button type="button" class="btn btn-success" (click)="agregarJugador()" *ngIf="!esNuevo"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
+                    <button type="button" class="btn btn-success" (click)="abrirBusquedaJugador()" *ngIf="!esNuevo"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
                   </div>
               </div>
               <br/>
@@ -289,14 +289,32 @@
           </p>
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No</button>
                 <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarJugador()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
+        <p-dialog header="B&uacute;squeda Jugador" [(visible)]="mostrarPanelJugador" modal="modal" width="300" responsive="true">
+          <div class="col-md-12">
+            <form role="form" [formGroup]="busqJugadorForm" >
+              <div class="form-group" [ngClass]="{'has-error':busqJugadorForm.controls.cedula.errors && busqJugadorForm.controls.cedula.touched}">
+                <label>Identificaci&oacute;n</label>
+                <input type="text" class="form-control" formControlName="cedula" name="cedula"  />
+                <ld-validation-messages [control]="busqJugadorForm.controls.cedula"></ld-validation-messages>
+              </div>
+            </form>
+          </div>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelJugador=false">Cancelar</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" [disabled]="!busqJugadorForm.valid" (click)="buscarJugadorId()"><span class="fa fa-search"></span>&nbsp;Buscar Jugador</button>
             </div>
           </p-footer>
         </p-dialog>
       </div>
     </div>
   </div>
+
   <!-- Modal de EQUIPO JUGADOR -->
 
   <div class="modal fade" id="modalAgregarEquipoJugador" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEquipoJugadorLabel">

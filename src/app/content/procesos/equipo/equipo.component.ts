@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Equipo } from 'app/model/procesos/equipo';
 import { Respuesta } from 'app/model/general/respuesta';
@@ -27,7 +28,13 @@ export class EquipoComponent implements OnInit {
   filtroEstados: SelectItem[];
   filtroInterligas: SelectItem[];
 
-  constructor(private campProcesosService: CampProcesosService, private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService) {
+  mostrarDialogClon: boolean;
+  esInterligas: string;
+
+  constructor(private campProcesosService: CampProcesosService,
+    private campAdminService: CampAdminService,
+    private campSeguridadService: CampSeguridadService,
+    private router: Router) {
     sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Equipos', 'Gesti\u00f3n de Equipos')));
   }
 
@@ -132,8 +139,25 @@ export class EquipoComponent implements OnInit {
     this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: error});
   }
 
-  crearEquipoClon (equipo: Equipo) {
-    
+  crearEquipoClon () {
+    this.equipoSeleccionado.interligas = this.esInterligas;
+    this.campProcesosService.clonarJugadorEquipo(this.equipoSeleccionado).subscribe(
+      respuesta => {
+        if (respuesta.codigo === '0') {
+          let codigos = respuesta.mensaje.split(',');
+          this.router.navigateByUrl('/home/clonEquipo/' + codigos[0] + '/' + codigos[1]);
+        }
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  seleccionarEquipoClon (equipo: Equipo) {
+    this.equipoSeleccionado = equipo;
+    this.mostrarDialogClon = true;
+    this.esInterligas = null;
   }
 
 }

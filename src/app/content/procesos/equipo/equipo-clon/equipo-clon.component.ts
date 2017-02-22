@@ -42,6 +42,7 @@ export class EquipoClonComponent implements OnInit {
   habilitarTabJugador: boolean;
 
   //Variables EquipoJugador
+  mostrarPanelJugador:boolean;
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
   jugador: Jugador;
@@ -57,13 +58,16 @@ export class EquipoClonComponent implements OnInit {
   listaParroquias: UbicacionGeografica[] = [];
   foto: any;
   esNuevoJugador: boolean;
+
+  busqJugadorForm: any;
+
   private opcionesCalendario: IMyOptions = {dateFormat: 'dd-mm-yyyy'};
 
   CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService,
     private campProcesosService: CampProcesosService,private formBuild: FormBuilder, private route: ActivatedRoute) {
-      sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Equipos', 'Gesti\u00f3n de Equipos')));
+      sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Equipos Clonados', 'Gesti\u00f3n de Equipos Clonados')));
     }
 
   ngOnInit() {
@@ -73,6 +77,8 @@ export class EquipoClonComponent implements OnInit {
     console.log('Cargar equipos jugador');
     //this.cargarDatosEquipoJugador();
     console.log('Termina de cargar equipos jugador');
+
+    this.cargarFormaBusJugador();
   }
 
   cargarDatosIniciales() {
@@ -130,13 +136,13 @@ export class EquipoClonComponent implements OnInit {
     return this.formBuild.group({
       'codigoEquipo': '',
       'enteJuridico': '',
-      'nombres': ['', Validators.required],
-      'numJugadores': ['', Validators.required],
+      'nombres': [{value: '', disabled: true}, Validators.required],
+      'numJugadores': [{value: '', disabled: true}, Validators.required],
       'estado': '',//['', Validators.required],
       'userCrea': '',
       'userMod': '',
-      'codigoLiga': [{value: '', disabled: this.CURRENT_USER.codigoLiga ? true : false}, Validators.required],
-      'codigoDisciplina': ['', Validators.required],
+      'codigoLiga': [{value: '', disabled: true}, Validators.required],
+      'codigoDisciplina': [{value: '', disabled: true}, Validators.required],
       'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
       'liga': '',
       'disciplina': '',
@@ -461,6 +467,11 @@ export class EquipoClonComponent implements OnInit {
     //this.cargarDatosEquipoJugador();
   }
 
+  abrirBusquedaJugador() {
+    this.mostrarPanelJugador = true;
+    this.busqJugadorForm.reset();
+  }
+
   editarJugadorEquipo (jugadorEquipo: EquipoJugador) {
     this.equipoJugador = jugadorEquipo;
     this.obtenerJugador(jugadorEquipo);
@@ -555,5 +566,24 @@ export class EquipoClonComponent implements OnInit {
     );
   }
 
+  buscarJugadorId() {
+    //primero validamos si no esta registrado el usuario
+    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga).subscribe(
+      peticionRes => {
+        if (peticionRes.respuesta.codigo === '0') {
+          this.editarJugadorEquipo(peticionRes.equipoJugador);
+        } else {
+          this.procesarRespuestaError(peticionRes.respuesta.mensaje);
+        }
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  cargarFormaBusJugador() {
+    this.busqJugadorForm = this.formBuild.group({'cedula': ['', Validators.required],});
+  }
 
 }
