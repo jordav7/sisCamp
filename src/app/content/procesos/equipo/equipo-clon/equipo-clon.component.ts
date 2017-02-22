@@ -459,10 +459,11 @@ export class EquipoClonComponent implements OnInit {
     this.edad = Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
-  agregarJugador() {
+  agregarJugador(identificacion?: string) {
     this.habilitarTabJugador = true;
     this.esNuevoJugador = true;
     this.jugador = new Jugador();
+    this.equipoJugadorForm.controls.identificacion.setValue(identificacion);
     this.equipoJugador = new EquipoJugador();
     //this.cargarDatosEquipoJugador();
   }
@@ -570,8 +571,12 @@ export class EquipoClonComponent implements OnInit {
     //primero validamos si no esta registrado el usuario
     this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga).subscribe(
       peticionRes => {
-        if (peticionRes.respuesta.codigo === '0') {
+        if (peticionRes.respuesta.codigo === '0' && peticionRes.equipoJugador) {
           this.editarJugadorEquipo(peticionRes.equipoJugador);
+          this.mostrarPanelJugador = false;
+        } else if(peticionRes.respuesta.codigo === '0' && !peticionRes.equipoJugador){
+          this.agregarJugador(this.busqJugadorForm.controls.cedula.value);
+          this.mostrarPanelJugador = false;
         } else {
           this.procesarRespuestaError(peticionRes.respuesta.mensaje);
         }

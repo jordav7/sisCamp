@@ -299,7 +299,7 @@
             <form role="form" [formGroup]="busqJugadorForm" >
               <div class="form-group" [ngClass]="{'has-error':busqJugadorForm.controls.cedula.errors && busqJugadorForm.controls.cedula.touched}">
                 <label>Identificaci&oacute;n</label>
-                <input type="text" class="form-control" formControlName="cedula" name="cedula"  />
+                <input type="text" class="form-control" formControlName="cedula" name="cedula" maxlength="13" autocomplete="off" lde-only-numbers [allowNumbers]="true"/>
                 <ld-validation-messages [control]="busqJugadorForm.controls.cedula"></ld-validation-messages>
               </div>
             </form>
