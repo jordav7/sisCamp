@@ -54,6 +54,7 @@ import { CampeonatoComponent } from './content/procesos/campeonato/campeonato.co
 import { CampeonatoEditComponent } from './content/procesos/campeonato/campeonato-edit/campeonato-edit.component';
 import { MenuComponent } from './content/seguridad/menu/menu.component';
 import { EquipoClonComponent } from './content/procesos/equipo/equipo-clon/equipo-clon.component';
+import { ReporteJugadorComponent } from './content/reportes/jugador/reporte-jugador/reporte-jugador.component';
 
 const sisCampRoutes: Routes = [
   {
@@ -161,6 +162,10 @@ const sisCampRoutes: Routes = [
       {
         path: 'menu',
         component: MenuComponent
+      },
+      {
+        path:'reporteJugadores',
+        component: ReporteJugadorComponent
       }
     ]
   }
@@ -201,7 +206,8 @@ const sisCampRoutes: Routes = [
     CampeonatoComponent,
     CampeonatoEditComponent,
     MenuComponent,
-    EquipoClonComponent
+    EquipoClonComponent,
+    ReporteJugadorComponent
   ],
   imports: [
     BrowserModule,
