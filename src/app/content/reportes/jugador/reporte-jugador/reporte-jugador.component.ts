@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Response } from '@angular/http';
 import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Parametro } from '../../../../model/seguridad/parametro';
@@ -9,8 +10,11 @@ import { Message } from 'primeng/primeng';
 
 import { CampAdminService } from 'app/services/camp-admin.service';
 import { CampSeguridadService } from '../../../../services/camp-seguridad.service';
+import { CampReportesService } from 'app/services/camp-reportes.service';
 
 import { SisCampProperties } from '../../../../propiedades';
+
+import { CustomBrowserXhr } from 'app/util/custom-browser-xhr';
 
 @Component({
   selector: 'ld-reporte-jugador',
@@ -24,7 +28,7 @@ export class ReporteJugadorComponent implements OnInit {
   mensajes: Message[] = [];
   private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
-  constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService) {
+  constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService, private campReportesService: CampReportesService) {
     sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Reportes', 'Jugadores')));
   }
 
@@ -73,6 +77,6 @@ export class ReporteJugadorComponent implements OnInit {
   }
 
   generarReporte(){
-
+    this.campReportesService.downloadFile();
   }
 }
