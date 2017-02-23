@@ -55,6 +55,7 @@ import { CampeonatoEditComponent } from './content/procesos/campeonato/campeonat
 import { MenuComponent } from './content/seguridad/menu/menu.component';
 import { EquipoClonComponent } from './content/procesos/equipo/equipo-clon/equipo-clon.component';
 import { ReporteJugadorComponent } from './content/reportes/jugador/reporte-jugador/reporte-jugador.component';
+import { OnlyNumbers } from './directives/only-numbers.directive';
 
 const sisCampRoutes: Routes = [
   {
@@ -148,8 +149,8 @@ const sisCampRoutes: Routes = [
           component: EquipoEditComponent
       },
       {
-        path: 'clonEquipo',
-        component: EquipoClonComponent
+          path: 'clonEquipo/:enteJuridico/:codigoEquipo',
+          component: EquipoClonComponent
       },
       {
           path: 'campeonatos',
@@ -207,7 +208,8 @@ const sisCampRoutes: Routes = [
     CampeonatoEditComponent,
     MenuComponent,
     EquipoClonComponent,
-    ReporteJugadorComponent
+    ReporteJugadorComponent,
+    OnlyNumbers
   ],
   imports: [
     BrowserModule,

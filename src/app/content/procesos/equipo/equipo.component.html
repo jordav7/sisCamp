@@ -42,21 +42,47 @@
           </p-column>
           <p-column header="Acciones">
             <template let-equipo="rowData" pTemplate="body">
-              <a href="#/home/editarEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+              <a href="#/home/editarEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}" class="btn btn-info btn-xs" *ngIf="!equipo.codigoEquipoClon"><span class="glyphicon glyphicon-edit"></span></a>
+              <a href="#/home/clonEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}" class="btn btn-info btn-xs" *ngIf="equipo.codigoEquipoClon"><span class="glyphicon glyphicon-edit"></span></a>
               <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(equipo)"><span class="glyphicon glyphicon-remove"></span></button>
-              <button class="btn btn-warning btn-xs"><span class="fa fa-clone"></span></button>
+              <button class="btn btn-warning btn-xs" (click)="seleccionarEquipoClon(equipo)" *ngIf="!equipo.codigoEquipoClon"><span class="fa fa-clone"></span></button>
               <a href="#/home/editarEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}?display=true" class="btn btn-primary btn-xs"><span class="fa fa-street-view"></span></a>
             </template>
           </p-column>
         </p-dataTable>
         <p-dialog header="Confirmaci&oacute;n" [(visible)]="mostrarPanelConf" modal="modal" width="300" responsive="true">
           <p>
-            Esta seguro de eliminar el registro?
+            Est&aacute; seguro de eliminar el registro?
           </p>
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                 <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No`</button>
                 <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarEquipo()">S&iacute;</button>
+            </div>
+          </p-footer>
+        </p-dialog>
+
+        <p-dialog header="Clonar" [(visible)]="mostrarDialogClon" modal="modal" width="300" responsive="true">
+          <form role="form" #clonForm="ngForm">
+            <p>
+              Est&aacute; seguro de clonar el equipo?
+            </p>
+            <div class="col-md-12">
+              <div class="form-group" [ngClass]="{'has-error':interligas.errors && interligas.touched && interligas.errors.required}">
+                <label>Interligas*</label>
+                <select class="form-control" [(ngModel)]="esInterligas" name="interligas" #interligas="ngModel" required>
+                  <option value=""></option>
+                  <option value="S">S&iacute;</option>
+                  <option value="N">No</option>
+                </select>
+                <ld-validation-messages [control]="interligas"></ld-validation-messages>
+              </div>
+            </div>
+          </form>
+          <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarDialogClon=false">Cancelar</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="crearEquipoClon()" [disabled]="!clonForm.form.valid">Crear</button>
             </div>
           </p-footer>
         </p-dialog>
