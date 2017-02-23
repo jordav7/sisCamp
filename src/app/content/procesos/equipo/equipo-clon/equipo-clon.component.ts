@@ -202,9 +202,9 @@ export class EquipoClonComponent implements OnInit {
   }
 
   guardarEquipo() {
-    this.equipo = this.equipoForm.value;
+    this.equipo = this.equipoForm.getRawValue();
     this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
-    this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+    this.equipo.codigoLiga = this.equipoForm.controls.codigoLiga.value;
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
         respuesta => {
@@ -231,8 +231,10 @@ export class EquipoClonComponent implements OnInit {
     if(respuesta.codigo === '0'){
       this.mensajes = [];
       this.mensajes.push({severity:'success', summary:'Respuesta', detail:'Registro guardado correctamente'});
+      if(this.esNuevo){
+        this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
+      }
       this.esNuevo = false;
-      this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
     } else {
       this.mensajes = [];
       this.mensajes.push({severity:'error', summary:'Respuesta', detail:respuesta.mensaje});
@@ -312,7 +314,6 @@ export class EquipoClonComponent implements OnInit {
     this.jugador.tipoId = this.equipoJugadorForm.controls['tipoId'].value;
     this.jugador.identificacion = this.equipoJugadorForm.controls['identificacion'].value;
     this.jugador.fechaNacimiento = this.convertirMydateADate(this.equipoJugadorForm.controls['fechaNacimiento'].value);
-    console.log(this.jugador.fechaNacimiento);
     this.jugador.direccion = this.equipoJugadorForm.controls.direccion.value;
     this.jugador.sexo = this.equipoJugadorForm.controls['sexo'].value;
     this.jugador.mail = this.equipoJugadorForm.controls['mail'].value;
@@ -363,7 +364,7 @@ export class EquipoClonComponent implements OnInit {
       'enteJuridico': this.CURRENT_USER.enteJuridico,
       'codigoEquipo': [{value: this.equipoForm.controls.codigoEquipo.value, disabled: true}],
       'equipoNombre': '',
-      'ligaEquipo': [{value: this.equipo.codigoLiga, disabled: true}],
+      'ligaEquipo': [{value: this.equipoForm.controls.codigoLiga.value, disabled: true}],
       'nombreLiga': '',
       'codigoJugador': '',
       'nombresJugador': '',

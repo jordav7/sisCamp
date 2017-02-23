@@ -194,7 +194,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   guardarEquipo() {
-    this.equipo = this.equipoForm.value;
+    this.equipo = this.equipoForm.getRawValue();
     this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
     this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
     if(this.esNuevo) {
@@ -223,8 +223,10 @@ export class EquipoEditComponent implements OnInit {
     if(respuesta.codigo == "0"){
       this.mensajes = [];
       this.mensajes.push({severity:'success', summary:'Respuesta', detail:'Registro guardado correctamente'});
+      if(this.esNuevo){
+        this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
+      }
       this.esNuevo = false;
-      this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
       this.cerrarTabPostGuardar();
     } else {
       this.mensajes = [];

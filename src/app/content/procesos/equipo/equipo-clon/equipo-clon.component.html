@@ -5,7 +5,7 @@
       <div class="box-body">
         <p-tabView (onChange)="cambiarTab($event)">
           <p-tabPanel header="Equipo"[selected]="!habilitarTabJugador">
-            <form role="form" [formGroup]="equipoForm">
+            <form role="form" [formGroup]="equipoForm" (submit)="guardarEquipo()">
               <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoDisciplina'].valid && equipoForm.controls['codigoDisciplina'].touched}">
                 <label>Disciplina</label>
                 <select id="codigoDisciplina" class="form-control" formControlName="codigoDisciplina" name="codigoDisciplina" >
@@ -45,7 +45,7 @@
               </div>
               <div class="btn-group">
                   <div>
-                    <button type="button" class="btn btn-primary" icon="fa-check" (click)="guardarEquipo()" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
+                    <button type="submit" class="btn btn-primary" icon="fa-check" [disabled]="!equipoForm.valid"><span class="fa fa-check"></span>&nbsp;Guardar</button>
                     <!--<button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarEquipoJugador" (click)="cargarDatosEquipoJugador()" ><span class="fa fa-plus"></span>&nbsp;Agregar Jugador</button>-->
                     <a href="#/home/equipos" type="button" class="btn btn-warning" icon="fa-check"><span class="fa fa-arrow-circle-left"></span>&nbsp;Cancelar</a>
                     <button type="button" class="btn btn-success" (click)="abrirBusquedaJugador()" *ngIf="!esNuevo"><span class="fa fa-user"></span>&nbsp;Agregar Jugador</button>
