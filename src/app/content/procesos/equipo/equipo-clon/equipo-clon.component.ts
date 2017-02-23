@@ -46,10 +46,12 @@ export class EquipoClonComponent implements OnInit {
   mostrarPanelJugador:boolean;
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
+  equipoJugadorSeleccionado: EquipoJugador;
   jugador: Jugador;
   peticionEquipoJugador: PeticionEquipoJugador;
   listaEquipos: Equipo[];
   verJugador: boolean;
+  mostrarPanelConf: boolean;
   verInteligas: boolean;
   edad: number;
   listaTipoIdentificaciones: Parametro[] = [];
@@ -254,6 +256,17 @@ export class EquipoClonComponent implements OnInit {
     }
   }
 
+  procesarRespuestaBorrado(respuesta: Respuesta){
+    if(respuesta.codigo === '0'){
+      this.mostrarPanelConf = false;
+      this.cargarJugadoresEquipo();
+      this.mensajes = [];
+      this.mensajes.push({severity:'success', summary:'Respuesta', detail:'El registro fue eliminado exitosamente'});
+    } else {
+      this.procesarRespuestaError(respuesta.mensaje);
+    }
+  }
+
   procesarRespuestaError(error: string) {
     this.mensajes = [];
     this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: error});
@@ -343,6 +356,22 @@ export class EquipoClonComponent implements OnInit {
     this.peticionEquipoJugador = new PeticionEquipoJugador();
     this.peticionEquipoJugador.jugador = this.jugador;
     this.peticionEquipoJugador.equipoJugador = this.equipoJugador;
+  }
+
+  mostrarConfirmacion (equipoJugador: EquipoJugador) {
+    this.mostrarPanelConf = true;
+    this.equipoJugadorSeleccionado = equipoJugador;
+  }
+
+  eliminarJugadorEquipo() {
+    this.campProcesosService.eliminarJugadorGeneral(this.equipoJugadorSeleccionado).subscribe(
+      res => {
+        this.procesarRespuestaBorrado(res);
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
   }
 
   /*

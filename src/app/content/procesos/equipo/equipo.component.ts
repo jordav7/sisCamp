@@ -115,7 +115,7 @@ export class EquipoComponent implements OnInit {
   }
 
   eliminarEquipo(){
-    this.campProcesosService.eliminarEquipo(this.equipoSeleccionado).subscribe(
+    this.campProcesosService.eliminarEquipoGeneral(this.equipoSeleccionado).subscribe(
       respuesta => {
         this.procesarRespuestaBorrado(respuesta);
       },

@@ -47,6 +47,7 @@ export class EquipoEditComponent implements OnInit {
   peticionEquipoJugador: PeticionEquipoJugador;
   listaEquipos: Equipo[];
   verJugador: boolean;
+  mostrarPanelConf: boolean;
   verInteligas: boolean;
   edad: number;
   listaTipoIdentificaciones: Parametro[] = [];

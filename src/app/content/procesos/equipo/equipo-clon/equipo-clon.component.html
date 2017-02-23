@@ -52,31 +52,32 @@
                   </div>
               </div>
               <br/>
-              <p-dataTable [value]="listaJugadoresEquipo" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
-                <!--<p-header>
-                  <div class="ui-helper-clearfix" style="width:100%">
-                    <a class="btn btn-primary" href="#/home/crearJugador" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
-                  </div>
-                </p-header>-->
-                <p-column header="No.">
-                  <template let-col let-ri="rowIndex" pTemplate="body">
-                      <span>{{ri + 1}}</span>
-                  </template>
-                </p-column>
-                <!--<p-column field="codigoPersona" header="C&oacute;digo"></p-column>-->
-                <!--<p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>-->
-                <p-column field="nombresJugador" header="Nombre"></p-column>
-                <!--<p-column field="tipoId" header="Tipo ID"></p-column>-->
-                <p-column field="cedulaJugador" header="Identificaci&oacute;n"></p-column>
-                <p-column field="numeroJugador" header="N&uacute;mero Jugador"></p-column>
-                <p-column header="Acciones">
-                  <template let-jugador="rowData" pTemplate="body">
-                    <button class="btn btn-info btn-xs" (click)="editarJugadorEquipo(jugador)"><span class="glyphicon glyphicon-edit"></span></button>
-                    <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(jugador)"><span class="glyphicon glyphicon-remove"></span></button>
-                  </template>
-                </p-column>
-              </p-dataTable>
             </form>
+            <p-dataTable [value]="listaJugadoresEquipo" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+              <!--<p-header>
+                <div class="ui-helper-clearfix" style="width:100%">
+                  <a class="btn btn-primary" href="#/home/crearJugador" style="float:left"><span class="fa fa-plus"></span>&nbsp;Agregar</a>
+                </div>
+              </p-header>-->
+              <p-column header="No.">
+                <template let-col let-ri="rowIndex" pTemplate="body">
+                    <span>{{ri + 1}}</span>
+                </template>
+              </p-column>
+              <!--<p-column field="codigoPersona" header="C&oacute;digo"></p-column>-->
+              <!--<p-column field="apellidoPaterno" header="Apellido Paterno"></p-column>-->
+              <p-column field="nombresJugador" header="Nombre"></p-column>
+              <!--<p-column field="tipoId" header="Tipo ID"></p-column>-->
+              <p-column field="cedulaJugador" header="Identificaci&oacute;n"></p-column>
+              <p-column field="numeroJugador" header="N&uacute;mero Jugador"></p-column>
+              <p-column header="Acciones">
+                <template let-jugador="rowData" pTemplate="body">
+                  <button class="btn btn-info btn-xs" (click)="editarJugadorEquipo(jugador)"><span class="glyphicon glyphicon-edit"></span></button>
+                  <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(jugador)"><span class="glyphicon glyphicon-remove"></span></button>
+                </template>
+              </p-column>
+            </p-dataTable>
+
           </p-tabPanel>
           <p-tabPanel header="Agregar Jugador" *ngIf="habilitarTabJugador" [selected]="habilitarTabJugador">
             <form role="form" [formGroup]="equipoJugadorForm" (submit)="guardarEquipoJugador()">
@@ -290,7 +291,7 @@
           <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
                 <button type="button" class="btn btn-default" icon="fa-close" (click)="mostrarPanelConf=false">No</button>
-                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarJugador()">S&iacute;</button>
+                <button type="button" class="btn btn-primary" icon="fa-check" (click)="eliminarJugadorEquipo()">S&iacute;</button>
             </div>
           </p-footer>
         </p-dialog>

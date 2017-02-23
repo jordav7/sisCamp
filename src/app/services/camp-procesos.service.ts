@@ -95,4 +95,16 @@ export class CampProcesosService {
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }
+
+    eliminarJugadorGeneral (jugadorEquipo: EquipoJugador) {
+      return this.http.delete(this.urlServices + '/eliminarJugadorGeneral/' + jugadorEquipo.enteJuridico +'/'+ jugadorEquipo.codigoEquipo +'/'+ jugadorEquipo.codigoJugador)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
+
+    eliminarEquipoGeneral (equipo: Equipo) {
+      return this.http.delete(this.urlServices + '/eliminarEquipoGeneral/' + equipo.enteJuridico +'/'+ equipo.codigoEquipo)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
 }
