@@ -457,7 +457,7 @@ export class EquipoEditComponent implements OnInit {
     this.esNuevoJugador = true;
     this.jugador = new Jugador();
     this.equipoJugador = new EquipoJugador();
-    //this.cargarDatosEquipoJugador();
+    this.cargarDatosEquipoJugador();
   }
 
   editarJugadorEquipo (jugadorEquipo: EquipoJugador) {
@@ -525,7 +525,9 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugadorForm.controls['apellidoMaterno'].setValue(this.jugador.apellidoMaterno);
     this.equipoJugadorForm.controls['tipoId'].setValue(this.jugador.tipoId);
     this.equipoJugadorForm.controls['identificacion'].setValue(this.jugador.identificacion);
-    this.equipoJugadorForm.controls.fechaNacimiento.setValue({date:{year: fechaNac.getFullYear(), month: fechaNac.getMonth() + 1, day: fechaNac.getDate() + 1}});
+    if (fechaNac) {
+      this.equipoJugadorForm.controls.fechaNacimiento.setValue({date:{year: fechaNac.getFullYear(), month: fechaNac.getMonth() + 1, day: fechaNac.getDate() + 1},jsdate: new Date(fechaNac.getFullYear(),fechaNac.getMonth(),fechaNac.getDate() + 1)});
+    }
     this.equipoJugadorForm.controls.direccion.setValue(this.jugador.direccion);
     this.equipoJugadorForm.controls['sexo'].setValue(this.jugador.sexo);
     this.equipoJugadorForm.controls['mail'].setValue(this.jugador.mail);

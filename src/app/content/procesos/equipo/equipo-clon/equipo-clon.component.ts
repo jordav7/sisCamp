@@ -14,6 +14,7 @@ import { SisCampProperties } from 'app/propiedades';
 import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 import { UbicacionGeografica } from 'app/model/admin/ubicacion-geografica';
 import { Manfun } from 'app/util/manfun';
+import { UtilMessages } from 'app/util/util-messages';
 
 import { Message } from 'primeng/primeng';
 
@@ -288,6 +289,7 @@ export class EquipoClonComponent implements OnInit {
     this.jugador.tipoId = this.equipoJugadorForm.controls['tipoId'].value;
     this.jugador.identificacion = this.equipoJugadorForm.controls['identificacion'].value;
     this.jugador.fechaNacimiento = this.convertirMydateADate(this.equipoJugadorForm.controls['fechaNacimiento'].value);
+    console.log(this.jugador.fechaNacimiento);
     this.jugador.direccion = this.equipoJugadorForm.controls.direccion.value;
     this.jugador.sexo = this.equipoJugadorForm.controls['sexo'].value;
     this.jugador.mail = this.equipoJugadorForm.controls['mail'].value;
@@ -463,9 +465,9 @@ export class EquipoClonComponent implements OnInit {
     this.habilitarTabJugador = true;
     this.esNuevoJugador = true;
     this.jugador = new Jugador();
-    this.equipoJugadorForm.controls.identificacion.setValue(identificacion);
     this.equipoJugador = new EquipoJugador();
-    //this.cargarDatosEquipoJugador();
+    this.cargarDatosEquipoJugador();
+    this.equipoJugadorForm.controls.identificacion.setValue(identificacion);
   }
 
   abrirBusquedaJugador() {
@@ -506,6 +508,7 @@ export class EquipoClonComponent implements OnInit {
   cerrarTabPostGuardar() {
     this.habilitarTabJugador = false;
     this.esNuevoJugador = false;
+    this.equipoJugadorForm.reset();
   }
 
   convertirMydateADate(valor: any): Date {
@@ -538,7 +541,9 @@ export class EquipoClonComponent implements OnInit {
     this.equipoJugadorForm.controls['apellidoMaterno'].setValue(this.jugador.apellidoMaterno);
     this.equipoJugadorForm.controls['tipoId'].setValue(this.jugador.tipoId);
     this.equipoJugadorForm.controls['identificacion'].setValue(this.jugador.identificacion);
-    this.equipoJugadorForm.controls.fechaNacimiento.setValue({date:{year: fechaNac.getFullYear(), month: fechaNac.getMonth() + 1, day: fechaNac.getDate() + 1}});
+    if(fechaNac){
+      this.equipoJugadorForm.controls.fechaNacimiento.setValue({date:{year: fechaNac.getFullYear(), month: fechaNac.getMonth() + 1, day: fechaNac.getDate() + 1}, jsdate: new Date(fechaNac.getFullYear(),fechaNac.getMonth(),fechaNac.getDate() + 1)});
+    }
     this.equipoJugadorForm.controls.direccion.setValue(this.jugador.direccion);
     this.equipoJugadorForm.controls['sexo'].setValue(this.jugador.sexo);
     this.equipoJugadorForm.controls['mail'].setValue(this.jugador.mail);
@@ -577,6 +582,7 @@ export class EquipoClonComponent implements OnInit {
         } else if(peticionRes.respuesta.codigo === '0' && !peticionRes.equipoJugador){
           this.agregarJugador(this.busqJugadorForm.controls.cedula.value);
           this.mostrarPanelJugador = false;
+          this.mensajes = UtilMessages.showWarningMessage('Advertencia', 'No se pudo encontrar un jugador con los datos indicados, ingrese la informaci\u00f3n presentada en el formulario para poder crearlo');
         } else {
           this.procesarRespuestaError(peticionRes.respuesta.mensaje);
         }
