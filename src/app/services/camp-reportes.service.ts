@@ -20,7 +20,7 @@ export class CampReportesService {
         .subscribe(
           (response) => {
                 let blob = new Blob([response.blob()], {type: 'application/octet-stream'});
-                let filename = 'file.xls';
+                let filename = 'file.xlsx';
                 fileSaver.saveAs(blob, filename);
         });
   }

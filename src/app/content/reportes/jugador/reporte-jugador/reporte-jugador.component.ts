@@ -14,8 +14,6 @@ import { CampReportesService } from 'app/services/camp-reportes.service';
 
 import { SisCampProperties } from '../../../../propiedades';
 
-import { CustomBrowserXhr } from 'app/util/custom-browser-xhr';
-
 @Component({
   selector: 'ld-reporte-jugador',
   templateUrl: './reporte-jugador.component.html',
