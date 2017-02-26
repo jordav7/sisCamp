@@ -4,11 +4,41 @@
       <div class="box-body">
         <form role="form" (submit)="generarReporte()">
           <br/>
-          <div class="col-md-12">
+          <!--<div class="col-md-12">
             <div class="col-md-6">
               <div class="form-group">
                 <label>Edad</label>
                 <input type="text" class="form-control" id="edad" name="edad" [(ngModel)]="edad" rolName="edad" max="120" maxlength="3"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group" >
+                <label>Parroquia</label>
+                <input type="text" class="form-control" [(ngModel)]="parroquia" id="parroquia" name="parroquia" rolName="parroquia"/>
+              </div>
+            </div>
+          </div>-->
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group" >
+                <label>Liga</label>
+                <select id="codigoLiga" class="form-control" name="codigoLiga" [(ngModel)]="codigoLiga" (change)="cargarEquiposLiga()">
+                  <option value=""></option>
+                  <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group" >
+                <label>Equipo</label>
+                <select id="codigoEquipo" [(ngModel)]="equipo" class="form-control" name="codigoEquipo" >
+                  <option value=""></option>
+                  <option *ngFor="let equipo of listaEquipos" [value]="equipo.codigoEquipo">{{equipo.nombres}}</option>
+                </select>
               </div>
             </div>
           </div>
@@ -23,34 +53,6 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12">
-            <div class="col-md-6">
-              <div class="form-group" >
-                <label>Parroquia</label>
-                <input type="text" class="form-control" [(ngModel)]="parroquia" id="parroquia" name="parroquia" rolName="parroquia"/>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-6">
-              <div class="form-group" >
-                <label>Equipo</label>
-                <input type="text" class="form-control" id="equipo" [(ngModel)]="equipo" name="equipo" rolName="equipo"/>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-6">
-              <div class="form-group" >
-                <label>Liga</label>
-                <select id="codigoLiga" class="form-control" name="codigoLiga" [(ngModel)]="codigoLiga">
-                  <option value=""></option>
-                  <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
           <div class="col-md-12">
             <div class="col-md-6">
               <div class="form-group" >

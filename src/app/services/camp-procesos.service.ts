@@ -30,6 +30,15 @@ export class CampProcesosService {
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }
 
+    obtenerEquiposActivos(enteJuridico: number, codigoLiga: number): Observable<Equipo[]> {
+      let parameters = new URLSearchParams();
+      let codigoLigaS = codigoLiga?codigoLiga.toString():null;
+      parameters.set('codigoLiga', codigoLigaS);
+      return this.http.get(this.urlServices + '/equiposActivos/' + enteJuridico, {search: parameters})
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
+    }
+
     crearEquipo(equipo: Equipo): Observable<Respuesta> {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers});

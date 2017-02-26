@@ -4,6 +4,7 @@ import { CabeceraPagina } from 'app/model/general/cabecera-pagina';
 
 import { Parametro } from '../../../../model/seguridad/parametro';
 import { Liga } from 'app/model/admin/liga';
+import { Equipo } from 'app/model/procesos/equipo'
 import { Catalogo } from 'app/model/admin/catalogo';
 
 import { Message } from 'primeng/primeng';
@@ -11,6 +12,7 @@ import { Message } from 'primeng/primeng';
 import { CampAdminService } from 'app/services/camp-admin.service';
 import { CampSeguridadService } from '../../../../services/camp-seguridad.service';
 import { CampReportesService } from 'app/services/camp-reportes.service';
+import { CampProcesosService } from '../../../../services/camp-procesos.service';
 
 import { SisCampProperties } from '../../../../propiedades';
 
@@ -24,18 +26,19 @@ export class ReporteJugadorComponent implements OnInit {
   listaLigas: Liga[];
   listaDisciplina: Catalogo[];
   mensajes: Message[] = [];
+  listaEquipos: Equipo[];
 
   //filtros
   edad: number;
   codigoDisciplina: number;
   parroquia: string;
-  equipo: string;
+  equipo: number;
   codigoLiga: number;
   estado: string;
-  private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
+  CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
-  constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService, private campReportesService: CampReportesService) {
-    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Reportes', 'Jugadores')));
+  constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService, private campReportesService: CampReportesService, private campProcesosService: CampProcesosService) {
+    sessionStorage.setItem('currentPage', JSON.stringify(new CabeceraPagina('Reportes', 'Equipos')));
   }
 
   ngOnInit() {
@@ -56,7 +59,7 @@ export class ReporteJugadorComponent implements OnInit {
   }
 
   cargarLigas(){
-    this.campAdminService.obtenerLigas(ReporteJugadorComponent.CURRENT_USER.entejuridico).subscribe(
+    this.campAdminService.obtenerLigas(this.CURRENT_USER.entejuridico).subscribe(
       ligas => {
         this.listaLigas = ligas;
       },
@@ -66,10 +69,32 @@ export class ReporteJugadorComponent implements OnInit {
     );
   }
 
+  cargarEquipos(){
+    this.campProcesosService.obtenerEquiposActivos(this.CURRENT_USER.entejuridico, this.codigoLiga).subscribe(
+      equipos => {
+        this.listaEquipos = equipos;
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
   cargarDisciplinas(){
-    this.campAdminService.obtenerCatalogos(ReporteJugadorComponent.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
+    this.campAdminService.obtenerCatalogos(this.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
       disciplinas => {
         this.listaDisciplina = disciplinas;
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  cargarEquiposLiga () {
+    this.campProcesosService.obtenerEquiposActivos(this.CURRENT_USER.entejuridico, this.codigoLiga).subscribe(
+      equipos => {
+        this.listaEquipos = equipos;
       },
       err => {
         this.procesarRespuestaError(err);
