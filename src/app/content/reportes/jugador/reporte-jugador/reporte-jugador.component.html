@@ -8,7 +8,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Edad</label>
-                <input type="text" class="form-control" id="edad" name="edad" rolName="edad" max="120" maxlength="3"/>
+                <input type="text" class="form-control" id="edad" name="edad" [(ngModel)]="edad" rolName="edad" max="120" maxlength="3"/>
               </div>
             </div>
           </div>
@@ -16,7 +16,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Disciplina</label>
-                <select id="codigoDisciplina" class="form-control" name="codigoDisciplina" >
+                <select id="codigoDisciplina" [(ngModel)]="codigoDisciplina" class="form-control" name="codigoDisciplina" >
                   <option value=""></option>
                   <option *ngFor="let disciplina of listaDisciplina" [value]="disciplina.codigoCatalogo">{{disciplina.nombre}}</option>
                 </select>
@@ -27,7 +27,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label>Parroquia</label>
-              <input type="text" class="form-control" id="parroquia" name="parroquia" rolName="parroquia"/>
+                <input type="text" class="form-control" [(ngModel)]="parroquia" id="parroquia" name="parroquia" rolName="parroquia"/>
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label>Equipo</label>
-                <input type="text" class="form-control" id="equipo" name="equipo" rolName="equipo"/>
+                <input type="text" class="form-control" id="equipo" [(ngModel)]="equipo" name="equipo" rolName="equipo"/>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label>Liga</label>
-                <select id="codigoLiga" class="form-control" name="codigoLiga" >
+                <select id="codigoLiga" class="form-control" name="codigoLiga" [(ngModel)]="codigoLiga">
                   <option value=""></option>
                   <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
                 </select>
@@ -55,7 +55,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label>Estado</label>
-                <select id="estado" class="form-control" name="estado">
+                <select id="estado" class="form-control" name="estado" [(ngModel)]="estado">
                   <option value=""></option>
                   <option *ngFor="let estado of listaEstados" [value]="estado.id">{{estado.nombre}}</option>
                 </select>

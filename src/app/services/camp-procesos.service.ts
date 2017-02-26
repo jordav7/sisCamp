@@ -90,8 +90,8 @@ export class CampProcesosService {
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }
 
-    validarJugadorInterligas (enteJuridico: number, identificacion: string, interligas: string, codigoLiga: number): Observable<PeticionEquipoJugador> {
-      return this.http.get(this.urlServices + '/validarJugadorInterligas/'+enteJuridico+'/'+identificacion+'/'+interligas+'/'+codigoLiga)
+    validarJugadorInterligas (enteJuridico: number, identificacion: string, interligas: string, codigoLiga: number, codigoEquipo: number): Observable<PeticionEquipoJugador> {
+      return this.http.get(this.urlServices + '/validarJugadorInterligas/'+enteJuridico+'/'+identificacion+'/'+interligas+'/'+codigoLiga+'/'+codigoEquipo)
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Error en el servidor'));
     }

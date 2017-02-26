@@ -45,7 +45,7 @@
               <a href="#/home/editarEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}" class="btn btn-info btn-xs" *ngIf="!equipo.codigoEquipoClon"><span class="glyphicon glyphicon-edit"></span></a>
               <a href="#/home/clonEquipo/{{equipo.enteJuridico}}/{{equipo.codigoEquipo}}" class="btn btn-info btn-xs" *ngIf="equipo.codigoEquipoClon"><span class="glyphicon glyphicon-edit"></span></a>
               <button class="btn btn-danger btn-xs" (click)="mostrarConfirmacion(equipo)"><span class="glyphicon glyphicon-remove"></span></button>
-              <button class="btn btn-warning btn-xs" (click)="seleccionarEquipoClon(equipo)" *ngIf="!equipo.codigoEquipoClon"><span class="fa fa-clone"></span></button>
+              <button class="btn btn-warning btn-xs" (click)="seleccionarEquipoClon(equipo)" *ngIf="equipo.estado =='A'"><span class="fa fa-clone"></span></button>
             </template>
           </p-column>
         </p-dataTable>
@@ -70,7 +70,6 @@
               <div class="form-group" [ngClass]="{'has-error':interligas.errors && interligas.touched && interligas.errors.required}">
                 <label>Interligas*</label>
                 <select class="form-control" [(ngModel)]="esInterligas" name="interligas" #interligas="ngModel" required>
-                  <option value=""></option>
                   <option value="S">S&iacute;</option>
                   <option value="N">No</option>
                 </select>

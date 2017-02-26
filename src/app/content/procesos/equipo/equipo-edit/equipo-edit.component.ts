@@ -197,7 +197,8 @@ export class EquipoEditComponent implements OnInit {
   guardarEquipo() {
     this.equipo = this.equipoForm.getRawValue();
     this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
-    this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+    this.equipo.interligas = 'N';
+    //this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
         respuesta => {
@@ -229,6 +230,7 @@ export class EquipoEditComponent implements OnInit {
       }
       this.esNuevo = false;
       this.cerrarTabPostGuardar();
+      this.cargarJugadoresEquipo();
     } else {
       this.mensajes = [];
       this.mensajes.push({severity:'error', summary:'Respuesta', detail:respuesta.mensaje});

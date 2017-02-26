@@ -12,11 +12,11 @@ export class CampReportesService {
   urlServices: string = SisCampProperties.URL_SERVIDOR + '/rs/reportes';
   constructor(private http: Http) { }
 
-  downloadFile() {
+  downloadFile(request: any) {
     let headers = new Headers({ 'Content-Type': 'application/json'});
     let options = new RequestOptions({ headers: headers, method: RequestMethod.Post, responseType: ResponseContentType.Blob});
 
-    return this.http.post(this.urlServices + '/consultaJugadores', '', options)
+    return this.http.post(this.urlServices + '/consultaJugadores', JSON.stringify(request), options)
         .subscribe(
           (response) => {
                 let blob = new Blob([response.blob()], {type: 'application/octet-stream'});

@@ -627,7 +627,7 @@ export class EquipoClonComponent implements OnInit {
 
   buscarJugadorId() {
     //primero validamos si no esta registrado el usuario
-    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga).subscribe(
+    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga, this.equipo.codigoEquipo).subscribe(
       peticionRes => {
         if (peticionRes.respuesta.codigo === '0' && peticionRes.equipoJugador) {
           peticionRes.equipoJugador.codigoEquipoJugador = null;

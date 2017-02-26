@@ -24,6 +24,14 @@ export class ReporteJugadorComponent implements OnInit {
   listaLigas: Liga[];
   listaDisciplina: Catalogo[];
   mensajes: Message[] = [];
+
+  //filtros
+  edad: number;
+  codigoDisciplina: number;
+  parroquia: string;
+  equipo: string;
+  codigoLiga: number;
+  estado: string;
   private static CURRENT_USER: any = JSON.parse(localStorage.getItem('currentUser'));
 
   constructor(private campAdminService: CampAdminService, private campSeguridadService: CampSeguridadService, private campReportesService: CampReportesService) {
@@ -75,6 +83,8 @@ export class ReporteJugadorComponent implements OnInit {
   }
 
   generarReporte(){
-    this.campReportesService.downloadFile();
+    this.campReportesService.downloadFile({edad: this.edad, codigoDisciplina: this.codigoDisciplina,
+      parroquia: this.parroquia, equipo: this.equipo,
+      codigoLiga: this.codigoLiga, estado: this.estado});
   }
 }
