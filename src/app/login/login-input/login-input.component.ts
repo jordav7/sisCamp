@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 
 import { Message } from 'primeng/primeng';
+
+import { UtilMessages } from 'app/util/util-messages'
 
 @Component({
   selector: 'ld-login-input',
@@ -14,10 +16,23 @@ export class LoginInputComponent implements OnInit {
   usuario: string = '';
   password: string = '';
   messages: Message[] = [];
+  logout: boolean;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private router: Router,
+    private route: ActivatedRoute) {
+    route.queryParams.subscribe(
+      params => {
+        if (params['qL']) {
+          this.messages = UtilMessages.showWarningMessage('Se ha caducado su sesi\u00f3n por su seguridad debe iniciar nuevamente', '');
+        }
+      }
+    );
+  }
 
   ngOnInit() {
+    if (this.logout) {
+
+    }
   }
 
   login(){
@@ -26,10 +41,11 @@ export class LoginInputComponent implements OnInit {
       respuesta =>{
         if(localStorage.getItem('currentUser')){
           console.log('Verifica token');
-          this.router.navigate(['home']);
+          this.router.navigateByUrl('/home');
         }
       },
       err =>{
+        this.messages = [];
         this.messages.push({severity:'error', summary:'Usuario o password incorrectos', detail:''});
         console.log(err);
       }

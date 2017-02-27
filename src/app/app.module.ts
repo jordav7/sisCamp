@@ -16,6 +16,8 @@ import { TreeModule } from 'primeng/primeng';
 import { MultiSelectModule } from 'primeng/primeng';
 import { FieldsetModule } from 'primeng/primeng';
 
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+
 import { MyDatePickerModule } from 'mydatepicker';
 
 
@@ -215,7 +217,7 @@ const sisCampRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(sisCampRoutes,{useHash: true}),
+    RouterModule.forRoot(sisCampRoutes, {useHash: true}),
     ReactiveFormsModule,
     DataTableModule,
     SharedModule,
@@ -229,7 +231,8 @@ const sisCampRoutes: Routes = [
     TreeModule,
     MultiSelectModule,
     FieldsetModule,
-    MyDatePickerModule
+    MyDatePickerModule,
+    NgIdleKeepaliveModule.forRoot()
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

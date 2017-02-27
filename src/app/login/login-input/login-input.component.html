@@ -4,10 +4,10 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
+    <p-messages [value]="messages"></p-messages>
     <p class="login-box-msg">Ingresa las credenciales para comenzar la sesi&oacute;n</p>
 
     <form role="form" (submit)="login()">
-      <p-messages [value]="messages"></p-messages>
       <div class="form-group has-feedback">
         <input type="text" class="form-control" [(ngModel)]="usuario" name="usuario" placeholder="Usuario">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
