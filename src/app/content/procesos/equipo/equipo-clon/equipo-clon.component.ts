@@ -409,7 +409,7 @@ export class EquipoClonComponent implements OnInit {
       'apellidoPaterno': ['', Validators.required],
       'apellidoMaterno': '',//['', Validators.required],
       'tipoId': ['', Validators.required],
-      'identificacion': ['', Validators.required],
+      'identificacion': [{value: '', disabled: true}, Validators.required],
       'fechaNacimiento': ['', Validators.required],
       'sexo': ['', Validators.required],
       'direccion':'',
@@ -509,9 +509,9 @@ export class EquipoClonComponent implements OnInit {
   }
 
   calcularEdad(event) {
-    let ageDifMs = Date.now() - (event.jsdate ? event.jsdate.getTime() : Date.now());
-    let ageDate = new Date(ageDifMs); // miliseconds from epoch
-    this.edad = Math.abs(ageDate.getUTCFullYear() - 1970);
+    /*let ageDifMs = Date.now() - (event.jsdate ? event.jsdate.getTime() : Date.now());
+    let ageDate = new Date(ageDifMs); // miliseconds from epoch*/
+    this.edad = Manfun.calculateAge(event.jsdate, new Date());
   }
 
   agregarJugador(identificacion?: string) {
@@ -596,6 +596,7 @@ export class EquipoClonComponent implements OnInit {
     this.equipoJugadorForm.controls['identificacion'].setValue(this.jugador.identificacion);
     if(fechaNac){
       this.equipoJugadorForm.controls.fechaNacimiento.setValue({date:{year: fechaNac.getFullYear(), month: fechaNac.getMonth() + 1, day: fechaNac.getDate() + 1}, jsdate: new Date(fechaNac.getFullYear(),fechaNac.getMonth(),fechaNac.getDate() + 1)});
+      this.edad = Manfun.calculateAge(this.equipoJugadorForm.controls.fechaNacimiento.value.jsdate, new Date());
     }
     this.equipoJugadorForm.controls.direccion.setValue(this.jugador.direccion);
     this.equipoJugadorForm.controls['sexo'].setValue(this.jugador.sexo);

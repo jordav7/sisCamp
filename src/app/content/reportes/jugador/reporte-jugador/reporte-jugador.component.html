@@ -24,7 +24,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label>Liga</label>
-                <select id="codigoLiga" class="form-control" name="codigoLiga" [(ngModel)]="codigoLiga" (change)="cargarEquiposLiga()">
+                <select id="codigoLiga" class="form-control" name="codigoLiga" [(ngModel)]="codigoLiga" (change)="cargarEquiposLiga()" [disabled]="CURRENT_USER.codigoLiga">
                   <option value=""></option>
                   <option *ngFor="let liga of listaLigas" [value]="liga.codigoLiga">{{liga.nombres}}</option>
                 </select>

@@ -62,6 +62,7 @@ export class ReporteJugadorComponent implements OnInit {
     this.campAdminService.obtenerLigas(this.CURRENT_USER.entejuridico).subscribe(
       ligas => {
         this.listaLigas = ligas;
+        this.codigoLiga = this.CURRENT_USER.codigoLiga;
       },
       err => {
         this.procesarRespuestaError(err);
