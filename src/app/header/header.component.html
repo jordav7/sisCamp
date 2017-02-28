@@ -56,12 +56,14 @@
               </li>-->
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
+                <form role="form" (submit)="cerrarSesion()">
+                  <div class="pull-left">
 
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat" (click)="cerrarSesion()">Cerrar Sesi&oacute;n</a>
-                </div>
+                  </div>
+                  <div class="pull-right">
+                    <button type="submit" class="btn btn-default btn-flat">Cerrar Sesi&oacute;n</button>
+                  </div>
+                </form>
               </li>
             </ul>
           </li>

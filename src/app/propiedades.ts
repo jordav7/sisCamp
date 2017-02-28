@@ -10,5 +10,5 @@ export const SisCampProperties = Object.freeze({
   URL_SERVIDOR: 'http://localhost:8080/siscamp-web',
   CODIGO_ERROR: '1',
   CODIGO_OK: '0',
-  TIEMPO_SESION: 900
+  TIEMPO_SESION: 1800
 })

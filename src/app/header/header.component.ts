@@ -21,7 +21,9 @@ export class HeaderComponent implements OnInit {
   }
 
   cerrarSesion() {
+    console.log('Ingreso al cierre de sesion');
     this.authenticationService.logout();
+    console.log('Redirijo al login');
     this.router.navigate(['login']);
   }
 

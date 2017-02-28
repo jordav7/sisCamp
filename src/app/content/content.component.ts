@@ -21,7 +21,9 @@ export class ContentComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    this.CURRENT_PAGE = JSON.parse(sessionStorage.getItem('currentPage'));
+    if (sessionStorage.getItem('currentPage')) {
+      this.CURRENT_PAGE = JSON.parse(sessionStorage.getItem('currentPage'));
+    }
   }
 
 }

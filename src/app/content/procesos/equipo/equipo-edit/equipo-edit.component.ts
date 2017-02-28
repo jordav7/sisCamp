@@ -43,6 +43,7 @@ export class EquipoEditComponent implements OnInit {
   //Variables EquipoJugador
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
+  equipoJugadorSeleccionado: EquipoJugador;
   jugador: Jugador;
   peticionEquipoJugador: PeticionEquipoJugador;
   listaEquipos: Equipo[];
@@ -199,6 +200,8 @@ export class EquipoEditComponent implements OnInit {
     this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
     this.equipo.interligas = 'N';
     //this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+    //validarJugadorInterligas
+
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
         respuesta => {
@@ -246,26 +249,40 @@ export class EquipoEditComponent implements OnInit {
     //this.btnCerrarEquipoJug.nativeElement.click();
     console.log('Ingreso a guardar equipo jugador');
     this.prepararObjetosGuardar();
-    if (this.esNuevoJugador) {
-      console.log('Ingreso a nuevo');
-      this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
-        respuesta => {
-          this.procesarRespuesta(respuesta);
-        },
-        err => {
-          this.procesarRespuestaError(err);
+    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico,
+      this.equipoJugadorForm.controls.identificacion.value,
+      this.equipo.interligas, this.equipo.codigoLiga,
+      this.equipo.codigoEquipo).subscribe(
+        peticionRes =>{
+          if (peticionRes.respuesta.codigo === '0') {
+            if (this.esNuevoJugador) {
+              console.log('Ingreso a nuevo');
+              this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                respuesta => {
+                  this.procesarRespuesta(respuesta);
+                },
+                err => {
+                  this.procesarRespuestaError(err);
+                }
+              );
+            } else {
+              this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                respuesta => {
+                  this.procesarRespuesta(respuesta);
+                },
+                err => {
+                  this.procesarRespuestaError(err);
+                }
+              );
+            }
+          }
+          else {
+            this.procesarRespuestaError(peticionRes.respuesta.mensaje);
+          }
         }
       );
-    } else {
-      this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
-        respuesta => {
-          this.procesarRespuesta(respuesta);
-        },
-        err => {
-          this.procesarRespuestaError(err);
-        }
-      );
-    }
+
+
   }
 
   prepararObjetosGuardar() {
@@ -560,6 +577,33 @@ export class EquipoEditComponent implements OnInit {
         this.procesarRespuestaError(err);
       }
     );
+  }
+
+  mostrarConfirmacion (equipoJugador: EquipoJugador) {
+    this.mostrarPanelConf = true;
+    this.equipoJugadorSeleccionado = equipoJugador;
+  }
+
+  eliminarJugadorEquipo() {
+    this.campProcesosService.eliminarJugadorGeneral(this.equipoJugadorSeleccionado).subscribe(
+      res => {
+        this.procesarRespuestaBorrado(res);
+      },
+      err => {
+        this.procesarRespuestaError(err);
+      }
+    );
+  }
+
+  procesarRespuestaBorrado(respuesta: Respuesta){
+    if(respuesta.codigo === '0'){
+      this.mostrarPanelConf = false;
+      this.cargarJugadoresEquipo();
+      this.mensajes = [];
+      this.mensajes.push({severity:'success', summary:'Respuesta', detail:'El registro fue eliminado exitosamente'});
+    } else {
+      this.procesarRespuestaError(respuesta.mensaje);
+    }
   }
 
 }

@@ -16,7 +16,7 @@ declare var $: any;
 export class PrincipalComponent implements OnInit {
 
   constructor(private idle: Idle, private keepalive: Keepalive, private router: Router) {
-    idle.setIdle(120);
+    idle.setIdle(SisCampProperties.TIEMPO_SESION);
     idle.setTimeout(5);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
@@ -51,7 +51,9 @@ export class PrincipalComponent implements OnInit {
   }
 
   ngOnInit() {
-    $.AdminLTE.layout.fix();
+    if($.AdminLTE.layout){
+      $.AdminLTE.layout.fix();
+    }
   }
 
 }

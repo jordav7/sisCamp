@@ -63,6 +63,9 @@ export class ReporteJugadorComponent implements OnInit {
       ligas => {
         this.listaLigas = ligas;
         this.codigoLiga = this.CURRENT_USER.codigoLiga;
+        if(this.codigoLiga){
+          this.cargarEquiposLiga();
+        }
       },
       err => {
         this.procesarRespuestaError(err);

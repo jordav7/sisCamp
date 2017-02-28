@@ -73,6 +73,7 @@ const sisCampRoutes: Routes = [
     path: 'home',
     component: PrincipalComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'catalogo',
