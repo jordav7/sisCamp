@@ -250,38 +250,39 @@ export class EquipoEditComponent implements OnInit {
     console.log('Ingreso a guardar equipo jugador');
     this.prepararObjetosGuardar();
     this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico,
-      this.equipoJugadorForm.controls.identificacion.value,
-      this.equipo.interligas, this.equipo.codigoLiga,
-      this.equipo.codigoEquipo).subscribe(
-        peticionRes =>{
-          if (peticionRes.respuesta.codigo === '0') {
-            if (this.esNuevoJugador) {
-              console.log('Ingreso a nuevo');
-              this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
-                respuesta => {
-                  this.procesarRespuesta(respuesta);
-                },
-                err => {
-                  this.procesarRespuestaError(err);
-                }
-              );
-            } else {
-              this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
-                respuesta => {
-                  this.procesarRespuesta(respuesta);
-                },
-                err => {
-                  this.procesarRespuestaError(err);
-                }
-              );
-            }
+    this.equipoJugadorForm.controls.identificacion.value,
+    this.equipo.interligas, this.equipo.codigoLiga,
+    this.equipo.codigoEquipo, this.esNuevoJugador, this.equipoJugadorForm.controls.codigoEquipoJugador.value).subscribe(
+      peticionRes =>{
+        if (peticionRes.respuesta.codigo === '0') {
+          if (this.esNuevoJugador) {
+            console.log('Ingreso a nuevo');
+
+                    this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                      respuesta => {
+                        this.procesarRespuesta(respuesta);
+                      },
+                      err => {
+                        this.procesarRespuestaError(err);
+                      }
+                    );
+
+
+          } else {
+            this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
+              respuesta => {
+                this.procesarRespuesta(respuesta);
+              },
+              err => {
+                this.procesarRespuestaError(err);
+              }
+            );
           }
-          else {
+        }  else {
             this.procesarRespuestaError(peticionRes.respuesta.mensaje);
           }
         }
       );
-
 
   }
 

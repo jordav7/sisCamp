@@ -276,37 +276,49 @@ export class EquipoClonComponent implements OnInit {
     //this.btnCerrarEquipoJug.nativeElement.click();
     console.log('Ingreso a guardar equipo jugador');
     this.prepararObjetosGuardar();
-    if (this.esNuevoJugador) {
-      console.log('Ingreso a nuevo');
-      this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
-        respuesta => {
-          this.procesarRespuestaEquipoJugador(respuesta);
-        },
-        err => {
-          this.procesarRespuestaError(err);
+    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.equipoJugadorForm.controls.identificacion.value, this.equipo.interligas, this.equipo.codigoLiga, this.equipo.codigoEquipo, this.esNuevoJugador, this.equipoJugadorForm.controls.codigoEquipoJugador.value).subscribe(
+      peticionRes => {
+          if (peticionRes.respuesta.codigo === '0') {
+            if (this.esNuevoJugador) {
+              console.log('Ingreso a nuevo');
+              this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                respuesta => {
+                  this.procesarRespuestaEquipoJugador(respuesta);
+                },
+                err => {
+                  this.procesarRespuestaError(err);
+                }
+              );
+            } else {
+              if(this.peticionEquipoJugador.equipoJugador.codigoEquipoJugador){
+                this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                  respuesta => {
+                    this.procesarRespuestaEquipoJugador(respuesta);
+                  },
+                  err => {
+                    this.procesarRespuestaError(err);
+                  }
+                );
+              } else {
+                this.campProcesosService.crearActualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                  respuesta => {
+                    this.procesarRespuestaEquipoJugador(respuesta);
+                  },
+                  err => {
+                    this.procesarRespuestaError(err);
+                  }
+                );
+              }
+            }
         }
-      );
-    } else {
-      if(this.peticionEquipoJugador.equipoJugador.codigoEquipoJugador){
-        this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
-          respuesta => {
-            this.procesarRespuestaEquipoJugador(respuesta);
-          },
-          err => {
-            this.procesarRespuestaError(err);
-          }
-        );
-      } else {
-        this.campProcesosService.crearActualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
-          respuesta => {
-            this.procesarRespuestaEquipoJugador(respuesta);
-          },
-          err => {
-            this.procesarRespuestaError(err);
-          }
-        );
+        else {
+            this.procesarRespuestaError(peticionRes.respuesta.mensaje);
+        }
+      },
+      err => {
+        this.procesarRespuestaError(err);
       }
-    }
+    );
   }
 
   prepararObjetosGuardar() {
@@ -409,7 +421,7 @@ export class EquipoClonComponent implements OnInit {
       'apellidoPaterno': ['', Validators.required],
       'apellidoMaterno': '',//['', Validators.required],
       'tipoId': ['', Validators.required],
-      'identificacion': [{value: '', disabled: true}, Validators.required],
+      'identificacion': ['', Validators.required],
       'fechaNacimiento': ['', Validators.required],
       'sexo': ['', Validators.required],
       'direccion':'',
@@ -628,7 +640,8 @@ export class EquipoClonComponent implements OnInit {
 
   buscarJugadorId() {
     //primero validamos si no esta registrado el usuario
-    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga, this.equipo.codigoEquipo).subscribe(
+    this.mensajes = [];
+    this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico, this.busqJugadorForm.controls.cedula.value, this.equipo.interligas, this.equipo.codigoLiga, this.equipo.codigoEquipo, true, null).subscribe(
       peticionRes => {
         if (peticionRes.respuesta.codigo === '0' && peticionRes.equipoJugador) {
           peticionRes.equipoJugador.codigoEquipoJugador = null;
