@@ -1,6 +1,6 @@
 export class ControlMessages {
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
-        let config = {
+        const config = {
             'required': 'Es requerido',
             'invalidCreditCard': 'Is invalid credit card number',
             'invalidEmailAddress': 'Formato de mail incorrecto',
