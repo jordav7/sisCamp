@@ -17,7 +17,7 @@ export class ContentComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    //console.log(this.location.prepareExternalUrl(this.location.path()));
+    // console.log(this.location.prepareExternalUrl(this.location.path()));
   }
 
   ngAfterContentChecked() {

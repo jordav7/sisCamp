@@ -204,6 +204,15 @@
                     <input type="text" maxlength="9" class="form-control" formControlName="telefono" name="telefono" />
                     <ld-validation-messages [control]="equipoJugadorForm.controls.telefono"></ld-validation-messages>
                   </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['celular'].valid && equipoJugadorForm.controls['celular'].touched}">
+                    <label>Celular</label>
+                    <input type="text" class="form-control" formControlName="celular" name="celular" maxlength="13"/>
+                    <ld-validation-messages [control]="equipoJugadorForm.controls.celular"></ld-validation-messages>
+                  </div>
+                </div>
+                <div class="col-md-6">
                   <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['codigoPais'].valid && equipoJugadorForm.controls['codigoPais'].touched}">
                     <label>Pa&iacute;s</label>
                     <select class="form-control" formControlName="codigoPais" name="codigoPais" (change)="cargarProvincias()">
@@ -212,6 +221,18 @@
                     </select>
                     <ld-validation-messages [control]="equipoJugadorForm.controls.codigoPais"></ld-validation-messages>
                   </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['codigoProvincia'].valid && equipoJugadorForm.controls['codigoProvincia'].touched}">
+                    <label>Provincia</label>
+                    <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
+                      <option value=""></option>
+                      <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
+                    </select>
+                    <ld-validation-messages [control]="equipoJugadorForm.controls.codigoProvincia"></ld-validation-messages>
+                  </div>
+                </div>
+                <div class="col-md-6">
                   <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['codigoCanton'].valid && equipoJugadorForm.controls['codigoCanton'].touched}">
                     <label>Cant&oacute;n</label>
                     <select class="form-control" formControlName="codigoCanton" name="codigoCanton" (change)="cargarParroquias()">
@@ -222,19 +243,6 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['celular'].valid && equipoJugadorForm.controls['celular'].touched}">
-                    <label>Celular</label>
-                    <input type="text" class="form-control" formControlName="celular" name="celular" maxlength="13"/>
-                    <ld-validation-messages [control]="equipoJugadorForm.controls.celular"></ld-validation-messages>
-                  </div>
-                  <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['codigoProvincia'].valid && equipoJugadorForm.controls['codigoProvincia'].touched}">
-                    <label>Provincia</label>
-                    <select class="form-control" formControlName="codigoProvincia" name="codigoProvincia" (change)="cargarCantones()">
-                      <option value=""></option>
-                      <option *ngFor="let provincia of listaPronvincias" [value]="provincia.codigoUbicacion">{{provincia.nombre}}</option>
-                    </select>
-                    <ld-validation-messages [control]="equipoJugadorForm.controls.codigoProvincia"></ld-validation-messages>
-                  </div>
                   <div class="form-group" [ngClass]="{'has-error':!equipoJugadorForm.controls['codigoParroquia'].valid && equipoJugadorForm.controls['codigoParroquia'].touched}">
                     <label>Parroquia</label>
                     <select class="form-control" formControlName="codigoParroquia" name="codigoParroquia">
