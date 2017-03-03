@@ -16,6 +16,7 @@ import { UbicacionGeografica } from 'app/model/admin/ubicacion-geografica';
 import { Manfun } from 'app/util/manfun';
 
 import { Message } from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 
 import {IMyOptions} from 'mydatepicker';
 
@@ -41,6 +42,8 @@ export class EquipoEditComponent implements OnInit {
   habilitarTabJugador: boolean;
 
   //Variables EquipoJugador
+  listaDisciplinasMulti: SelectItem[];
+//  listaDisciplinasMultiSelected: number[];
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
   equipoJugadorSeleccionado: EquipoJugador;
@@ -150,11 +153,23 @@ export class EquipoEditComponent implements OnInit {
     this.campAdminService.obtenerCatalogos(this.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
       disciplinas => {
         this.listaDisciplina = disciplinas;
+        this.cargarSelectItemsDisciplinas(disciplinas);
       },
       err => {
         this.procesarRespuestaError(err);
       }
     );
+  }
+
+  cargarSelectItemsDisciplinas(listaDisciplinas: Catalogo[]) {
+    this.listaDisciplinasMulti = [];
+    if (listaDisciplinas && listaDisciplinas.length > 0) {
+      listaDisciplinas.forEach(
+        disciplina => {
+          this.listaDisciplinasMulti.push({label: disciplina.nombre, value: disciplina.codigoCatalogo});
+        }
+      );
+    }
   }
 
   cargarLigas(){
@@ -382,7 +397,8 @@ export class EquipoEditComponent implements OnInit {
       'codigoCanton': '',//[, Validators.required],
       'codigoParroquia': '',//['', Validators.required],
       'amonestacion': ['', Validators.required],
-      'observaciones': ''
+      'observaciones': '',
+      'listaDisciplinasMultiSelected':[]
     });
   }
 

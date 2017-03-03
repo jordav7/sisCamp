@@ -2,27 +2,34 @@
   <div class="col-md-12">
     <div class="box">
       <div class="box-body">
-
-        <form role="form" >
-          <div class="col-md-12">
+        <form role="form" (submit)="consultarJugadores()">
+          <div class="col-md-12 ui-g-nopad">
             <div class="form-group">
               <label>Indentificaci&oacute;n</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" [(ngModel)]="identificacion" name="identificacion">
             </div>
             <div class="form-group">
               <label>Nombres</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" [(ngModel)]="nombres" name="nombres">
+            </div>
+            <div class="col-md-12 ui-g-nopad">
+              <div class="btn-group">
+                  <div>
+                    <button type="submit" class="btn btn-primary"><span class="fa fa-check"></span>&nbsp;Consultar</button>
+                  </div>
+              </div>
             </div>
           </div>
         </form>
-        <p-dataTable [rows]="10" [paginator]="true" [pageLinks]="3" [emptyMessage]="No se encontraron datos">
-          <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
-          <p-column field="nombres" header="Nombres"></p-column>
-          <p-column field="edad" header="Edad"></p-column>
-          <p-column field="amonestado" header="Amonestado"></p-column>
-          <p-column field="codigoSexo" header="Sexo"></p-column>
-        </p-dataTable>
       </div>
     </div>
+  </div>
+  <div class="col-md-12">
+    <p-dataTable [value]="listaJugadores" [rows]="10" [paginator]="true" [pageLinks]="3" [responsive]="true">
+      <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
+      <p-column field="nombres" header="Nombres"></p-column>
+      <p-column field="edad" header="Edad"></p-column>
+      <p-column field="nombreequipo" header="Equipo"></p-column>
+    </p-dataTable>
   </div>
 </div>

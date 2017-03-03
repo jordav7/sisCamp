@@ -171,6 +171,10 @@ const sisCampRoutes: Routes = [
       {
         path: 'reporteJugadores',
         component: ReporteJugadorComponent
+      },
+      {
+        path: 'consultaJugadores',
+        component: ConsultaJugadorComponent
       }
     ]
   }
