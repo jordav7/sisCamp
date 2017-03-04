@@ -144,7 +144,7 @@ export class EquipoClonComponent implements OnInit {
       'estado': '',//['', Validators.required],
       'userCrea': '',
       'userMod': '',
-      'codigoLiga': [{value: '', disabled: true}, Validators.required],
+      'codigoLiga': '',//[{value: '', disabled: true}, Validators.required],
       'codigoDisciplina': [{value: '', disabled: true}, Validators.required],
       'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
       'liga': '',

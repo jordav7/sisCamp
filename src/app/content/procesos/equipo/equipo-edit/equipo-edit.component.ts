@@ -140,7 +140,7 @@ export class EquipoEditComponent implements OnInit {
       'userCrea': '',
       'userMod': '',
       'codigoLiga': [{value: '', disabled: this.CURRENT_USER.codigoLiga ? true : false}, Validators.required],
-      'codigoDisciplina': ['', Validators.required],
+      'codigoDisciplina': '',//['', Validators.required],
       'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
       'liga': '',
       'disciplina': '',
@@ -580,6 +580,7 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugadorForm.controls['amonestacion'].setValue(this.jugador.amonestacion);
     this.equipoJugadorForm.controls['estado'].setValue(this.jugador.estado);
     this.equipoJugadorForm.controls['observaciones'].setValue(this.jugador.observaciones);
+    this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.setValue([]);
     this.foto = this.jugador.foto;
   }
 
