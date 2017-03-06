@@ -1,3 +1,4 @@
+import { EquipoJugadorDisciplina } from 'app/model/procesos/equipo-jugador-disciplina';
 export class EquipoJugador {
   codigoEquipoJugador: number;
   enteJuridico: number;
@@ -15,4 +16,5 @@ export class EquipoJugador {
   estado: string;
   userCrea: number;
   userMod: number;
+  disciplinasEquipoJugador: EquipoJugadorDisciplina[];
 }

@@ -17,12 +17,14 @@ import { Manfun } from 'app/util/manfun';
 import { UtilMessages } from 'app/util/util-messages';
 
 import { Message } from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 
 import {IMyOptions} from 'mydatepicker';
 
 import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
+import { EquipoJugadorDisciplina } from 'app/model/procesos/equipo-jugador-disciplina';
 import { Jugador } from 'app/model/admin/jugador';
-import { PeticionEquipoJugador }  from 'app/model/procesos/peticion-equipo-jugador';
+import { PeticionEquipoJugador } from 'app/model/procesos/peticion-equipo-jugador';
 
 @Component({
   selector: 'ld-equipo-clon',
@@ -42,7 +44,8 @@ export class EquipoClonComponent implements OnInit {
   equipo: Equipo;
   habilitarTabJugador: boolean;
 
-  //Variables EquipoJugador
+  // Variables EquipoJugador
+  listaDisciplinasMulti: SelectItem[];
   mostrarPanelJugador:boolean;
   equipoJugadorForm: any;
   equipoJugador: EquipoJugador;
@@ -141,11 +144,11 @@ export class EquipoClonComponent implements OnInit {
       'enteJuridico': '',
       'nombres': [{value: '', disabled: true}, Validators.required],
       'numJugadores': [{value: '', disabled: true}, Validators.required],
-      'estado': '',//['', Validators.required],
+      'estado': '', // ['', Validators.required],
       'userCrea': '',
       'userMod': '',
-      'codigoLiga': '',//[{value: '', disabled: true}, Validators.required],
-      'codigoDisciplina': [{value: '', disabled: true}, Validators.required],
+      'codigoLiga': '', // [{value: '', disabled: true}, Validators.required],
+      'codigoDisciplina': '', // [{value: '', disabled: true}, Validators.required],
       'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
       'liga': '',
       'disciplina': '',
@@ -154,15 +157,27 @@ export class EquipoClonComponent implements OnInit {
     });
   }
 
-  cargarDisciplinas(){
+  cargarDisciplinas() {
     this.campAdminService.obtenerCatalogos(this.CURRENT_USER.entejuridico, SisCampProperties.codigoTipoDisciplina).subscribe(
       disciplinas => {
         this.listaDisciplina = disciplinas;
+        this.cargarSelectItemsDisciplinas(disciplinas);
       },
       err => {
         this.procesarRespuestaError(err);
       }
     );
+  }
+
+  cargarSelectItemsDisciplinas(listaDisciplinas: Catalogo[]) {
+    this.listaDisciplinasMulti = [];
+    if (listaDisciplinas && listaDisciplinas.length > 0) {
+      listaDisciplinas.forEach(
+        disciplina => {
+          this.listaDisciplinasMulti.push({label: disciplina.nombre, value: disciplina.codigoCatalogo});
+        }
+      );
+    }
   }
 
   cargarLigas(){
@@ -324,6 +339,7 @@ export class EquipoClonComponent implements OnInit {
   prepararObjetosGuardar() {
     this.prepararJugador();
     this.prepararEquipo();
+    this.prepararEquipoJugadorDisciplina();
     this.prepararPeticion();
   }
 
@@ -362,6 +378,28 @@ export class EquipoClonComponent implements OnInit {
     this.equipoJugador.esCapitan = this.equipoJugadorForm.controls.esCapitan.value ? 'S' : 'N';
     this.equipoJugador.esJugador = this.equipoJugadorForm.controls.esJugador.value ? 'S' : 'N';
     this.equipoJugador.esDt = this.equipoJugadorForm.controls.esDt.value ? 'S' : 'N';
+  }
+
+  prepararEquipoJugadorDisciplina () {
+    const listadoCodDisciplinas: number[] = this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.value;
+    const listadoDisciplinas: EquipoJugadorDisciplina[] = [];
+    if (listadoCodDisciplinas && listadoCodDisciplinas.length > 0) {
+      let disciplina: Catalogo;
+      listadoCodDisciplinas.forEach(
+        codDis => {
+          disciplina = this.listaDisciplina.filter(disIt => disIt.codigoCatalogo == codDis)[0];
+          if (disciplina) {
+            const equipoJugDis = new EquipoJugadorDisciplina();
+            equipoJugDis.enteJuridico = this.CURRENT_USER.entejuridico;
+            equipoJugDis.codigoDisciplina = disciplina.codigoCatalogo;
+            equipoJugDis.codigoDisciplinaTipo = disciplina.tipoCatalogo;
+            listadoDisciplinas.push(equipoJugDis);
+          }
+        }
+      );
+    }
+
+    this.equipoJugador.disciplinasEquipoJugador = listadoDisciplinas;
   }
 
   prepararPeticion() {
@@ -433,7 +471,8 @@ export class EquipoClonComponent implements OnInit {
       'codigoCanton': '',//[, Validators.required],
       'codigoParroquia': '',//['', Validators.required],
       'amonestacion': ['', Validators.required],
-      'observaciones': ''
+      'observaciones': '',
+      'listaDisciplinasMultiSelected': []
     });
   }
 
@@ -542,9 +581,9 @@ export class EquipoClonComponent implements OnInit {
 
   editarJugadorEquipo (jugadorEquipo: EquipoJugador) {
     this.equipoJugador = jugadorEquipo;
+    this.cargarDisciplinasJugadorEquipo();
     this.obtenerJugador(jugadorEquipo);
-    //this.cargarDatosEquipoJugador();
-
+    // this.cargarDatosEquipoJugador();
     this.cargarEquipoJugadorEdicion();
     this.habilitarTabJugador = true;
     this.esNuevoJugador = false;
@@ -568,6 +607,29 @@ export class EquipoClonComponent implements OnInit {
   archivoCargado(e) {
     var reader = e.target;
     this.foto = btoa(reader.result);
+  }
+
+  cargarDisciplinasJugadorEquipo () {
+    this.campProcesosService.obtenerDisciplinasEquipos(this.CURRENT_USER.entejuridico, this.equipoJugador.codigoEquipoJugador).subscribe(
+      disciplinasEquipoJugador => {
+        this.equipoJugador.disciplinasEquipoJugador = disciplinasEquipoJugador;
+        if (this.equipoJugadorForm) {
+          this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.setValue(this.obtenerCodigosDisciplinasEdicion());
+        }
+      }
+    );
+  }
+
+  obtenerCodigosDisciplinasEdicion (): number[] {
+    const codigosDisciplinas: number[] = [];
+    if (this.equipoJugador && this.equipoJugador.disciplinasEquipoJugador) {
+      this.equipoJugador.disciplinasEquipoJugador.forEach(
+        disciplina => {
+          codigosDisciplinas.push(disciplina.codigoDisciplina);
+        }
+      );
+    }
+    return codigosDisciplinas;
   }
 
   cerrarTabPostGuardar() {

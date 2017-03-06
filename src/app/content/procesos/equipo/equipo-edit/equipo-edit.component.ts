@@ -21,8 +21,9 @@ import { SelectItem } from 'primeng/primeng';
 import {IMyOptions} from 'mydatepicker';
 
 import { EquipoJugador } from 'app/model/procesos/equipo-jugador';
+import { EquipoJugadorDisciplina } from 'app/model/procesos/equipo-jugador-disciplina';
 import { Jugador } from 'app/model/admin/jugador';
-import { PeticionEquipoJugador }  from 'app/model/procesos/peticion-equipo-jugador';
+import { PeticionEquipoJugador } from 'app/model/procesos/peticion-equipo-jugador';
 
 @Component({
   selector: 'ld-equipo-edit',
@@ -41,7 +42,7 @@ export class EquipoEditComponent implements OnInit {
   equipo: Equipo;
   habilitarTabJugador: boolean;
 
-  //Variables EquipoJugador
+  // Variables EquipoJugador
   listaDisciplinasMulti: SelectItem[];
 //  listaDisciplinasMultiSelected: number[];
   equipoJugadorForm: any;
@@ -136,11 +137,11 @@ export class EquipoEditComponent implements OnInit {
       'enteJuridico': '',
       'nombres': ['', Validators.required],
       'numJugadores': ['', Validators.required],
-      'estado': '',//['', Validators.required],
+      'estado': '', // ['', Validators.required],
       'userCrea': '',
       'userMod': '',
       'codigoLiga': [{value: '', disabled: this.CURRENT_USER.codigoLiga ? true : false}, Validators.required],
-      'codigoDisciplina': '',//['', Validators.required],
+      'codigoDisciplina': '', // ['', Validators.required],
       'codigoTipoDisciplina': SisCampProperties.codigoTipoDisciplina,
       'liga': '',
       'disciplina': '',
@@ -172,7 +173,7 @@ export class EquipoEditComponent implements OnInit {
     }
   }
 
-  cargarLigas(){
+  cargarLigas() {
     this.campAdminService.obtenerLigas(this.CURRENT_USER.entejuridico).subscribe(
       ligas => {
         this.listaLigas = ligas;
@@ -183,7 +184,7 @@ export class EquipoEditComponent implements OnInit {
     );
   }
 
-  cargarEstados(){
+  cargarEstados() {
     this.campSeguridadService.obtenerParametrosPorTipo(this.CURRENT_USER.entejuridico, SisCampProperties.codigoCatalogoEstado).subscribe(
       estados => {
         this.listaEstados = estados;
@@ -207,15 +208,15 @@ export class EquipoEditComponent implements OnInit {
 
   setValoresEdicion() {
     this.equipoForm.setValue(this.equipo);
-    //this.equipoJugadorForm.controls.codigoEquipo.setValue(this.equipo.codigoEquipo);
+    // this.equipoJugadorForm.controls.codigoEquipo.setValue(this.equipo.codigoEquipo);
   }
 
   guardarEquipo() {
     this.equipo = this.equipoForm.getRawValue();
     this.equipo.enteJuridico = this.CURRENT_USER.entejuridico;
     this.equipo.interligas = 'N';
-    //this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
-    //validarJugadorInterligas
+    // this.equipo.codigoLiga = this.CURRENT_USER.codigoLiga;
+    // validarJugadorInterligas
 
     if(this.esNuevo) {
       this.campProcesosService.crearEquipo(this.equipo).subscribe(
@@ -240,10 +241,10 @@ export class EquipoEditComponent implements OnInit {
   }
 
   procesarRespuesta(respuesta: Respuesta){
-    if(respuesta.codigo == "0"){
+    if (respuesta.codigo === '0'){
       this.mensajes = [];
-      this.mensajes.push({severity:'success', summary:'Respuesta', detail:'Registro guardado correctamente'});
-      if(this.esNuevo){
+      this.mensajes.push({severity: 'success', summary: 'Respuesta', detail: 'Registro guardado correctamente'});
+      if (this.esNuevo) {
         this.equipoForm.controls['codigoEquipo'].setValue(+respuesta.mensaje);
       }
       this.esNuevo = false;
@@ -251,7 +252,7 @@ export class EquipoEditComponent implements OnInit {
       this.cargarJugadoresEquipo();
     } else {
       this.mensajes = [];
-      this.mensajes.push({severity:'error', summary:'Respuesta', detail:respuesta.mensaje});
+      this.mensajes.push({severity: 'error', summary: 'Respuesta', detail: respuesta.mensaje});
     }
   }
 
@@ -261,42 +262,39 @@ export class EquipoEditComponent implements OnInit {
   }
 
   guardarEquipoJugador() {
-    //this.btnCerrarEquipoJug.nativeElement.click();
+    // this.btnCerrarEquipoJug.nativeElement.click();
     console.log('Ingreso a guardar equipo jugador');
     this.prepararObjetosGuardar();
     this.campProcesosService.validarJugadorInterligas(this.equipo.enteJuridico,
-    this.equipoJugadorForm.controls.identificacion.value,
-    this.equipo.interligas, this.equipo.codigoLiga,
-    this.equipo.codigoEquipo, this.esNuevoJugador, this.equipoJugadorForm.controls.codigoEquipoJugador.value).subscribe(
-      peticionRes =>{
-        if (peticionRes.respuesta.codigo === '0') {
-          if (this.esNuevoJugador) {
-            console.log('Ingreso a nuevo');
-
-                    this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
-                      respuesta => {
-                        this.procesarRespuesta(respuesta);
-                      },
-                      err => {
-                        this.procesarRespuestaError(err);
-                      }
-                    );
-
-
-          } else {
-            this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
-              respuesta => {
-                this.procesarRespuesta(respuesta);
-              },
-              err => {
-                this.procesarRespuestaError(err);
-              }
-            );
+      this.equipoJugadorForm.controls.identificacion.value,
+      this.equipo.interligas, this.equipo.codigoLiga,
+      this.equipo.codigoEquipo, this.esNuevoJugador, this.equipoJugadorForm.controls.codigoEquipoJugador.value).subscribe(
+        peticionRes => {
+          if (peticionRes.respuesta.codigo === '0') {
+            if (this.esNuevoJugador) {
+              console.log('Ingreso a nuevo');
+              this.campProcesosService.crearJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                respuesta => {
+                  this.procesarRespuesta(respuesta);
+                },
+                err => {
+                  this.procesarRespuestaError(err);
+                }
+              );
+            } else {
+              this.campProcesosService.actualizarJugadorEquipo(this.peticionEquipoJugador).subscribe(
+                respuesta => {
+                  this.procesarRespuesta(respuesta);
+                },
+                err => {
+                  this.procesarRespuestaError(err);
+                }
+              );
+            }
+          }  else {
+              this.procesarRespuestaError(peticionRes.respuesta.mensaje);
+            }
           }
-        }  else {
-            this.procesarRespuestaError(peticionRes.respuesta.mensaje);
-          }
-        }
       );
 
   }
@@ -304,6 +302,7 @@ export class EquipoEditComponent implements OnInit {
   prepararObjetosGuardar() {
     this.prepararJugador();
     this.prepararEquipo();
+    this.prepararEquipoJugadorDisciplina();
     this.prepararPeticion();
   }
 
@@ -342,6 +341,28 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugador.esCapitan = this.equipoJugadorForm.controls.esCapitan.value ? 'S' : 'N';
     this.equipoJugador.esJugador = this.equipoJugadorForm.controls.esJugador.value ? 'S' : 'N';
     this.equipoJugador.esDt = this.equipoJugadorForm.controls.esDt.value ? 'S' : 'N';
+  }
+
+  prepararEquipoJugadorDisciplina () {
+    const listadoCodDisciplinas: number[] = this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.value;
+    const listadoDisciplinas: EquipoJugadorDisciplina[] = [];
+    if (listadoCodDisciplinas && listadoCodDisciplinas.length > 0) {
+      let disciplina: Catalogo;
+      listadoCodDisciplinas.forEach(
+        codDis => {
+          disciplina = this.listaDisciplina.filter(disIt => disIt.codigoCatalogo == codDis)[0];
+          if (disciplina) {
+            const equipoJugDis = new EquipoJugadorDisciplina();
+            equipoJugDis.enteJuridico = this.CURRENT_USER.entejuridico;
+            equipoJugDis.codigoDisciplina = disciplina.codigoCatalogo;
+            equipoJugDis.codigoDisciplinaTipo = disciplina.tipoCatalogo;
+            listadoDisciplinas.push(equipoJugDis);
+          }
+        }
+      );
+    }
+
+    this.equipoJugador.disciplinasEquipoJugador = listadoDisciplinas;
   }
 
   prepararPeticion() {
@@ -383,22 +404,22 @@ export class EquipoEditComponent implements OnInit {
       'codigoPersona': '',
       'nombres': ['', Validators.required],
       'apellidoPaterno': ['', Validators.required],
-      'apellidoMaterno': '',//['', Validators.required],
+      'apellidoMaterno': '', // ['', Validators.required],
       'tipoId': ['', Validators.required],
       'identificacion': ['', Validators.required],
       'fechaNacimiento': ['', Validators.required],
       'sexo': ['', Validators.required],
-      'direccion':'',
-      'mail': '',//['', Validators.required],
-      'telefono': '',//['', Validators.required],
-      'celular': '',//['', Validators.required],
-      'codigoPais': '',//['', Validators.required],
-      'codigoProvincia': '',//['', Validators.required],
-      'codigoCanton': '',//[, Validators.required],
-      'codigoParroquia': '',//['', Validators.required],
+      'direccion': '',
+      'mail': '', // ['', Validators.required],
+      'telefono': '', // ['', Validators.required],
+      'celular': '', // ['', Validators.required],
+      'codigoPais': '', // ['', Validators.required],
+      'codigoProvincia': '', // ['', Validators.required],
+      'codigoCanton': '', // [, Validators.required],
+      'codigoParroquia': '', // ['', Validators.required],
       'amonestacion': ['', Validators.required],
       'observaciones': '',
-      'listaDisciplinasMultiSelected':[]
+      'listaDisciplinasMultiSelected': []
     });
   }
 
@@ -429,7 +450,7 @@ export class EquipoEditComponent implements OnInit {
     if (this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoProvincia.value) {
       this.cargarCantones();
     }
-    if(this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoCanton.value) {
+    if (this.equipoJugadorForm && this.equipoJugadorForm.controls.codigoCanton.value) {
       this.cargarParroquias();
     }
   }
@@ -478,8 +499,8 @@ export class EquipoEditComponent implements OnInit {
     );
   }
 
-  cambiarTab(event){
-    let index = event.index;
+  cambiarTab(event) {
+    const index = event.index;
     if (index === 0) {
         this.habilitarTabJugador = false;
     }
@@ -501,8 +522,9 @@ export class EquipoEditComponent implements OnInit {
 
   editarJugadorEquipo (jugadorEquipo: EquipoJugador) {
     this.equipoJugador = jugadorEquipo;
+    this.cargarDisciplinasJugadorEquipo();
     this.obtenerJugador(jugadorEquipo);
-    //this.cargarDatosEquipoJugador();
+    // this.cargarDatosEquipoJugador();
 
     this.cargarEquipoJugadorEdicion();
     this.habilitarTabJugador = true;
@@ -510,10 +532,10 @@ export class EquipoEditComponent implements OnInit {
   }
 
   cargarFotoJugador(e) {
-    let file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 
-    var pattern = /image-*/;
-    var reader = new FileReader();
+    const pattern = /image-*/;
+    const reader = new FileReader();
 
     if (!file.type.match(pattern)) {
         alert('invalid format');
@@ -525,7 +547,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   archivoCargado(e) {
-    var reader = e.target;
+    const reader = e.target;
     this.foto = btoa(reader.result);
   }
 
@@ -550,10 +572,11 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugadorForm.controls.esCapitan.setValue(this.equipoJugador.esCapitan === 'S');
     this.equipoJugadorForm.controls.esJugador.setValue(this.equipoJugador.esJugador === 'S');
     this.equipoJugadorForm.controls.esDt.setValue(this.equipoJugador.esDt === 'S');
+    this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.setValue(this.obtenerCodigosDisciplinasEdicion());
   }
 
   cargarJugadorEdicion () {
-    let fechaNac =this.jugador.fechaNacimiento ? Manfun.parseDate(this.jugador.fechaNacimiento.toString()) : null;
+    let fechaNac = this.jugador.fechaNacimiento ? Manfun.parseDate(this.jugador.fechaNacimiento.toString()) : null;
     this.equipoJugadorForm.controls.codigoPersona.setValue(this.jugador.codigoPersona);
     this.equipoJugadorForm.controls['enteJuridico'].setValue(this.jugador.enteJuridico);
     this.equipoJugadorForm.controls['codigoJugador'].setValue(this.jugador.codigoJugador);
@@ -580,8 +603,30 @@ export class EquipoEditComponent implements OnInit {
     this.equipoJugadorForm.controls['amonestacion'].setValue(this.jugador.amonestacion);
     this.equipoJugadorForm.controls['estado'].setValue(this.jugador.estado);
     this.equipoJugadorForm.controls['observaciones'].setValue(this.jugador.observaciones);
-    this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.setValue([]);
     this.foto = this.jugador.foto;
+  }
+
+  cargarDisciplinasJugadorEquipo () {
+    this.campProcesosService.obtenerDisciplinasEquipos(this.CURRENT_USER.entejuridico, this.equipoJugador.codigoEquipoJugador).subscribe(
+      disciplinasEquipoJugador => {
+        this.equipoJugador.disciplinasEquipoJugador = disciplinasEquipoJugador;
+        if (this.equipoJugadorForm) {
+          this.equipoJugadorForm.controls.listaDisciplinasMultiSelected.setValue(this.obtenerCodigosDisciplinasEdicion());
+        }
+      }
+    );
+  }
+
+  obtenerCodigosDisciplinasEdicion (): number[] {
+    const codigosDisciplinas: number[] = [];
+    if (this.equipoJugador && this.equipoJugador.disciplinasEquipoJugador) {
+      this.equipoJugador.disciplinasEquipoJugador.forEach(
+        disciplina => {
+          codigosDisciplinas.push(disciplina.codigoDisciplina);
+        }
+      );
+    }
+    return codigosDisciplinas;
   }
 
   obtenerJugador(jugadorEquipo: EquipoJugador) {
@@ -614,7 +659,7 @@ export class EquipoEditComponent implements OnInit {
   }
 
   procesarRespuestaBorrado(respuesta: Respuesta){
-    if(respuesta.codigo === '0'){
+    if (respuesta.codigo === '0') {
       this.mostrarPanelConf = false;
       this.cargarJugadoresEquipo();
       this.mensajes = [];

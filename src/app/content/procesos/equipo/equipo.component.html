@@ -30,11 +30,11 @@
                <p-multiSelect [options]="filtroLigas" defaultLabel="Todas" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
             </template>
           </p-column>
-          <p-column field="disciplina" header="Disciplina" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
+          <!--<p-column field="disciplina" header="Disciplina" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
             <template pTemplate="filter" let-col>
                <p-multiSelect [options]="filtroDisciplinas" defaultLabel="Todas" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
             </template>
-          </p-column>
+          </p-column>-->
           <p-column field="interligas" header="Inter Ligas" [filter]="true" filterMatchMode="in" [style]="{'overflow':'visible'}">
             <template pTemplate="filter" let-col>
                <p-multiSelect [options]="filtroInterligas" defaultLabel="Todas" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>

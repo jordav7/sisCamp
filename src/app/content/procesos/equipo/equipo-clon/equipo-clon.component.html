@@ -269,6 +269,15 @@
                     <input type="checkbox" formControlName="esJugador" name="esJugador"/>
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                  <div class="form-group" [ngClass]="{'has-error':!equipoForm.controls['codigoDisciplina'].valid && equipoForm.controls['codigoDisciplina'].touched}">
+                    <label>Disciplina</label><br/>
+                    <p-multiSelect [options]="listaDisciplinasMulti" [styleClass]="form-control" defaultLabel="Seleccionar" formControlName="listaDisciplinasMultiSelected">
+                    </p-multiSelect>
+                    <ld-validation-messages [control]="equipoJugadorForm.controls.listaDisciplinasMultiSelected"></ld-validation-messages>
+                  </div>
+                </div>
               </div>
               <div class="btn-group">
                 <div>

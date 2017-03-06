@@ -5,7 +5,7 @@
         <form role="form" (submit)="consultarJugadores()">
           <div class="col-md-12 ui-g-nopad">
             <div class="form-group">
-              <label>Indentificaci&oacute;n</label>
+              <label>Identificaci&oacute;n</label>
               <input type="text" class="form-control" [(ngModel)]="identificacion" name="identificacion">
             </div>
             <div class="form-group">
@@ -29,7 +29,16 @@
       <p-column field="identificacion" header="Identificaci&oacute;n"></p-column>
       <p-column field="nombres" header="Nombres"></p-column>
       <p-column field="edad" header="Edad"></p-column>
+      <p-column field="codigoestadojugador" header="Estado"></p-column>
+      <p-column field="amonestado" header="Amonestado"></p-column>
+      <p-column field="numero" header="N&uacute;mero"></p-column>
+      <p-column field="jugador" header="Jugador"></p-column>
+      <p-column field="capitan" header="Capit&aacute;n"></p-column>
+      <p-column field="dt" header="DT"></p-column>
+      <p-column field="nombreliga" header="Liga"></p-column>
       <p-column field="nombreequipo" header="Equipo"></p-column>
+      <p-column field="interligas" header="Interligas"></p-column>
+      <p-column field="nombredisciplina" header="Disciplina"></p-column>
     </p-dataTable>
   </div>
 </div>
