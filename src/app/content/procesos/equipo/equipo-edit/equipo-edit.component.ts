@@ -92,7 +92,7 @@ export class EquipoEditComponent implements OnInit {
     this.equipoForm = this.cargarValidaciones();
     this.route.params.subscribe(
       params => {
-        if(params['enteJuridico'] && params['codigoEquipo']) {
+        if (params['enteJuridico'] && params['codigoEquipo']) {
           this.esNuevo = false;
           this.campProcesosService.obtenerEquipo(+params['enteJuridico'], + params['codigoEquipo']).subscribe(
             equipo => {
